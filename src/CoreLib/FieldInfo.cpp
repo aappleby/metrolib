@@ -49,7 +49,7 @@ bool diff_blobs(const void* blob_a, const void* blob_b, size_t size, uint8_t mas
   return result;
 }
 
-bool bit_cmp(const uint8_t* pa, const uint8_t* pb, size_t size, uint8_t mask = 0xFF, FieldInfo* field_info = nullptr) {
+bool bit_cmp(const uint8_t* pa, const uint8_t* pb, size_t size, uint8_t mask, FieldInfo* field_info) {
   bool result = true;
   for (size_t i = 0; i < size; i++) {
     auto ba = pa[i] & mask;

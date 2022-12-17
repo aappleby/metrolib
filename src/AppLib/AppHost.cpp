@@ -60,7 +60,7 @@ void main() {
 
 //-----------------------------------------------------------------------------
 
-int AppHost::app_main(int, char**) {
+int AppHost::app_main(int, const char**) {
   LOG_G("AppHost::app_main()\n");
 
   //----------------------------------------

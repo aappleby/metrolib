@@ -8,7 +8,7 @@
 class AppHost {
 public:
   AppHost(App* _app) { app = _app; }
-  int app_main(int argc, char** argv);
+  int app_main(int argc, const char** argv);
 
 private:
 
