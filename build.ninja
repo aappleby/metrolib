@@ -80,7 +80,6 @@ build bin/AppLib.a : lib $
   obj/AppLib/Console.o $
   obj/AppLib/DummyApp.o $
   obj/AppLib/DumpPainter.o $
-  obj/AppLib/GatePix.o $
   obj/AppLib/GLBase.o $
   obj/AppLib/GridPainter.o $
   obj/AppLib/LinePainter.o $
@@ -113,6 +112,7 @@ build bin/GameboyLib.a : lib $
 
 
 
+#  obj/AppLib/GatePix.o $
 #build obj/AppLib/GatePix.o        : compile_cpp src/AppLib/GatePix.cpp
 #build obj/AppLib/GBBlitter.o      : compile_cpp src/AppLib/GBBlitter.cpp
 #build obj/CoreLib/MetroBoyCPU.o   : compile_cpp src/CoreLib/MetroBoyCPU.cpp
