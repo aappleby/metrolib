@@ -13,7 +13,7 @@ public:
 
   void init();
 
-  void push_corner_corner(float x, float y, float w, float h, uint32_t color);
+  void push_corner_corner(float ax, float ay, float bx, float by, uint32_t color);
   void push_corner_size  (float x, float y, float w, float h, uint32_t color);
 
   void push_corner_size(dvec2 pos, dvec2 size, uint32_t color) {

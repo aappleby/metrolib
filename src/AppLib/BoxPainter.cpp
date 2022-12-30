@@ -64,9 +64,9 @@ out vec4 frag_out;
 uniform sampler2D tex;
 
 void main() {
-  //frag_out = frag_col;
+  frag_out = frag_col;
   //frag_out = vec4(box_tc, 0.0, 1.0);
-  frag_out = vec4(texture(tex, box_tc).rrr, 1.0) * vec4(frag_col.rgb, 1.0);
+  //frag_out = vec4(texture(tex, box_tc).rrr, 1.0) * vec4(frag_col.rgb, 1.0);
 }
 
 #endif
@@ -76,7 +76,7 @@ static uint32_t box_prog = 0;
 
 //-----------------------------------------------------------------------------
 
-extern const char* gate_pix;
+//extern const char* gate_pix;
 
 void BoxPainter::init() {
   if (!box_prog) {
@@ -99,7 +99,8 @@ void BoxPainter::init() {
 
   uint8_t* dst_pix = new uint8_t[16 * 512];
   for (int i = 0; i < 16 * 512; i++) {
-    uint8_t c = gate_pix[i];
+    //uint8_t c = gate_pix[i];
+    uint8_t c = '+';
     if      (c == '#') c = 0x00;
     else if (c == '=') c = 0x80;
     else               c = 0xFF;

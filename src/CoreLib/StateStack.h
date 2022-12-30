@@ -39,14 +39,15 @@ struct StatePointerStack {
   StatePointerStack(const StatePointerStack&) = delete;
   StatePointerStack& operator=(const StatePointerStack&) = delete;
 
-  T* state()      { return states.back(); }
-  T* operator->() { return states.back(); }
+  //T* state()      { return states.back(); }
+  //T* operator->() { return states.back(); }
 
   size_t state_count() const      { return states.size(); }
   size_t state_size_bytes() const { return states.size() * prototype->size_bytes(); }
 
   void push() { states.push_back(states.back()->clone()); }
   void pop()  { if (states.size() > 1) { delete states.back(); states.pop_back(); } }
+  T&   top()  { return *states.back(); }
 
   void reset_history() {
     for (auto s : states) delete s;

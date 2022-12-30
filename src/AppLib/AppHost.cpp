@@ -168,7 +168,7 @@ int AppHost::app_main(int, const char**) {
     io.DisplaySize.y = float(screen_h);
 
     if (app->pause_when_idle() && (new_now - last_event) > 1.0) {
-      LOG_B("waiting\n");
+      //LOG_B("waiting\n");
       SDL_WaitEvent(nullptr);
       delta = new_now - old_now;
       new_now = timestamp();
