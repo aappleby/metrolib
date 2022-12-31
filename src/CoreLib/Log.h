@@ -31,7 +31,6 @@ inline void log_prefix() {
   static uint64_t time_origin = 0;
   if (!time_origin) time_origin = now;
 
-  log_set_color(0);
   printf("[%07.3f] ", double(now - time_origin) / 1.0e9);
 }
 
@@ -41,35 +40,38 @@ inline void log_print(uint32_t color, const char* buffer, int len) {
   static int log_indent = 0;
   static bool log_start_line = true;
 
-  log_set_color(color);
   for (int i = 0; i < len; i++) {
     auto c = buffer[i];
 
     if (c == '\t') {
       log_indent += 2;
+      continue;
     }
-    else if (c == '\v') {
+
+    if (c == '\v') {
       log_indent -= 2;
+      continue;
     }
-    else if (c == '\r') {
-      if (!log_start_line) {
-        putchar('\n');
-        log_start_line = true;
-      }
-      else {
-        //putchar('*');
-      }
+
+    // Soft newlines do nothing if we're already at the start of a line.
+    if (c == '\r' && log_start_line) {
+      continue;
+    }
+
+    if (log_start_line) {
+      log_prefix();
+      for (int j = 0; j < log_indent; j++) putchar(' ');
+      log_start_line = false;
+    }
+
+    if (c == '\r' || c == '\n') {
+      log_set_color(0);
+      putchar('\n');
+      log_start_line = true;
     }
     else {
-      if (log_start_line) {
-        log_prefix();
-        log_set_color(color);
-        for (int j = 0; j < log_indent; j++) putchar(' ');
-        log_start_line = false;
-      }
-
+      log_set_color(color);
       putchar(c);
-      if (c == '\n') log_start_line = true;
     }
   }
   log_set_color(0);
