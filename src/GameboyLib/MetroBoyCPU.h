@@ -1,7 +1,7 @@
 #pragma once
-#include "CoreLib/Utils.h"
-#include "CoreLib/FieldInfo.h"
-#include "CoreLib/Dumper.h"
+#include "../CoreLib/Utils.h"
+#include "../CoreLib/FieldInfo.h"
+#include "../CoreLib/Dumper.h"
 
 //-----------------------------------------------------------------------------
 

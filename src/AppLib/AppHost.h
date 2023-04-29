@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AppLib/App.h"
-#include "AppLib/Viewport.h"
+#include "App.h"
+#include "Viewport.h"
 
 //-----------------------------------------------------------------------------
 

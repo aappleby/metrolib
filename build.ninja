@@ -4,7 +4,7 @@
 build_mode = -DCONFIG_DEBUG -O0
 
 default_gpp = g++ -g -MMD -std=gnu++2a -Wunused-variable -Werror
-default_inc = -I.. -Isrc
+default_inc = -I. -Isymlinks
 
 ################################################################################
 

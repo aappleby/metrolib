@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "CoreLib/Log.h"
+#include "Log.h"
 
 //-----------------------------------------------------------------------------
 

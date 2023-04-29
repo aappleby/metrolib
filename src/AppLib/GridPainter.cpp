@@ -1,9 +1,9 @@
-#include "AppLib/GridPainter.h"
-#include "AppLib/GLBase.h"
+#include "../AppLib/GridPainter.h"
+#include "../AppLib/GLBase.h"
 
 #include <stdio.h>
 #include <math.h>
-#include "SDL/include/SDL.h"
+#include <SDL2/SDL.h>
 #include "glad/glad.h"
 
 //-----------------------------------------------------------------------------

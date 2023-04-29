@@ -1,9 +1,11 @@
-#include "GameboyLib/Assembler.h"
-#include "CoreLib/Types.h"
-#include "CoreLib/Constants.h"
-#include "GameboyLib/Opcodes.h"
-#include "CoreLib/Log.h"
-#include "CoreLib/File.h"
+#include "Assembler.h"
+
+#include "Opcodes.h"
+
+#include "../CoreLib/Types.h"
+#include "../CoreLib/Constants.h"
+#include "../CoreLib/Log.h"
+#include "../CoreLib/File.h"
 
 #include <assert.h>
 #include <stdarg.h>

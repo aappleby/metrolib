@@ -1,6 +1,6 @@
 #pragma once
-//#include "CoreLib/Types.h"
-#include "CoreLib/Blobs.h"
+//#include "Types.h"
+#include "Blobs.h"
 #include <string>
 
 //-----------------------------------------------------------------------------

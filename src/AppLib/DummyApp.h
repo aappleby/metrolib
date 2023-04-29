@@ -1,10 +1,10 @@
 #pragma once
 
-#include "AppLib/App.h"
-#include "AppLib/GridPainter.h"
-#include "AppLib/TextPainter.h"
-#include "AppLib/Blitter.h"
-#include "AppLib/Viewport.h"
+#include "App.h"
+#include "GridPainter.h"
+#include "TextPainter.h"
+#include "Blitter.h"
+#include "Viewport.h"
 
 //-----------------------------------------------------------------------------
 

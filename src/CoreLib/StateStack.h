@@ -1,5 +1,5 @@
 #pragma once
-#include "CoreLib/Types.h"
+#include "Types.h"
 
 #include <vector>
 #include <functional>

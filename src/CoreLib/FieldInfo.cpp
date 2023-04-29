@@ -1,6 +1,6 @@
 #include "FieldInfo.h"
 
-#include "CoreLib/Log.h"
+#include "Log.h"
 
 //-----------------------------------------------------------------------------
 

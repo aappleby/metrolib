@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <stdint.h>
-#include "CoreLib/Check.h"
+#include "Check.h"
 
 typedef std::vector<uint8_t> blob;
 

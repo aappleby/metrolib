@@ -1,5 +1,5 @@
-#include "CoreLib/Constants.h"
-#include "CoreLib/File.h"
+#include "../CoreLib/Constants.h"
+#include "../CoreLib/File.h"
 #include <string.h>
 
 #if 0

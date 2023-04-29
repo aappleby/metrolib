@@ -1,8 +1,8 @@
 #include "Audio.h"
 
-//#include "CoreLib/Constants.h"
-#include "CoreLib/Log.h"
-#include "CoreLib/Utils.h"
+//#include "../CoreLib/Constants.h"
+#include "../CoreLib/Log.h"
+#include "../CoreLib/Utils.h"
 
 #include <list>
 #include <mutex>
@@ -12,7 +12,7 @@
 #include <atomic>
 #include <math.h>
 
-#include "SDL/include/SDL.h"
+#include <SDL2/SDL.h>
 
 SDL_AudioDeviceID dev;
 

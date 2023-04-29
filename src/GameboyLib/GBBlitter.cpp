@@ -1,5 +1,6 @@
-#include "GameboyLib/GBBlitter.h"
-#include "AppLib/GLBase.h"
+#include "GBBlitter.h"
+
+#include "../AppLib/GLBase.h"
 #include "glm/glm/glm.hpp"
 #include "glad/glad.h"
 

@@ -1,10 +1,10 @@
-#include "AppLib/GLBase.h"
+#include "GLBase.h"
 #include <stdio.h>
 #include <vector>
-#include "SDL/include/SDL.h"
+#include <SDL2/SDL.h>
 #include "glad/glad.h"
-#include "CoreLib/Check.h"
-#include "CoreLib/Tests.h"
+#include "../CoreLib/Check.h"
+#include "../CoreLib/Tests.h"
 
 #include <map>
 

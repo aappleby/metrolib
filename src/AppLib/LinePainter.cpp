@@ -1,6 +1,6 @@
-#include "AppLib/LinePainter.h"
+#include "LinePainter.h"
 
-#include "AppLib/GLBase.h"
+#include "GLBase.h"
 #include "glad/glad.h"
 
 //-----------------------------------------------------------------------------

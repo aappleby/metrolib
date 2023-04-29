@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "AppLib/Viewport.h"
+#include "Viewport.h"
 
 struct TextUniforms {
   vec4 viewport = {};
