@@ -17,6 +17,12 @@ rule lib
   command = ar rcs ${out} ${in}
 
 ################################################################################
+# glad
+
+build obj/glad/glad.o : compile_cpp src/glad/glad.c
+build bin/glad.a      : lib obj/glad/glad.o
+
+################################################################################
 # AppLib
 
 build obj/AppLib/AppHost.o        : compile src/AppLib/AppHost.cpp
@@ -80,13 +86,13 @@ build bin/CoreLib.a : lib $
 # GameboyLib
 
 build obj/GameboyLib/Assembler.o    : compile src/GameboyLib/Assembler.cpp
-build obj/GameboyLib/Constants.o    : compile src/GameboyLib/Constants.cpp
+build obj/GameboyLib/GBConstants.o  : compile src/GameboyLib/GBConstants.cpp
 build obj/GameboyLib/GBBlitter.o    : compile src/GameboyLib/GBBlitter.cpp
 build obj/GameboyLib/MetroBoyCPU.o  : compile src/GameboyLib/MetroBoyCPU.cpp
 
 build bin/GameboyLib.a : lib $
   obj/GameboyLib/Assembler.o $
-  obj/GameboyLib/Constants.o $
+  obj/GameboyLib/GBConstants.o $
   obj/GameboyLib/GBBlitter.o $
   obj/GameboyLib/MetroBoyCPU.o
 

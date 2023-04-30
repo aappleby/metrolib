@@ -1,113 +1,148 @@
 #pragma once
-
-#include <stdint.h>
 #include <stdio.h>
-#include <stdarg.h>
+#include <stdint.h>
 #include <time.h>
+#include <stdarg.h>
 
 //-----------------------------------------------------------------------------
+// TinyLog - simple console log with color coding, indentation, and timestamps
 
-inline void log_set_color(uint32_t color) {
-  static uint32_t log_color = 0;
-  if (color == log_color) return;
+struct TinyLog {
+  uint32_t _color = 0; // 0 = default color
+  int _muted = 0;
+  bool _mono = false;
+  int _indentation = 0;
+  bool _start_line = true;
+  uint64_t _time_origin = 0;
 
-  if (color == 0) {
-    printf("\u001b[0m");
+  static TinyLog& get() {
+    static TinyLog log;
+    return log;
   }
-  else {
-    printf("\u001b[38;2;%d;%d;%dm", (color >> 0) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF);
+
+  void indent() { _indentation += 2; }
+  void dedent() { _indentation -= 2; }
+  void mute()   { _muted++; }
+  void unmute() { _muted--; }
+
+  void mono()   { _mono = true; }
+  void color()  { _mono = false; }
+
+  void reset() {
+    _color = 0;
+    _muted = 0;
+    _indentation = 0;
+    _start_line = true;
+    _time_origin = 0;
   }
 
-  log_color = color;
-}
+  void set_color(uint32_t color) {
+    if (_mono) return;
+    if (color != _color) {
+      if (color) {
+        printf("\u001b[38;2;%d;%d;%dm", (color >> 0) & 0xFF,
+          (color >> 8) & 0xFF, (color >> 16) & 0xFF);
+      }
+      else {
+        printf("\u001b[0m");
+      }
+      _color = color;
+    }
+  }
 
-//-----------------------------------------------------------------------------
 
-inline void log_prefix() {
-  timespec ts;
-  (void)timespec_get(&ts, TIME_UTC);
-  uint64_t now = ts.tv_sec * 1000000000ull + ts.tv_nsec;
+  double timestamp() {
+    timespec ts;
+    (void)timespec_get(&ts, TIME_UTC);
+    uint64_t now = ts.tv_sec * 1000000000ull + ts.tv_nsec;
+    if (!_time_origin) _time_origin = now;
+    return double(now - _time_origin) / 1.0e9;
+  }
 
-  static uint64_t time_origin = 0;
-  if (!time_origin) time_origin = now;
+  void print_char(FILE* file, int c, uint32_t color) {
+    if (_muted) return;
 
-  printf("[%07.3f] ", double(now - time_origin) / 1.0e9);
-}
-
-//-----------------------------------------------------------------------------
-
-inline void log_print(uint32_t color, const char* buffer, int len) {
-  static int log_indent = 0;
-  static bool log_start_line = true;
-
-  for (int i = 0; i < len; i++) {
-    auto c = buffer[i];
-
-    if (c == '\t') {
-      log_indent += 2;
-      continue;
+    if (_start_line) {
+      _start_line = false;
+      print(file, 0, "[%07.3f] ", timestamp());
+      for (int j = 0; j < _indentation; j++) printf(" ");
     }
 
-    if (c == '\v') {
-      log_indent -= 2;
-      continue;
-    }
-
-    // Soft newlines do nothing if we're already at the start of a line.
-    if (c == '\r' && log_start_line) {
-      continue;
-    }
-
-    if (log_start_line) {
-      log_prefix();
-      for (int j = 0; j < log_indent; j++) putchar(' ');
-      log_start_line = false;
-    }
-
-    if (c == '\r' || c == '\n') {
-      log_set_color(0);
-      putchar('\n');
-      log_start_line = true;
+    if (c == '\n') {
+      set_color(0);
+      fputc(c, file);
+      fflush(file);
+      _start_line = true;
     }
     else {
-      log_set_color(color);
-      putchar(c);
+      set_color(color);
+      fputc(c, file);
+      fflush(file);
     }
   }
-  log_set_color(0);
-}
 
-//-----------------------------------------------------------------------------
+  void print_buffer(FILE* file, uint32_t color, const char* buffer, int len) {
+    for (int i = 0; i < len; i++) {
+      print_char(file, buffer[i], color);
+    }
+  }
 
-inline void log_printf(uint32_t color, const char* format = "", ...) {
-  char buffer[256];
-  va_list args;
-  va_start(args, format);
-  int len = vsnprintf(buffer, 256, format, args);
-  va_end(args);
-  log_print(color, buffer, len);
-}
+  void vprint(FILE* file, uint32_t color, const char* format, va_list args) {
+    va_list args2;
+    va_copy(args2, args);
+    int size = vsnprintf(nullptr, 0, format, args2);
+    va_end(args2);
 
-//-----------------------------------------------------------------------------
+    auto buffer = new char[size + 1];
+    vsnprintf(buffer, size_t(size) + 1, format, args);
+    print_buffer(file, color, buffer, size);
+    delete[] buffer;
+  }
 
-#define LOG(...)   log_printf(0x00000000, __VA_ARGS__);
-#define LOG_R(...) log_printf(0x008888FF, __VA_ARGS__);
-#define LOG_G(...) log_printf(0x0088FF88, __VA_ARGS__);
-#define LOG_B(...) log_printf(0x00FF8888, __VA_ARGS__);
+  void print(FILE* file, uint32_t color, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprint(file, color, format, args);
+    va_end(args);
+  }
 
-#define LOG_C(...) log_printf(0x00FFFF88, __VA_ARGS__);
-#define LOG_M(...) log_printf(0x00FF88FF, __VA_ARGS__);
-#define LOG_Y(...) log_printf(0x0088FFFF, __VA_ARGS__);
-#define LOG_W(...) log_printf(0x00FFFFFF, __VA_ARGS__);
+  void putc(char c) {
+    print_char(stdout, c, _color);
+  }
 
-#define LOG_INDENT() log_printf(0, "\t")
-#define LOG_DEDENT() log_printf(0, "\v")
-
-struct LogIndenter {
-  LogIndenter()  { LOG_INDENT(); }
-  ~LogIndenter() { LOG_DEDENT(); }
+  void put_range(const char* a, const char* b) {
+    while(a != b) {
+      print_char(stdout, *a, _color);
+      a++;
+    }
+  }
 };
 
-#define LOG_INDENT_SCOPE() LogIndenter indenter##__LINE__;
+#define LOG(...)      TinyLog::get().print(stdout, 0x00000000, __VA_ARGS__)
+#define LOG_RANGE(a)  TinyLog::get().put_range(a.start, a.end)
+#define LOG_C(c, ...) TinyLog::get().print(stdout, c, __VA_ARGS__)
+#define LOG_R(...)    TinyLog::get().print(stdout, 0x008080FF, __VA_ARGS__)
+#define LOG_G(...)    TinyLog::get().print(stdout, 0x0080FF80, __VA_ARGS__)
+#define LOG_B(...)    TinyLog::get().print(stdout, 0x00FFA0A0, __VA_ARGS__)
+#define LOG_Y(...)    TinyLog::get().print(stdout, 0x0080FFFF, __VA_ARGS__)
+#define LOG_W(...)    TinyLog::get().print(stdout, 0x00FFFFFF, __VA_ARGS__)
+#define LOG_INDENT()  TinyLog::get().indent()
+#define LOG_DEDENT()  TinyLog::get().dedent()
+
+#define LOG_CV(color, format, args) TinyLog::get().vprint(stdout, color, format, args)
+#define LOG_RV(format, args)        TinyLog::get().vprint(stdout, 0x008080FF, format, args)
+#define LOG_GV(format, args)        TinyLog::get().vprint(stdout, 0x0080FF80, format, args)
+#define LOG_BV(format, args)        TinyLog::get().vprint(stdout, 0x00FFA0A0, format, args)
+#define LOG_YV(format, args)        TinyLog::get().vprint(stdout, 0x0080FFFF, format, args)
+#define LOG_WV(format, args)        TinyLog::get().vprint(stdout, 0x00FFFFFF, format, args)
+
+struct LogIndenter {
+  LogIndenter() { TinyLog::get().indent(); }
+  ~LogIndenter() { TinyLog::get().dedent(); }
+};
+
+#define LINE_CAT1(X,Y) LINE_CAT2(X,Y)
+#define LINE_CAT2(X,Y) X##Y
+#define LOG_INDENT_SCOPE() LogIndenter LINE_CAT1(indenter, __LINE__)
 
 //-----------------------------------------------------------------------------
