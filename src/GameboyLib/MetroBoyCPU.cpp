@@ -98,7 +98,7 @@ void MetroBoyCPU::reset() {
 void MetroBoyCPU::dump(Dumper& d_) const {
   d_("bus req : %04x:%02x %s%s\n", reg.bus_addr, reg.bus_data, reg.bus_read  ? "\003R\001" : "-", reg.bus_write ? "\002W\001" : "-");
   d_("op addr : 0x%04x\n", reg.op_addr);
-  d_("opname  : '%s' @ %d\n", op_strings2[reg.op_next], reg.op_state);
+  d_("opname  : '%s' @ %d\n", get_op_strings2()[reg.op_next], reg.op_state);
   d_("opcode  : 0x%02x\n", reg.op_next);
   d_("CB      : 0x%02x\n", reg.op_cb);
   d_("in      : 0x%02x\n", reg.data_in);
@@ -193,7 +193,7 @@ void MetroBoyCPU::execute_cb() {
 
     int cb_col = (reg_new.op_cb >> 0) & 7;
     int cb_quad = (reg_new.op_cb >> 6) & 3;
-    uint8_t mask = cb_flag_mask[cb_quad];
+    uint8_t mask = get_cb_flag_mask()[cb_quad];
 
     if (cb_col != 6) {
       if (reg_old.op_state == 1)   {

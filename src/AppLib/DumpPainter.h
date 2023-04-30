@@ -10,7 +10,7 @@ public:
   void init_hex_u32();
   void init_ascii();
 
-  void dump2(Viewport view, dvec2 screen_size,
+  void dump(Viewport view, dvec2 screen_size,
             double world_x, double world_y,
             double scale_x, double scale_y,
             int bytes_per_row,

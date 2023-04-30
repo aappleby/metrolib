@@ -310,7 +310,7 @@ void DumpPainter::init_ascii() {
 
 //-----------------------------------------------------------------------------
 
-void DumpPainter::dump2(Viewport view, dvec2 screen_size, double world_x, double world_y, double scale_x, double scale_y, int bytes_per_row, int rows_per_block, vec4 color, const uint8_t* dump) {
+void DumpPainter::dump(Viewport view, dvec2 screen_size, double world_x, double world_y, double scale_x, double scale_y, int bytes_per_row, int rows_per_block, vec4 color, const uint8_t* dump) {
   update_table_u8(dump_tab, bytes_per_row, rows_per_block, dump);
 
   bind_shader(dump_prog);

@@ -118,4 +118,3 @@ build bin/AppLib.a : lib $
   obj/AppLib/Terminus.o $
   obj/AppLib/TextPainter.o $
   obj/AppLib/Viewport.o
-

@@ -1,15 +1,20 @@
 #pragma once
 #include <stdint.h>
 
-extern uint8_t DMG_ROM_bin[];
+const char**   get_op_strings();
+const char**   get_op_strings2();
+const char**   get_cb_strings();
 
-extern const char* op_strings[256];
-extern const char* op_strings2[256];
+const uint8_t* get_flag_mask();
+const uint8_t* get_cb_flag_mask();
+const uint8_t* get_DMG_ROM();
+const uint8_t* get_vram_boot();
+const uint8_t* get_framebuffer_boot();
+
+const int*     get_op_sizes();
 
 constexpr uint16_t BOOT_DIV = 0xEAF3;
 constexpr uint16_t VRAM_ADDR_MASK = 0b1111111111111;
-
-//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Timing config
@@ -175,51 +180,6 @@ constexpr double PHASES_PER_SECOND = TCYCLES_PER_SECOND * 2.0;
 #define SPRITE_PAL    0x10
 
 #define TAC_RUN 0x04
-
-static const uint8_t flag_mask[256] = {
-     0,    0,    0,    0, 0xE0, 0xE0,    0, 0xF0,
-     0, 0x70,    0,    0, 0xE0, 0xE0,    0, 0xF0,
-     0,    0,    0,    0, 0xE0, 0xE0,    0, 0xF0,
-     0, 0x70,    0,    0, 0xE0, 0xE0,    0, 0xF0,
-     0,    0,    0,    0, 0xE0, 0xE0,    0, 0xB0,
-     0, 0x70,    0,    0, 0xE0, 0xE0,    0, 0x60,
-     0,    0,    0,    0, 0xE0, 0xE0,    0, 0x70,
-     0, 0x70,    0,    0, 0xE0, 0xE0,    0, 0x70,
-
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-     0,    0,    0,    0,    0,    0,    0,    0,
-
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-  0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0,
-
-     0,    0,    0,    0,    0,    0, 0xF0,    0,
-     0,    0,    0,    0,    0,    0, 0xF0,    0,
-     0,    0,    0,    0,    0,    0, 0xF0,    0,
-     0,    0,    0,    0,    0,    0, 0xF0,    0,
-     0,    0,    0,    0,    0,    0, 0xF0,    0,
-  0xF0,    0,    0,    0,    0,    0, 0xF0,    0,
-     0, 0xF0,    0,    0,    0,    0, 0xF0,    0,
-  0xF0,    0,    0,    0,    0,    0, 0xF0,    0,
-};
-
-static const uint8_t cb_flag_mask[4] = { 0xF0, 0xE0,    0, 0x0 };
-
-
-
-extern const uint8_t vram_boot[8192];
-extern const uint8_t framebuffer_boot[160*144];
 
 #define MB_DELTA_AB   ((phase_total & 7) == 0)
 #define MB_DELTA_BC   ((phase_total & 7) == 1)

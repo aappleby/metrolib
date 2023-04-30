@@ -6,16 +6,13 @@
 #include "../CoreLib/Constants.h"
 #include "../CoreLib/Log.h"
 #include "../CoreLib/File.h"
+#include "../GameboyLib/Constants.h"
 
 #include <assert.h>
 #include <stdarg.h>
 #include <string.h>
 
 #pragma warning(disable : 4996)
-
-extern const char* op_strings[];
-extern const char* cb_strings[];
-extern const int op_sizes[];
 
 const char* source_header = R"(
 .gbheader
@@ -169,12 +166,12 @@ void Assembler::disassemble_one(const uint8_t* code, Dumper& dump) {
 
   if (op0 == 0xCB) {
     uint8_t op1 = code[1];
-    const char* op_string = cb_strings[op1];
+    const char* op_string = get_cb_strings()[op1];
     dump("%s", op_string);
   }
 
-  const char* op_string = op_strings[op0];
-  int size = op_sizes[op0];
+  const char* op_string = get_op_strings()[op0];
+  int size = get_op_sizes()[op0];
 
   if (size == 1) {
     dump("%s", op_string);
@@ -200,8 +197,8 @@ void Assembler::disassemble(const uint8_t* code, int code_size, int code_base, i
     if (code_cursor >= code_size) return;
 
     uint8_t op0 = code[code_cursor + 0];
-    int size = op_sizes[op0];
-    const char* op_string = op_strings[op0];
+    int size = get_op_sizes()[op0];
+    const char* op_string = get_op_strings()[op0];
 
     /*
     if (collapse_nops && op0 == 0) {
@@ -233,7 +230,7 @@ void Assembler::disassemble(const uint8_t* code, int code_size, int code_base, i
       dump("%02x", op0);
       uint8_t op1 = code[code_cursor + 1];
       dump("%02x   ", op1);
-      op_string = cb_strings[op1];
+      op_string = get_cb_strings()[op1];
       size = 2;
     }
     else if (size == 1) {
@@ -303,14 +300,14 @@ void Assembler::assemble(const char* source) {
     int arg = 0;
     for (; op < 256; op++) {
 
-      bool found_match = match_op(line, op_strings[op], arg);
+      bool found_match = match_op(line, get_op_strings()[op], arg);
       if (!found_match) {
         continue;
       }
 
       /*
       int match = -1;
-      if (op_sizes[op] == 1) {
+      if (get_op_sizes()[op] == 1) {
         match = strcmp(line, op_strings[op]);
       }
       else {
@@ -321,7 +318,7 @@ void Assembler::assemble(const char* source) {
       }
       */
 
-      int op_size = op_sizes[op];
+      int op_size = get_op_sizes()[op];
       emit(uint8_t(op));
       if (op_size > 1) emit(arg & 0xFF);
       if (op_size > 2) emit((arg >> 8) & 0xFF);
