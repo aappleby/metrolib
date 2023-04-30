@@ -1,5 +1,6 @@
-#include "Blitter.h"
-#include "GLBase.h"
+#include "AppLib/Blitter.h"
+
+#include "AppLib/GLBase.h"
 #include "glm/glm/glm.hpp"
 #include "glad/glad.h"
 

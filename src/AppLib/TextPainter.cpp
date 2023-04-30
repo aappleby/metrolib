@@ -1,10 +1,11 @@
-#include "TextPainter.h"
+#include "AppLib/TextPainter.h"
 
-#include "GLBase.h"
-#include "../CoreLib/Check.h"
-#include <stdio.h>
-#include <SDL2/SDL.h>
+#include "AppLib/GLBase.h"
+#include "CoreLib/Check.h"
 #include "glad/glad.h"
+
+#include <SDL2/SDL.h>
+#include <stdio.h>
 
 extern const char* terminus;
 

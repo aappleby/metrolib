@@ -1,9 +1,9 @@
-#include "DumpPainter.h"
+#include "AppLib/DumpPainter.h"
 
-#include "GLBase.h"
-#include <SDL2/SDL.h>
+#include "AppLib/GLBase.h"
 #include "glad/glad.h"
 
+#include <SDL2/SDL.h>
 #include <vector>
 #include <stdio.h>
 #include <string.h>

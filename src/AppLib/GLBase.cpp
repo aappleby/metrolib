@@ -1,12 +1,12 @@
-#include "GLBase.h"
-#include <stdio.h>
-#include <vector>
-#include <SDL2/SDL.h>
+#include "AppLib/GLBase.h"
+
+#include "CoreLib/Check.h"
 #include "glad/glad.h"
-#include "../CoreLib/Check.h"
-#include "../CoreLib/Tests.h"
 
 #include <map>
+#include <SDL2/SDL.h>
+#include <stdio.h>
+#include <vector>
 
 /*
 std::map<uint32_t, const char*> messageMap = {

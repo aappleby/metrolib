@@ -1,18 +1,16 @@
-#include "Audio.h"
+#include "AudioLib/Audio.h"
 
-//#include "../CoreLib/Constants.h"
-#include "../CoreLib/Log.h"
-#include "../CoreLib/Utils.h"
+#include "CoreLib/Log.h"
+#include "CoreLib/Utils.h"
 
-#include <list>
-#include <mutex>
-#include <condition_variable>
-#include <string.h>
-#include <semaphore>
 #include <atomic>
+#include <condition_variable>
+#include <list>
 #include <math.h>
-
+#include <mutex>
 #include <SDL2/SDL.h>
+#include <semaphore>
+#include <string.h>
 
 SDL_AudioDeviceID dev;
 

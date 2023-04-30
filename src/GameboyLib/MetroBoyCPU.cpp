@@ -1,9 +1,9 @@
-#include "MetroBoyCPU.h"
+#include "GameboyLib/MetroBoyCPU.h"
 
-#include "OpDecoder.h"
-#include "Constants.h"
+#include "GameboyLib/OpDecoder.h"
+#include "GameboyLib/GBConstants.h"
 
-#include "../CoreLib/Constants.h"
+#include "CoreLib/Constants.h"
 #include <string.h>
 
 uint8_t  sxt(uint8_t x) { return x & 0x80 ? 0xFF : 0x00; }

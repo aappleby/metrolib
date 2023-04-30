@@ -1,5 +1,5 @@
-#include "DummyApp.h"
-#include "GLBase.h"
+#include "AppLib/DummyApp.h"
+#include "AppLib/GLBase.h"
 
 #include <SDL2/SDL.h>
 

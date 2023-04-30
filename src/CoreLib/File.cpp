@@ -1,6 +1,7 @@
-#include "File.h"
-#include "Log.h"
-#include "Check.h"
+#include "CoreLib/File.h"
+
+#include "CoreLib/Check.h"
+#include "CoreLib/Log.h"
 
 #pragma warning(disable:4996)
 

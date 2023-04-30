@@ -1,8 +1,8 @@
 #pragma once
-#include <stdio.h>
-#include <stdint.h>
-#include <time.h>
 #include <stdarg.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <time.h>
 
 //-----------------------------------------------------------------------------
 // TinyLog - simple console log with color coding, indentation, and timestamps

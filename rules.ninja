@@ -1,0 +1,9 @@
+################################################################################
+
+rule compile
+  command = ${default_gpp} ${build_mode} ${default_inc} ${includes} -MF ${out}.d -c ${in} -o ${out}
+  depfile = ${out}.d
+  deps = gcc
+
+rule lib
+  command = ar rcs ${out} ${in}

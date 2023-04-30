@@ -1,11 +1,10 @@
-#include "AppHost.h"
-#include "GLBase.h"
+#include "AppLib/AppHost.h"
 
-#include "imgui/imgui.h"
+#include "AppLib/GLBase.h"
+#include "CoreLib/Utils.h"
+#include "CoreLib/Log.h"
 #include "glad/glad.h"
-
-#include "../CoreLib/Tests.h"
-#include "../CoreLib/Utils.h"
+#include "imgui/imgui.h"
 
 #include <SDL2/SDL.h>
 

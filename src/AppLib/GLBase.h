@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../CoreLib/Types.h"
+#include "CoreLib/Types.h"
 
 void* init_gl(void* window);
 void  check_gl_error();

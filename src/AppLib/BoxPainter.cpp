@@ -1,12 +1,11 @@
-#include "BoxPainter.h"
+#include "AppLib/BoxPainter.h"
 
-#include "GLBase.h"
-
-#include "../CoreLib/Check.h"
+#include "AppLib/GLBase.h"
+#include "CoreLib/Check.h"
+#include "glad/glad.h"
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
-#include "glad/glad.h"
 
 //-----------------------------------------------------------------------------
 

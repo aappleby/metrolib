@@ -1,8 +1,8 @@
 #pragma once
+#include "CoreLib/Log.h"
+
 #include <stddef.h>
 #include <stdint.h>
-
-#include "Log.h"
 
 //-----------------------------------------------------------------------------
 

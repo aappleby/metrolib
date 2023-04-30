@@ -1,4 +1,4 @@
-#include "Tests.h"
+#include "CoreLib/Tests.h"
 
 #if 0
 bool comp_iws(const char* a, const char* b) {

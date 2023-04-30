@@ -1,10 +1,11 @@
-#include "../AppLib/GridPainter.h"
-#include "../AppLib/GLBase.h"
+#include "AppLib/GridPainter.h"
 
-#include <stdio.h>
+#include "AppLib/GLBase.h"
+#include "glad/glad.h"
+
 #include <math.h>
 #include <SDL2/SDL.h>
-#include "glad/glad.h"
+#include <stdio.h>
 
 //-----------------------------------------------------------------------------
 

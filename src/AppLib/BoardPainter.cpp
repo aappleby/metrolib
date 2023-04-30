@@ -109,7 +109,7 @@ void main(void) {
 
   // We're inside the line. Add the line start index to the doc X coordinate to get the integer linemap
   // index.
-  
+
   float lineIndex = startIndex + docPos.x;
 
   // Wrap the linemap index around the linemap to get the integer linemap position.
@@ -127,7 +127,7 @@ void main(void) {
 
   // Combine glyph position with inside-cell position to get sample position in texel coordinates.
   vec2 glyphLoc = glyphCell * cellSize + cellPos * glyphSize + vec2(0.0, 2.0);
-  
+
   // Read output color from glyphmap.
   float result = texture2D(glyphmap, glyphLoc / glyphmapSize).r;
 

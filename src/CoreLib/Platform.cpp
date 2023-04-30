@@ -1,4 +1,4 @@
-#include "Platform.h"
+#include "CoreLib/Platform.h"
 
 #include <assert.h>
 #include <memory.h>
@@ -19,12 +19,8 @@
 //#include <execinfo.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 //#include <csignal>
 #endif
-
-#include "TreeSymbols.h"
-#include "tree-sitter/lib/include/tree_sitter/api.h"
 
 // KCOV_OFF
 

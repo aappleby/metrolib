@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Log.h"
+#include "CoreLib/Log.h"
 
 //-----------------------------------------------------------------------------
 
@@ -22,16 +22,16 @@ struct TestResults {
   int check_pass = 0;
   int check_fail = 0;
 
-  int show_banner() {
+  void show_result() {
     LOG("\r");
     if (test_fail) {
         LOG_R("\n");
         LOG_R("+---------------------------------+\n");
         LOG_R("|    #######  #####  ## ##        |  "); LOG_G("test  pass %d\n", test_pass);
-        LOG_R("|    ##      ##   ## ## ##        |  "); LOG_R("test  fail %d\n", test_fail)
+        LOG_R("|    ##      ##   ## ## ##        |  "); LOG_R("test  fail %d\n", test_fail);
         LOG_R("|    #####   ####### ## ##        |  "); LOG_G("check pass %d\n", check_pass);
         LOG_R("|    ##      ##   ## ## ##        |  "); LOG_R("check fail %d\n", check_fail);
-        LOG_R("|    ##      ##   ## ## #######   |  "); LOG_R("\n")
+        LOG_R("|    ##      ##   ## ## #######   |  "); LOG_R("\n");
         LOG_R("+---------------------------------+\n");
         LOG_R("\n");
     }
@@ -39,10 +39,10 @@ struct TestResults {
         LOG_G("\n");
         LOG_G("+---------------------------------+\n");
         LOG_G("| ######   #####  ####### ####### |  "); LOG_G("test  pass %d\n", test_pass);
-        LOG_G("| ##   ## ##   ## ##      ##      |  "); LOG_G("test  fail %d\n", test_fail)
+        LOG_G("| ##   ## ##   ## ##      ##      |  "); LOG_G("test  fail %d\n", test_fail);
         LOG_G("| ######  ####### ####### ####### |  "); LOG_G("check pass %d\n", check_pass);
         LOG_G("| ##      ##   ##      ##      ## |  "); LOG_G("check fail %d\n", check_fail);
-        LOG_G("| ##      ##   ## ####### ####### |  "); LOG_G("\n")
+        LOG_G("| ##      ##   ## ####### ####### |  "); LOG_G("\n");
         LOG_G("+---------------------------------+  "); LOG_G("\n");
         if (test_fail == 0 && check_fail == 0) {
           LOG_G("All tests pass\n");

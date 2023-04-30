@@ -1,8 +1,7 @@
 #pragma once
 
-//#include "../CoreLib/File.h"
-#include "../CoreLib/Blobs.h"
-#include "../CoreLib/Dumper.h"
+#include "CoreLib/Blobs.h"
+#include "CoreLib/Dumper.h"
 
 #include <vector>
 #include <map>
