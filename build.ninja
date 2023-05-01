@@ -11,92 +11,92 @@ default_inc = -I. -Isymlinks
 ################################################################################
 # AppLib
 
-build obj/metron/appbase/AppHost.o        : compile metron/appbase/AppHost.cpp
-build obj/metron/appbase/Blitter.o        : compile metron/appbase/Blitter.cpp
-build obj/metron/appbase/BoardPainter.o   : compile metron/appbase/BoardPainter.cpp
-build obj/metron/appbase/BoxPainter.o     : compile metron/appbase/BoxPainter.cpp
-build obj/metron/appbase/Console.o        : compile metron/appbase/Console.cpp
-build obj/metron/appbase/DummyApp.o       : compile metron/appbase/DummyApp.cpp
-build obj/metron/appbase/DumpPainter.o    : compile metron/appbase/DumpPainter.cpp
-build obj/metron/appbase/GLBase.o         : compile metron/appbase/GLBase.cpp
-build obj/metron/appbase/GridPainter.o    : compile metron/appbase/GridPainter.cpp
-build obj/metron/appbase/LinePainter.o    : compile metron/appbase/LinePainter.cpp
-build obj/metron/appbase/Terminus.o       : compile metron/appbase/Terminus.cpp
-build obj/metron/appbase/TextPainter.o    : compile metron/appbase/TextPainter.cpp
-build obj/metron/appbase/Viewport.o       : compile metron/appbase/Viewport.cpp
+build obj/metrolib/appbase/AppHost.o        : compile metrolib/appbase/AppHost.cpp
+build obj/metrolib/appbase/Blitter.o        : compile metrolib/appbase/Blitter.cpp
+build obj/metrolib/appbase/BoardPainter.o   : compile metrolib/appbase/BoardPainter.cpp
+build obj/metrolib/appbase/BoxPainter.o     : compile metrolib/appbase/BoxPainter.cpp
+build obj/metrolib/appbase/Console.o        : compile metrolib/appbase/Console.cpp
+build obj/metrolib/appbase/DummyApp.o       : compile metrolib/appbase/DummyApp.cpp
+build obj/metrolib/appbase/DumpPainter.o    : compile metrolib/appbase/DumpPainter.cpp
+build obj/metrolib/appbase/GLBase.o         : compile metrolib/appbase/GLBase.cpp
+build obj/metrolib/appbase/GridPainter.o    : compile metrolib/appbase/GridPainter.cpp
+build obj/metrolib/appbase/LinePainter.o    : compile metrolib/appbase/LinePainter.cpp
+build obj/metrolib/appbase/Terminus.o       : compile metrolib/appbase/Terminus.cpp
+build obj/metrolib/appbase/TextPainter.o    : compile metrolib/appbase/TextPainter.cpp
+build obj/metrolib/appbase/Viewport.o       : compile metrolib/appbase/Viewport.cpp
 
-build bin/metron/libappbase.a : lib $
-  obj/metron/appbase/AppHost.o $
-  obj/metron/appbase/Blitter.o $
-  obj/metron/appbase/BoxPainter.o $
-  obj/metron/appbase/Console.o $
-  obj/metron/appbase/DummyApp.o $
-  obj/metron/appbase/DumpPainter.o $
-  obj/metron/appbase/GLBase.o $
-  obj/metron/appbase/GridPainter.o $
-  obj/metron/appbase/LinePainter.o $
-  obj/metron/appbase/Terminus.o $
-  obj/metron/appbase/TextPainter.o $
-  obj/metron/appbase/Viewport.o
+build bin/metrolib/libappbase.a : lib $
+  obj/metrolib/appbase/AppHost.o $
+  obj/metrolib/appbase/Blitter.o $
+  obj/metrolib/appbase/BoxPainter.o $
+  obj/metrolib/appbase/Console.o $
+  obj/metrolib/appbase/DummyApp.o $
+  obj/metrolib/appbase/DumpPainter.o $
+  obj/metrolib/appbase/GLBase.o $
+  obj/metrolib/appbase/GridPainter.o $
+  obj/metrolib/appbase/LinePainter.o $
+  obj/metrolib/appbase/Terminus.o $
+  obj/metrolib/appbase/TextPainter.o $
+  obj/metrolib/appbase/Viewport.o
 
 ################################################################################
 # AudioLib
 
-build obj/metron/audio/Audio.o : compile metron/audio/Audio.cpp
-build bin/metron/libaudio.a    : lib obj/metron/audio/Audio.o
+build obj/metrolib/audio/Audio.o : compile metrolib/audio/Audio.cpp
+build bin/metrolib/libaudio.a    : lib obj/metrolib/audio/Audio.o
 
 ################################################################################
 # CoreLib
 
-build obj/metron/core/Blobs.o         : compile metron/core/Blobs.cpp
-build obj/metron/core/Check.o         : compile metron/core/Check.cpp
-build obj/metron/core/Constants.o     : compile metron/core/Constants.cpp
-build obj/metron/core/Dumper.o        : compile metron/core/Dumper.cpp
-build obj/metron/core/Err.o           : compile metron/core/Err.cpp
-build obj/metron/core/FieldInfo.o     : compile metron/core/FieldInfo.cpp
-build obj/metron/core/File.o          : compile metron/core/File.cpp
-build obj/metron/core/Log.o           : compile metron/core/Log.cpp
-build obj/metron/core/Platform.o      : compile metron/core/Platform.cpp
-build obj/metron/core/Result.o        : compile metron/core/Result.cpp
-build obj/metron/core/StateStack.o    : compile metron/core/StateStack.cpp
-build obj/metron/core/Tests.o         : compile metron/core/Tests.cpp
-build obj/metron/core/Types.o         : compile metron/core/Types.cpp
-build obj/metron/core/Utils.o         : compile metron/core/Utils.cpp
+build obj/metrolib/core/Blobs.o         : compile metrolib/core/Blobs.cpp
+build obj/metrolib/core/Check.o         : compile metrolib/core/Check.cpp
+build obj/metrolib/core/Constants.o     : compile metrolib/core/Constants.cpp
+build obj/metrolib/core/Dumper.o        : compile metrolib/core/Dumper.cpp
+build obj/metrolib/core/Err.o           : compile metrolib/core/Err.cpp
+build obj/metrolib/core/FieldInfo.o     : compile metrolib/core/FieldInfo.cpp
+build obj/metrolib/core/File.o          : compile metrolib/core/File.cpp
+build obj/metrolib/core/Log.o           : compile metrolib/core/Log.cpp
+build obj/metrolib/core/Platform.o      : compile metrolib/core/Platform.cpp
+build obj/metrolib/core/Result.o        : compile metrolib/core/Result.cpp
+build obj/metrolib/core/StateStack.o    : compile metrolib/core/StateStack.cpp
+build obj/metrolib/core/Tests.o         : compile metrolib/core/Tests.cpp
+build obj/metrolib/core/Types.o         : compile metrolib/core/Types.cpp
+build obj/metrolib/core/Utils.o         : compile metrolib/core/Utils.cpp
 
-build bin/metron/libcore.a : lib $
-  obj/metron/core/Blobs.o $
-  obj/metron/core/Check.o $
-  obj/metron/core/Constants.o $
-  obj/metron/core/Dumper.o $
-  obj/metron/core/Err.o $
-  obj/metron/core/FieldInfo.o $
-  obj/metron/core/File.o $
-  obj/metron/core/Log.o $
-  obj/metron/core/Platform.o $
-  obj/metron/core/Result.o $
-  obj/metron/core/StateStack.o $
-  obj/metron/core/Tests.o $
-  obj/metron/core/Types.o $
-  obj/metron/core/Utils.o
+build bin/metrolib/libcore.a : lib $
+  obj/metrolib/core/Blobs.o $
+  obj/metrolib/core/Check.o $
+  obj/metrolib/core/Constants.o $
+  obj/metrolib/core/Dumper.o $
+  obj/metrolib/core/Err.o $
+  obj/metrolib/core/FieldInfo.o $
+  obj/metrolib/core/File.o $
+  obj/metrolib/core/Log.o $
+  obj/metrolib/core/Platform.o $
+  obj/metrolib/core/Result.o $
+  obj/metrolib/core/StateStack.o $
+  obj/metrolib/core/Tests.o $
+  obj/metrolib/core/Types.o $
+  obj/metrolib/core/Utils.o
 
 ################################################################################
 # GameboyLib
 
-build obj/metron/gameboy/Assembler.o    : compile metron/gameboy/Assembler.cpp
-build obj/metron/gameboy/GBBlitter.o    : compile metron/gameboy/GBBlitter.cpp
-build obj/metron/gameboy/GBConstants.o  : compile metron/gameboy/GBConstants.cpp
-build obj/metron/gameboy/MetroBoyCPU.o  : compile metron/gameboy/MetroBoyCPU.cpp
+build obj/metrolib/gameboy/Assembler.o    : compile metrolib/gameboy/Assembler.cpp
+build obj/metrolib/gameboy/GBBlitter.o    : compile metrolib/gameboy/GBBlitter.cpp
+build obj/metrolib/gameboy/GBConstants.o  : compile metrolib/gameboy/GBConstants.cpp
+build obj/metrolib/gameboy/MetroBoyCPU.o  : compile metrolib/gameboy/MetroBoyCPU.cpp
 
-build bin/metron/libgameboy.a : lib $
-  obj/metron/gameboy/Assembler.o $
-  obj/metron/gameboy/GBBlitter.o $
-  obj/metron/gameboy/GBConstants.o $
-  obj/metron/gameboy/MetroBoyCPU.o
+build bin/metrolib/libgameboy.a : lib $
+  obj/metrolib/gameboy/Assembler.o $
+  obj/metrolib/gameboy/GBBlitter.o $
+  obj/metrolib/gameboy/GBConstants.o $
+  obj/metrolib/gameboy/MetroBoyCPU.o
 
 ################################################################################
 # glad
 
-build obj/metron/glad/glad.o : compile metron/glad/glad.c
-  includes=-Imetron
+build obj/metrolib/glad/glad.o : compile metrolib/glad/glad.c
+  includes=-Imetrolib
 
-build bin/metron/libglad.a   : lib obj/metron/glad/glad.o
+build bin/metrolib/libglad.a   : lib obj/metrolib/glad/glad.o
