@@ -1,0 +1,21 @@
+include rules.ninja
+
+build_mode  = -DCONFIG_DEBUG -O0
+default_gpp = g++ -g -MMD -std=gnu++2a -Wunused-variable -Werror
+default_inc = -I. -Isymlinks
+
+################################################################################
+# Other libs
+
+build obj/imgui/imgui.o         : compile_cpp symlinks/imgui/imgui.cpp
+build obj/imgui/imgui_demo.o    : compile_cpp symlinks/imgui/imgui_demo.cpp
+build obj/imgui/imgui_draw.o    : compile_cpp symlinks/imgui/imgui_draw.cpp
+build obj/imgui/imgui_tables.o  : compile_cpp symlinks/imgui/imgui_tables.cpp
+build obj/imgui/imgui_widgets.o : compile_cpp symlinks/imgui/imgui_widgets.cpp
+
+build bin/imgui/libimgui.a : lib $
+  obj/imgui/imgui.o $
+  obj/imgui/imgui_demo.o $
+  obj/imgui/imgui_draw.o $
+  obj/imgui/imgui_tables.o $
+  obj/imgui/imgui_widgets.o
