@@ -55,9 +55,13 @@ struct TestResults {
 #define TEST_INIT(...) TestResults results; do { LOG("\r"); LOG_B("%s: ", __FUNCTION__); LOG_B("" __VA_ARGS__); LOG_INDENT(); } while(0);
 #define TEST_DONE(...)                      do { if (results.check_fail) { results.test_fail++; LOG("\r"); LOG_R("%s: %d failures\n", __FUNCTION__, results.test_fail); } else { results.test_pass++; LOG_G("" __VA_ARGS__); } LOG("\r"); LOG_DEDENT(); return results; } while(0);
 
+#define TEST_FAIL(...) { results.check_fail++; LOG("\r"); LOG_R("TEST_FAIL @ %s/%s:%d : ", __FILE__, __FUNCTION__, __LINE__); LOG_R("" __VA_ARGS__); TEST_DONE(); }
+
+// Halts test if check fails.
 #define ASSERT_EQ(A, B, ...) if ((A) == (B)) { results.check_pass++; } else { results.check_fail++; LOG("\r"); LOG_R("ASSERT_EQ fail: want %02x, got %02x @ %s/%s:%d : ", A, B, __FILE__, __FUNCTION__, __LINE__); LOG_R("" __VA_ARGS__); TEST_DONE(); }
 #define ASSERT_NE(A, B, ...) if ((A) != (B)) { results.check_pass++; } else { results.check_fail++; LOG("\r"); LOG_R("ASSERT_NE fail: want %02x, got %02x @ %s/%s:%d : ", A, B, __FILE__, __FUNCTION__, __LINE__); LOG_R("" __VA_ARGS__); TEST_DONE(); }
 
+// Logs a failure if check fails but does not halt test.
 #define EXPECT_EQ(A, B, ...) if ((A) == (B)) { results.check_pass++; } else { results.check_fail++; LOG("\r"); LOG_Y("EXPECT_EQ fail: want %02x, got %02x @ %s/%s:%d : ", A, B, __FILE__, __FUNCTION__, __LINE__); LOG_Y("" __VA_ARGS__); }
 #define EXPECT_NE(A, B, ...) if ((A) != (B)) { results.check_pass++; } else { results.check_fail++; LOG("\r"); LOG_Y("EXPECT_NE fail: want %02x, got %02x @ %s/%s:%d : ", A, B, __FILE__, __FUNCTION__, __LINE__); LOG_Y("" __VA_ARGS__); }
 

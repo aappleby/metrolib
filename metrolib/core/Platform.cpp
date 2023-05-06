@@ -19,21 +19,10 @@
 //#include <execinfo.h>
 #include <sys/stat.h>
 #include <unistd.h>
-//#include <csignal>
+#include <csignal>
 #endif
 
 // KCOV_OFF
-
-uint64_t timestamp() {
-  timespec ts;
-  (void)timespec_get(&ts, TIME_UTC);
-
-  //printf("%08x\n", ts.tv_sec);
-  //printf("%08x\n", ts.tv_nsec);
-
-  uint64_t now = ts.tv_sec * 1000000000ull + ts.tv_nsec;
-  return now;
-}
 
 //------------------------------------------------------------------------------
 
@@ -98,7 +87,7 @@ void print_stacktrace(void) {
 
 void debugbreak() {
   print_stacktrace();
-  exit(-1);
+  raise(SIGTRAP);
 }
 
 #endif
@@ -111,9 +100,16 @@ void debugbreak() {
 #include <Windows.h>
 #include <direct.h>
 
-void debugbreak() { __debugbreak(); }
-int plat_mkdir(const char* path) { return _mkdir(path); }
-void print_stacktrace() {}
+void debugbreak() {
+  __debugbreak();
+}
+
+int plat_mkdir(const char* path) {
+  return _mkdir(path);
+}
+
+void print_stacktrace() {
+}
 
 #endif
 

@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "metrolib/core/Utils.h"
+
 //-----------------------------------------------------------------------------
 // TinyLog - simple console log with color coding, indentation, and timestamps
 
@@ -13,7 +15,6 @@ struct TinyLog {
   bool _mono = false;
   int _indentation = 0;
   bool _start_line = true;
-  uint64_t _time_origin = 0;
 
   static TinyLog& get() {
     static TinyLog log;
@@ -33,7 +34,6 @@ struct TinyLog {
     _muted = 0;
     _indentation = 0;
     _start_line = true;
-    _time_origin = 0;
   }
 
   void set_color(uint32_t color) {
@@ -48,15 +48,6 @@ struct TinyLog {
       }
       _color = color;
     }
-  }
-
-
-  double timestamp() {
-    timespec ts;
-    (void)timespec_get(&ts, TIME_UTC);
-    uint64_t now = ts.tv_sec * 1000000000ull + ts.tv_nsec;
-    if (!_time_origin) _time_origin = now;
-    return double(now - _time_origin) / 1.0e9;
   }
 
   void print_char(FILE* file, int c, uint32_t color) {
