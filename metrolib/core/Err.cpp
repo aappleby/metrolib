@@ -4,6 +4,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <assert.h>
 
 // KCOV_OFF
 
@@ -32,6 +33,7 @@ ErrType::ErrType(SEV_TYPE v, const char* file, int line, const char* func,
     TinyLog::get().print(stdout, 0x008080FF, "  ");
     TinyLog::get().vprint(stdout, 0x008080FF, format, args);
     TinyLog::get().print(stdout, 0x008080FF, "\n");
+    assert(false);
   }
 
   va_end(args);
