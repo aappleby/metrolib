@@ -180,6 +180,9 @@ int AppHost::app_main(int, char**) {
       delta = new_now - old_now;
     }
 
+    // Hax, force frame delta to be exactly the refresh interval
+    delta = 1.0 / float(display_mode.refresh_rate);
+
     io.DeltaTime = (float)delta;
 
     //----------------------------------------

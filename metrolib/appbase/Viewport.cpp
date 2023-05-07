@@ -14,7 +14,11 @@ double ease(double a, double b, double delta) {
   if (a == b) return b;
   double t = 1.0 - pow(0.1, delta / 0.08);
   double c = a + (b - a) * t;
-  return ((float)c == (float)a) ? b : c;
+
+  // We want to snap to the endpoint if our easing doesn't get us closer to it.
+  // We were checking float(c) == float(a), but that causes precision issues
+  // when we're easing between viewports far from the origin.
+  return (c == a) ? b : c;
 }
 
 dvec2 ease(dvec2 a, dvec2 b, double delta) {
