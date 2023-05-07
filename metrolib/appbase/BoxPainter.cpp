@@ -4,7 +4,6 @@
 #include "metrolib/core/Check.h"
 #include "metrolib/glad/glad.h"
 
-#include <stdio.h>
 #include <SDL2/SDL.h>
 
 //-----------------------------------------------------------------------------
@@ -21,29 +20,22 @@ float remap(float x, float a1, float a2, float b1, float b2) {
   return x;
 }
 
+uniform bool use_tex;
+
 #ifdef _VERTEX_
 
-layout(location = 0) in vec4 box_pos;
-layout(location = 1) in vec4 box_col;
+layout(location = 0) in vec4  box_pos;
+layout(location = 1) in ivec4 box_col;
 
-out vec2 box_tc;
+out vec2 frag_tex;
 out vec4 frag_col;
 
 void main() {
   float corner_x = float((gl_VertexID >> 0) & 1);
   float corner_y = float((gl_VertexID >> 1) & 1);
 
-  int symbol = int(box_col.a);
-
-  box_tc = vec2(corner_x, corner_y);
-
-  box_tc.y *= 1.0 / 32.0;
-
-  box_tc.y += (1.0 / 32.0) * float(symbol);
-
   float quad_x = box_pos.x + box_pos.z * corner_x;
   float quad_y = box_pos.y + box_pos.w * corner_y;
-
   quad_x = quad_x * origin.z + origin.x;
   quad_y = quad_y * origin.w + origin.y;
 
@@ -51,21 +43,31 @@ void main() {
                      remap(quad_y, viewport.y, viewport.w,  1.0, -1.0),
                      0.0,
                      1.0);
-  frag_col = box_col * (1.0 / 255.0);
+
+  float glyph_x = float((box_col.a >> 0) & 0xF);
+  float glyph_y = float((box_col.a >> 4) & 0xF);
+  frag_tex = vec2(glyph_x + corner_x, glyph_y + corner_y) * (1.0 / 16.0);
+
+  frag_col = vec4(box_col) * (1.0 / 255.0);
 }
 
 #else
 
-in vec2 box_tc;
-in vec4 frag_col;
+in vec2  frag_tex;
+in vec4  frag_col;
 out vec4 frag_out;
 
+// Texture should be a 16x16 grid of icons
 uniform sampler2D tex;
 
 void main() {
-  frag_out = frag_col;
-  //frag_out = vec4(box_tc, 0.0, 1.0);
-  //frag_out = vec4(texture(tex, box_tc).rrr, 1.0) * vec4(frag_col.rgb, 1.0);
+  //frag_out = vec4(frag_tex, 0.0, 1.0);
+  if (use_tex) {
+    frag_out = vec4(texture(tex, frag_tex).rrr, 1.0) * vec4(frag_col.rgb, 1.0);
+  }
+  else {
+    frag_out = vec4(frag_col.rgb, 1.0);
+  }
 }
 
 #endif
@@ -74,8 +76,6 @@ void main() {
 static uint32_t box_prog = 0;
 
 //-----------------------------------------------------------------------------
-
-//extern const char* gate_pix;
 
 void BoxPainter::init() {
   if (!box_prog) {
@@ -89,33 +89,17 @@ void BoxPainter::init() {
   box_vbo = create_vbo(max_box_bytes, nullptr);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(0, 4, GL_FLOAT,         GL_FALSE, 20, 0);
-  glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_FALSE, 20, (void*)16);
-  glVertexAttribDivisor(0, 1);
-  glVertexAttribDivisor(1, 1);
+  glVertexAttribPointer (0, 4, GL_FLOAT, GL_FALSE, 20, 0);
+  glVertexAttribIPointer(1, 4, GL_UNSIGNED_BYTE, 20, (void*)16);
+  glVertexAttribDivisor (0, 1);
+  glVertexAttribDivisor (1, 1);
 
   box_ubo = create_ubo();
-
-  uint8_t* dst_pix = new uint8_t[16 * 512];
-  for (int i = 0; i < 16 * 512; i++) {
-    //uint8_t c = gate_pix[i];
-    uint8_t c = '+';
-    if      (c == '#') c = 0x00;
-    else if (c == '=') c = 0x80;
-    else               c = 0xFF;
-    dst_pix[i] = c;
-  }
-  gate_tex = create_texture_u8(16, 512, dst_pix, false);
-  delete [] dst_pix;
 }
 
 //-----------------------------------------------------------------------------
 
 void BoxPainter::push_corner_corner(float ax, float ay, float bx, float by, uint32_t col) {
-
-  //col &= 0x00FFFFFF;
-  //col |= rand() << 24;
-
   box_data_f32[box_cursor++] = ax;
   box_data_f32[box_cursor++] = ay;
   box_data_f32[box_cursor++] = bx - ax;
@@ -126,10 +110,6 @@ void BoxPainter::push_corner_corner(float ax, float ay, float bx, float by, uint
 }
 
 void BoxPainter::push_corner_size(float x, float y, float w, float h, uint32_t col) {
-  //col &= 0x00FFFFFF;
-  //col |= rand() << 24;
-
-
   box_data_f32[box_cursor++] = x;
   box_data_f32[box_cursor++] = y;
   box_data_f32[box_cursor++] = w;
@@ -162,7 +142,13 @@ void BoxPainter::render(Viewport view, dvec2 screen_size, double x, double y, fl
 
   bind_vao(box_vao);
 
-  bind_texture(box_prog, "tex", 0, gate_tex);
+  if (box_tex) {
+    glUniform1i(glGetUniformLocation(box_prog, "use_tex"), 1);
+    bind_texture(box_prog, "tex", 0, box_tex);
+  }
+  else {
+    glUniform1i(glGetUniformLocation(box_prog, "use_tex"), 0);
+  }
 
   glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, box_count);
 

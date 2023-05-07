@@ -13,6 +13,9 @@ public:
 
   void init();
 
+  // If a texture is set, the alpha component of the color is used as an 8-bit
+  // glyph index.
+
   void push_corner_corner(float ax, float ay, float bx, float by, uint32_t color);
   void push_corner_size  (float x, float y, float w, float h, uint32_t color);
 
@@ -30,9 +33,13 @@ public:
 
   void render(Viewport view, dvec2 screen_size, double x, double y, float scale = 1.0f);
 
+  // Texture should be a 16x16 grid of icons
+  void set_tex(int tex) {
+    box_tex = tex;
+  }
+
 private:
 
-  int gate_tex;
 
   const int max_box_bytes = 65536 * 16;
 
@@ -42,6 +49,7 @@ private:
   uint32_t* box_data_u32 = nullptr;
   float*    box_data_f32 = nullptr;
   int       box_cursor = 0;
+  int       box_tex = 0;
 
   const int bytes_per_box = 20;
 
