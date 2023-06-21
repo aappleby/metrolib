@@ -18,21 +18,26 @@ ErrType::ErrType(SEV_TYPE v, const char* file, int line, const char* func,
   va_list args;
   va_start(args, format);
 
+  auto& log = TinyLog::get();
+
   if (v == SEV_TYPE::INFO) {
     // KCOV_OFF
-    TinyLog::get().print(stdout, 0x0080FF80, "Info @ %s : %d : %s\n", file, line, func);
-    TinyLog::get().print(stdout, 0x0080FF80, "  ");
-    TinyLog::get().print(stdout, 0x0080FF80, format, args);
+    log.color(0x0080FF80);
+    log.print("Info @ %s : %d : %s\n", file, line, func);
+    log.print("  ");
+    log.print(format, args);
     // KCOV_ON
   } else if (v == SEV_TYPE::WARN) {
-    TinyLog::get().print(stdout, 0x0080FFFF, "Warning @ %s : %d : %s\n", file, line, func);
-    TinyLog::get().print(stdout, 0x0080FFFF, "  ");
-    TinyLog::get().print(stdout, 0x0080FFFF, format, args);
+    log.color(0x0080FFFF);
+    log.print("Warning @ %s : %d : %s\n", file, line, func);
+    log.print("  ");
+    log.print(format, args);
   } else if (v == SEV_TYPE::ERR) {
-    TinyLog::get().print(stdout, 0x008080FF, "Error @ %s : %d : %s\n", file, line, func);
-    TinyLog::get().print(stdout, 0x008080FF, "  ");
-    TinyLog::get().vprint(stdout, 0x008080FF, format, args);
-    TinyLog::get().print(stdout, 0x008080FF, "\n");
+    log.color(0x008080FF);
+    log.print("Error @ %s : %d : %s\n", file, line, func);
+    log.print("  ");
+    log.vprint(format, args);
+    log.print("\n");
     assert(false);
   }
 

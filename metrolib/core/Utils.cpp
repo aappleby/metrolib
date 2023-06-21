@@ -43,8 +43,10 @@ double timestamp() {
   return double(now - _time_origin) / 1.0e9;
 }
 
+/*
 static struct autorun {
   autorun() {
     timestamp();
   }
 } _autorun;
+*/

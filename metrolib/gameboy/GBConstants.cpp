@@ -3,7 +3,7 @@
 #include <string.h>
 
 #if 0
-
+/*
 	LD SP,$fffe		; $0000  Setup Stack
 
 	XOR A			; $0003  Zero the memory from $8000-$9FFF (VRAM)
@@ -175,7 +175,7 @@ Addr_00F4:
 
 	LD A,$01		; $00fc
 	LD ($FF50),A	; $00fe	;turn off DMG rom
-
+*/
 #endif
 
 //-----------------------------------------------------------------------------
