@@ -83,6 +83,8 @@ struct TinyLog {
   }
 };
 
+#define LOG_SPAN(A)   TinyLog::get().write(A.begin, A.end - A.begin)
+
 #define LOG(...)      TinyLog::get().color(0x00000000).print(__VA_ARGS__)
 #define LOG_C(c, ...) TinyLog::get().color(c         ).print(__VA_ARGS__)
 #define LOG_R(...)    TinyLog::get().color(0x008080FF).print(__VA_ARGS__)
