@@ -38,7 +38,13 @@ ErrType::ErrType(SEV_TYPE v, const char* file, int line, const char* func,
     log.print("  ");
     log.vprint(format, args);
     log.print("\n");
-    assert(false);
+    /*
+    TinyLog::get().print(stdout, 0x008080FF, "Error @ %s : %d : %s\n", file, line, func);
+    TinyLog::get().print(stdout, 0x008080FF, "  ");
+    TinyLog::get().vprint(stdout, 0x008080FF, format, args);
+    TinyLog::get().print(stdout, 0x008080FF, "\n");
+    //assert(false);
+    */
   }
 
   va_end(args);
