@@ -28,6 +28,13 @@ struct TinyLog {
   void mono()   { use_color = false; }
   void color()  { use_color = true; }
 
+  void reset() {
+    current_color = 0;
+    muted = 0;
+    indentation = 0;
+    start_line = true;
+  }
+
   TinyLog& color(uint32_t color) {
     this->current_color = color;
     if (color && use_color) {
@@ -63,6 +70,13 @@ struct TinyLog {
     }
   }
 
+  void print_buffer(uint32_t _color, const char* buffer, int len) {
+    color(_color);
+    for (int i = 0; i < len; i++) {
+      put(buffer[i]);
+    }
+  }
+
   void vprint(const char* format, va_list args) {
     va_list args2;
     va_copy(args2, args);
@@ -81,11 +95,18 @@ struct TinyLog {
     vprint(format, args);
     va_end(args);
   }
+
+  void put_range(const char* a, const char* b) {
+    while(a != b) {
+      put(*a++);
+    }
+  }
 };
 
 #define LOG_SPAN(A)   TinyLog::get().write(A.begin, A.end - A.begin)
 
 #define LOG(...)      TinyLog::get().color(0x00000000).print(__VA_ARGS__)
+#define LOG_RANGE(a)  TinyLog::get().put_range(a.start, a.end)
 #define LOG_C(c, ...) TinyLog::get().color(c         ).print(__VA_ARGS__)
 #define LOG_R(...)    TinyLog::get().color(0x008080FF).print(__VA_ARGS__)
 #define LOG_G(...)    TinyLog::get().color(0x0080FF80).print(__VA_ARGS__)
