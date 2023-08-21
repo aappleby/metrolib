@@ -106,36 +106,36 @@ struct TinyLog {
 
 #define LOG_SPAN(A)   TinyLog::get().write(A.begin, A.end - A.begin)
 
-// constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
-// constexpr uint32_t COL_VIOLET  = 0x00FF7FBF;
-// constexpr uint32_t COL_MAGENTA = 0x00FF7FFF;
-// constexpr uint32_t COL_PINK    = 0x00BF7FFF;
-// constexpr uint32_t COL_RED     = 0x007F7FFF;
-// constexpr uint32_t COL_ORANGE  = 0x007FBFFF;
-// constexpr uint32_t COL_YELLOW  = 0x007FFFFF;
-// constexpr uint32_t COL_LIME    = 0x007FFFBF;
-// constexpr uint32_t COL_GREEN   = 0x007FFF7F;
-// constexpr uint32_t COL_AQUA    = 0x00BFFF7F;
-// constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
-// constexpr uint32_t COL_SKY     = 0x00FFBF7F;
+constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
+constexpr uint32_t COL_SKY     = 0x00FFBF7F;
+constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
+constexpr uint32_t COL_AQUA    = 0x00BFFF7F;
+constexpr uint32_t COL_GREEN   = 0x007FFF7F;
+constexpr uint32_t COL_LIME    = 0x007FFFBF;
+constexpr uint32_t COL_YELLOW  = 0x007FFFFF;
+constexpr uint32_t COL_ORANGE  = 0x007FBFFF;
+constexpr uint32_t COL_RED     = 0x007F7FFF;
+constexpr uint32_t COL_PINK    = 0x00BF7FFF;
+constexpr uint32_t COL_MAGENTA = 0x00FF7FFF;
+constexpr uint32_t COL_VIOLET  = 0x00FF7FBF;
 
 #define LOG(...)      TinyLog::get().color(0x00000000).print(__VA_ARGS__)
 #define LOG_RANGE(a)  TinyLog::get().put_range(a.start, a.end)
 #define LOG_C(c, ...) TinyLog::get().color(c         ).print(__VA_ARGS__)
 #define LOG_W(...)    TinyLog::get().color(0x00FFFFFF).print(__VA_ARGS__)
 
-#define LOG_B(...)    TinyLog::get().color(0x00FF7F7F).print(__VA_ARGS__) /*COL_BLUE   */
-#define LOG_V(...)    TinyLog::get().color(0x00FF7FBF).print(__VA_ARGS__) /*COL_VIOLET */
-#define LOG_M(...)    TinyLog::get().color(0x00FF7FFF).print(__VA_ARGS__) /*COL_MAGENTA*/
-#define LOG_P(...)    TinyLog::get().color(0x00BF7FFF).print(__VA_ARGS__) /*COL_PINK   */
-#define LOG_R(...)    TinyLog::get().color(0x007F7FFF).print(__VA_ARGS__) /*COL_RED    */
-#define LOG_O(...)    TinyLog::get().color(0x007FBFFF).print(__VA_ARGS__) /*COL_ORANGE */
-#define LOG_Y(...)    TinyLog::get().color(0x007FFFFF).print(__VA_ARGS__) /*COL_YELLOW */
-#define LOG_L(...)    TinyLog::get().color(0x007FFFBF).print(__VA_ARGS__) /*COL_LIME   */
-#define LOG_G(...)    TinyLog::get().color(0x007FFF7F).print(__VA_ARGS__) /*COL_GREEN  */
-#define LOG_A(...)    TinyLog::get().color(0x00BFFF7F).print(__VA_ARGS__) /*COL_AQUA   */
-#define LOG_T(...)    TinyLog::get().color(0x00FFFF7F).print(__VA_ARGS__) /*COL_TEAL   */
-#define LOG_S(...)    TinyLog::get().color(0x00FFBF7F).print(__VA_ARGS__) /*COL_SKY    */
+#define LOG_B(...)    TinyLog::get().color(COL_BLUE   ).print(__VA_ARGS__)
+#define LOG_S(...)    TinyLog::get().color(COL_SKY    ).print(__VA_ARGS__)
+#define LOG_T(...)    TinyLog::get().color(COL_TEAL   ).print(__VA_ARGS__)
+#define LOG_A(...)    TinyLog::get().color(COL_AQUA   ).print(__VA_ARGS__)
+#define LOG_G(...)    TinyLog::get().color(COL_GREEN  ).print(__VA_ARGS__)
+#define LOG_L(...)    TinyLog::get().color(COL_LIME   ).print(__VA_ARGS__)
+#define LOG_Y(...)    TinyLog::get().color(COL_YELLOW ).print(__VA_ARGS__)
+#define LOG_O(...)    TinyLog::get().color(COL_ORANGE ).print(__VA_ARGS__)
+#define LOG_R(...)    TinyLog::get().color(COL_RED    ).print(__VA_ARGS__)
+#define LOG_P(...)    TinyLog::get().color(COL_PINK   ).print(__VA_ARGS__)
+#define LOG_M(...)    TinyLog::get().color(COL_MAGENTA).print(__VA_ARGS__)
+#define LOG_V(...)    TinyLog::get().color(COL_VIOLET ).print(__VA_ARGS__)
 
 #define LOG_INDENT()  TinyLog::get().indent()
 #define LOG_DEDENT()  TinyLog::get().dedent()
