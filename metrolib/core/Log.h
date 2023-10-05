@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "metrolib/core/Utils.h"
+#include "metrolib/core/Constants.h"
 
 //-----------------------------------------------------------------------------
 // TinyLog - simple console log with color coding, indentation, and timestamps
@@ -105,19 +106,6 @@ struct TinyLog {
 };
 
 #define LOG_SPAN(A)   TinyLog::get().write(A.begin, A.end - A.begin)
-
-constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
-constexpr uint32_t COL_SKY     = 0x00FFBF7F;
-constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
-constexpr uint32_t COL_AQUA    = 0x00BFFF7F;
-constexpr uint32_t COL_GREEN   = 0x007FFF7F;
-constexpr uint32_t COL_LIME    = 0x007FFFBF;
-constexpr uint32_t COL_YELLOW  = 0x007FFFFF;
-constexpr uint32_t COL_ORANGE  = 0x007FBFFF;
-constexpr uint32_t COL_RED     = 0x007F7FFF;
-constexpr uint32_t COL_PINK    = 0x00BF7FFF;
-constexpr uint32_t COL_MAGENTA = 0x00FF7FFF;
-constexpr uint32_t COL_VIOLET  = 0x00FF7FBF;
 
 #define LOG(...)      TinyLog::get().color(0x00000000).print(__VA_ARGS__)
 #define LOG_RANGE(a)  TinyLog::get().put_range(a.start, a.end)

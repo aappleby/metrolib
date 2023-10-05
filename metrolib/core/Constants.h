@@ -40,42 +40,57 @@ inline const char* byte_to_bits(uint8_t x) {
   return tab[x];
 }
 
-const uint32_t COL_DARK_GREY    = 0x00444444;
-const uint32_t COL_DARK_RED     = 0x00444488;
-const uint32_t COL_MID_RED      = 0x004444CC;
+#if 0
+constexpr uint32_t COL_DARK_GREY    = 0x00444444;
+constexpr uint32_t COL_DARK_RED     = 0x00444488;
+constexpr uint32_t COL_MID_RED      = 0x004444CC;
 
-const uint32_t COL_DARK_GREEN   = 0x00448844;
-const uint32_t COL_PALE_BROWN   = 0x005DA2A2;
-const uint32_t COL_ORANGE       = 0x004488CC;
+constexpr uint32_t COL_DARK_GREEN   = 0x00448844;
+constexpr uint32_t COL_PALE_BROWN   = 0x005DA2A2;
+constexpr uint32_t COL_ORANGE       = 0x004488CC;
 
-const uint32_t COL_MID_GREEN    = 0x0044CC44;
-const uint32_t COL_LIME         = 0x0044CC88;
-const uint32_t COL_MID_YELLOW   = 0x0066CCCC;
+constexpr uint32_t COL_MID_GREEN    = 0x0044CC44;
+constexpr uint32_t COL_LIME         = 0x0044CC88;
+constexpr uint32_t COL_MID_YELLOW   = 0x0066CCCC;
 
-const uint32_t COL_DARK_BLUE    = 0x00884444;
-const uint32_t COL_DARK_MAGENTA = 0x00884488;
-const uint32_t COL_ROSE         = 0x008844CC;
+constexpr uint32_t COL_DARK_BLUE    = 0x00884444;
+constexpr uint32_t COL_DARK_MAGENTA = 0x00884488;
+constexpr uint32_t COL_ROSE         = 0x008844CC;
 
-const uint32_t COL_DARK_TEAL    = 0x00888844;
-const uint32_t COL_MID_GREY     = 0x00999999;
-const uint32_t COL_PALE_RED     = 0x008888CC;
+constexpr uint32_t COL_DARK_TEAL    = 0x00888844;
+constexpr uint32_t COL_MID_GREY     = 0x00999999;
+constexpr uint32_t COL_PALE_RED     = 0x008888CC;
 
-const uint32_t COL_MINT         = 0x0088CC44;
-const uint32_t COL_PALE_GREEN   = 0x0088CC88;
-const uint32_t COL_PALE_YELLOW  = 0x0088CCCC;
+constexpr uint32_t COL_MINT         = 0x0088CC44;
+constexpr uint32_t COL_PALE_GREEN   = 0x0088CC88;
+constexpr uint32_t COL_PALE_YELLOW  = 0x0088CCCC;
 
-const uint32_t COL_MID_BLUE     = 0x00CC4444;
-const uint32_t COL_VIOLET       = 0x00CC4488;
-const uint32_t COL_MID_MAGENTA  = 0x00CC44CC;
+constexpr uint32_t COL_MID_BLUE     = 0x00CC4444;
+constexpr uint32_t COL_VIOLET       = 0x00CC4488;
+constexpr uint32_t COL_MID_MAGENTA  = 0x00CC44CC;
 
-const uint32_t COL_AZURE        = 0x00CC8844;
-const uint32_t COL_PALE_BLUE    = 0x00CC8888;
-const uint32_t COL_PALE_MAGENTA = 0x00CC88CC;
+constexpr uint32_t COL_AZURE        = 0x00CC8844;
+constexpr uint32_t COL_PALE_BLUE    = 0x00CC8888;
+constexpr uint32_t COL_PALE_MAGENTA = 0x00CC88CC;
 
-const uint32_t COL_MID_TEAL     = 0x00CCCC44;
-const uint32_t COL_PALE_TEAL    = 0x00CCCC88;
-const uint32_t COL_PALE_GREY    = 0x00CCCCCC;
+constexpr uint32_t COL_MID_TEAL     = 0x00CCCC44;
+constexpr uint32_t COL_PALE_TEAL    = 0x00CCCC88;
+constexpr uint32_t COL_PALE_GREY    = 0x00CCCCCC;
+#endif
 
-const uint32_t COL_HINT1 = 0x00111111;
-const uint32_t COL_HINT2 = 0x00222222;
-const uint32_t COL_HINT3 = 0x00333333;
+constexpr uint32_t COL_HINT1 = 0x00111111;
+constexpr uint32_t COL_HINT2 = 0x00222222;
+constexpr uint32_t COL_HINT3 = 0x00333333;
+
+constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
+constexpr uint32_t COL_SKY     = 0x00FFBF7F;
+constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
+constexpr uint32_t COL_AQUA    = 0x00BFFF7F;
+constexpr uint32_t COL_GREEN   = 0x007FFF7F;
+constexpr uint32_t COL_LIME    = 0x007FFFBF;
+constexpr uint32_t COL_YELLOW  = 0x007FFFFF;
+constexpr uint32_t COL_ORANGE  = 0x007FBFFF;
+constexpr uint32_t COL_RED     = 0x007F7FFF;
+constexpr uint32_t COL_PINK    = 0x00BF7FFF;
+constexpr uint32_t COL_MAGENTA = 0x00FF7FFF;
+constexpr uint32_t COL_VIOLET  = 0x00FF7FBF;
