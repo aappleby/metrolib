@@ -82,6 +82,7 @@ constexpr uint32_t COL_HINT1 = 0x00111111;
 constexpr uint32_t COL_HINT2 = 0x00222222;
 constexpr uint32_t COL_HINT3 = 0x00333333;
 
+// 12 half-saturated colors evenly spaced around the HSV wheel
 constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
 constexpr uint32_t COL_SKY     = 0x00FFBF7F;
 constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
