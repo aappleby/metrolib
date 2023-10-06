@@ -1,0 +1,8 @@
+################################################################################
+
+#build_mode = -DCONFIG_RELEASE -O3
+build_mode = -DCONFIG_DEBUG -O0
+
+default_gcc      = gcc -g -MMD -Wunused-variable -Werror
+default_gpp      = g++ -g -MMD -std=gnu++2a -Wunused-variable -Werror
+default_includes = -I. -Isymlinks

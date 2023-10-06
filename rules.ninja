@@ -1,12 +1,12 @@
 ################################################################################
 
-rule compile
-  command = ${default_gpp} ${build_mode} ${default_inc} ${includes} -MF ${out}.d -c ${in} -o ${out}
+rule compile_c
+  command = ${default_gcc} ${build_mode} ${default_includes} ${includes} -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule compile_cpp
-  command = ${default_gpp} ${build_mode} ${default_inc} ${includes} -MF ${out}.d -c ${in} -o ${out}
+  command = ${default_gpp} ${build_mode} ${default_includes} ${includes} -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
