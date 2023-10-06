@@ -1,7 +1,7 @@
 #include "metrolib/appbase/Blitter.h"
 
 #include "metrolib/appbase/GLBase.h"
-#include "metrolib/glad/glad.h"
+#include "glad/glad.h"
 
 #include "glm/glm/glm.hpp"
 

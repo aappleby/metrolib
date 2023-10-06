@@ -92,11 +92,3 @@ build bin/metrolib/libgameboy.a : lib $
   obj/metrolib/gameboy/GBBlitter.o $
   obj/metrolib/gameboy/GBConstants.o $
   obj/metrolib/gameboy/MetroBoyCPU.o
-
-################################################################################
-# glad
-
-build obj/metrolib/glad/glad.o : compile metrolib/glad/glad.c
-  includes=-Imetrolib
-
-build bin/metrolib/libglad.a   : lib obj/metrolib/glad/glad.o

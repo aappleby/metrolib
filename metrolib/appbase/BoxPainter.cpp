@@ -2,7 +2,7 @@
 
 #include "metrolib/appbase/GLBase.h"
 #include "metrolib/core/Check.h"
-#include "metrolib/glad/glad.h"
+#include "glad/glad.h"
 
 #include <SDL2/SDL.h>
 
