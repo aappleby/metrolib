@@ -1,4 +1,6 @@
-include rules.ninja
+platform=X64
+target=DEBUG
+#target=RELEASE
 include config.ninja
 
 ################################################################################

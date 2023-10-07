@@ -8,7 +8,7 @@
 
 build_mode = /O2 /D CONFIG_RELEASE /D NDEBUG /D _CRT_SECURE_NO_WARNINGS
 #build_mode = /D CONFIG_RELEASE /D _CRT_SECURE_NO_WARNINGS
-#build_mode = /D CONFIG_DEBUG /D _CRT_SECURE_NO_WARNINGS
+#build_mode = /D _CRT_SECURE_NO_WARNINGS
 
 # $(IntDir)vc$(PlatformToolsetVersion).pdb
 

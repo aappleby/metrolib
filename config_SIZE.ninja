@@ -1,0 +1,2 @@
+### -Os needs stripping to minimize size
+#build_mode = -Os -fdata-sections -ffunction-sections -Wl,--gc-sections -Wl,-s

@@ -1,6 +1,6 @@
 include rules.ninja
 
-build_mode       = -DCONFIG_DEBUG -O0
+build_mode       = -O0
 default_gpp      = g++ -g -MMD -std=gnu++2a -Wunused-variable -Werror
 default_includes = -I. -Isymlinks
 

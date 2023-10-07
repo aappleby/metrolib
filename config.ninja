@@ -1,8 +1,16 @@
-################################################################################
+includes = ${includes} -I. 
+includes = ${includes} -Isymlinks
 
-#build_mode = -DCONFIG_RELEASE -O3
-build_mode = -DCONFIG_DEBUG -O0
+opts_c   = ${opts_c} -Wunused-variable
+opts_c   = ${opts_c} -Werror
+opts_c   = ${opts_c} -MMD
 
-default_gcc      = gcc -g -MMD -Wunused-variable -Werror
-default_gpp      = g++ -g -MMD -std=gnu++2a -Wunused-variable -Werror
-default_includes = -I. -Isymlinks
+opts_cpp = ${opts_cpp} -std=gnu++2a
+opts_cpp = ${opts_cpp} -Wunused-variable
+opts_cpp = ${opts_cpp} -Werror
+opts_cpp = ${opts_cpp} -MMD
+
+include config_${platform}.ninja
+include config_${target}.ninja
+
+include rules.ninja
