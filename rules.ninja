@@ -1,14 +1,12 @@
 ################################################################################
 
 rule compile_c
-  #command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -c ${in} -o ${out}
-  command = echo ${defines}
+  command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule compile_cpp
   command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -c ${in} -o ${out}
-  #command = echo ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
