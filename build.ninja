@@ -1,7 +1,11 @@
 platform=X64
 target=DEBUG
 #target=RELEASE
-include config.ninja
+
+include ninja/config_ALL.ninja
+include ninja/config_${platform}.ninja
+include ninja/config_${target}.ninja
+include ninja/rules.ninja
 
 ################################################################################
 # AppLib
@@ -20,7 +24,7 @@ build obj/metrolib/appbase/Terminus.o       : compile_cpp metrolib/appbase/Termi
 build obj/metrolib/appbase/TextPainter.o    : compile_cpp metrolib/appbase/TextPainter.cpp
 build obj/metrolib/appbase/Viewport.o       : compile_cpp metrolib/appbase/Viewport.cpp
 
-build bin/metrolib/libappbase.a : lib $
+build bin/metrolib/libappbase.a : c_library $
   obj/metrolib/appbase/AppHost.o $
   obj/metrolib/appbase/Blitter.o $
   obj/metrolib/appbase/BoxPainter.o $
@@ -38,7 +42,7 @@ build bin/metrolib/libappbase.a : lib $
 # AudioLib
 
 build obj/metrolib/audio/Audio.o : compile_cpp metrolib/audio/Audio.cpp
-build bin/metrolib/libaudio.a    : lib obj/metrolib/audio/Audio.o
+build bin/metrolib/libaudio.a    : c_library obj/metrolib/audio/Audio.o
 
 ################################################################################
 # CoreLib
@@ -58,7 +62,7 @@ build obj/metrolib/core/Tests.o         : compile_cpp metrolib/core/Tests.cpp
 build obj/metrolib/core/Types.o         : compile_cpp metrolib/core/Types.cpp
 build obj/metrolib/core/Utils.o         : compile_cpp metrolib/core/Utils.cpp
 
-build bin/metrolib/libcore.a : lib $
+build bin/metrolib/libcore.a : c_library $
   obj/metrolib/core/Blobs.o $
   obj/metrolib/core/Check.o $
   obj/metrolib/core/Constants.o $
@@ -82,7 +86,7 @@ build obj/metrolib/gameboy/GBBlitter.o    : compile_cpp metrolib/gameboy/GBBlitt
 build obj/metrolib/gameboy/GBConstants.o  : compile_cpp metrolib/gameboy/GBConstants.cpp
 build obj/metrolib/gameboy/MetroBoyCPU.o  : compile_cpp metrolib/gameboy/MetroBoyCPU.cpp
 
-build bin/metrolib/libgameboy.a : lib $
+build bin/metrolib/libgameboy.a : c_library $
   obj/metrolib/gameboy/Assembler.o $
   obj/metrolib/gameboy/GBBlitter.o $
   obj/metrolib/gameboy/GBConstants.o $

@@ -1,0 +1,47 @@
+################################################################################
+# C/C++ rules
+
+rule compile_c
+  command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -c ${in} -o ${out}
+  depfile = ${out}.d
+  deps = gcc
+
+rule compile_cpp
+  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -c ${in} -o ${out}
+  depfile = ${out}.d
+  deps = gcc
+
+rule c_binary
+  command = ${toolchain}-g++ ${opts_ld} ${in} ${libraries} -o ${out}
+
+rule c_library
+  command = ar rcs ${out} ${in}
+
+################################################################################
+# Emscripten rules
+
+################################################################################
+# Generic rules
+
+rule run_command
+  command = $command
+
+################################################################################
+# FPGA synthesis rules
+
+rule verilator
+  command = verilator --public ${includes} --cc ${src_top} -Mdir ${dst_dir}
+
+rule iverilog
+  command = iverilog -g2012 ${defines} ${includes} ${in} -o ${out}
+
+rule yosys
+  command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
+
+rule nextpnr-ice40
+  command = nextpnr-ice40 -q --${chip} --package ${package} --json ${in} --asc ${out} --pcf ${pcf}
+
+rule icepack
+  command = icepack ${in} ${out}
+
+################################################################################
