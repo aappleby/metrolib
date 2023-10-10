@@ -40,17 +40,17 @@ inline const char* byte_to_bits(uint8_t x) {
   return tab[x];
 }
 
-#if 0
+#if 1
 constexpr uint32_t COL_DARK_GREY    = 0x00444444;
 constexpr uint32_t COL_DARK_RED     = 0x00444488;
 constexpr uint32_t COL_MID_RED      = 0x004444CC;
 
 constexpr uint32_t COL_DARK_GREEN   = 0x00448844;
 constexpr uint32_t COL_PALE_BROWN   = 0x005DA2A2;
-constexpr uint32_t COL_ORANGE       = 0x004488CC;
+//constexpr uint32_t COL_ORANGE       = 0x004488CC;
 
 constexpr uint32_t COL_MID_GREEN    = 0x0044CC44;
-constexpr uint32_t COL_LIME         = 0x0044CC88;
+//constexpr uint32_t COL_LIME         = 0x0044CC88;
 constexpr uint32_t COL_MID_YELLOW   = 0x0066CCCC;
 
 constexpr uint32_t COL_DARK_BLUE    = 0x00884444;
@@ -66,10 +66,10 @@ constexpr uint32_t COL_PALE_GREEN   = 0x0088CC88;
 constexpr uint32_t COL_PALE_YELLOW  = 0x0088CCCC;
 
 constexpr uint32_t COL_MID_BLUE     = 0x00CC4444;
-constexpr uint32_t COL_VIOLET       = 0x00CC4488;
+//constexpr uint32_t COL_VIOLET       = 0x00CC4488;
 constexpr uint32_t COL_MID_MAGENTA  = 0x00CC44CC;
 
-constexpr uint32_t COL_AZURE        = 0x00CC8844;
+//constexpr uint32_t COL_AZURE        = 0x00CC8844;
 constexpr uint32_t COL_PALE_BLUE    = 0x00CC8888;
 constexpr uint32_t COL_PALE_MAGENTA = 0x00CC88CC;
 
