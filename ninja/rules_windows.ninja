@@ -1,0 +1,44 @@
+
+rule compile_cpp
+  command = ${default_gpp} ${build_mode} ${default_includes} ${includes} /c ${in} /Fo"${out}"
+  deps = msvc
+
+rule compile_c
+  command = ${default_gcc} ${build_mode} ${default_includes} ${includes} /c ${in} /Fo"${out}"
+  deps = msvc
+
+#rule link
+#  command = link.exe /DEBUG /NOLOGO /MACHINE:X64 /INCREMENTAL:NO /DEBUG /PDB:"${out}.pdb" /OUT:"${out}" ${global_libs} ${in}
+rule link
+  command = link.exe /DEBUG /NOLOGO /MACHINE:X64 /INCREMENTAL:NO /LTCG /OUT:"${out}" ${global_libs} ${in}
+
+rule lib
+  command = Lib.exe /NOLOGO /MACHINE:X64 /OUT:"${out}" ${in}
+
+rule copy
+  command = powershell cp ${in} ${out}
+
+# /Fo"x64\Release\\"   Base dir for output files. Needs trailing slash
+# /Fd"x64\Release\CoreLib.pdb"
+
+# /Z7                 put debug info in objs
+# /Zi                 generate PDB for debug
+
+# /nologo             don't show compiler banner
+# /W4                 warning level 4
+# /WX                 warnings as errors
+# /diagnostics:caret  On compilation error, print file+line+caret pointing to eror
+# /sdl-               disable security checks
+# /MP                 multiprocess
+# /O2                 optimizations
+# /Gm-                no minimal rebuild
+# /EHsc               Exception handling standard
+# /MT                 Causes the application to use the multithread, static version of the run-time library
+# /GS-                No buffer security check
+# /Zc:wchar_t         wchar_t is a native type
+# /Zc:forScope        standard C++ scoping rules
+# /Zc:inline          Remove unreferenced functions or data if they're COMDAT or have internal linkage only (off by default).
+# /external:W4        "external" headers checked with /W4
+# /Gd                 __cdecl calling convention
+# /TP                 all files on the command line are CPP
+
