@@ -45,8 +45,9 @@ rule metron
 ################################################################################
 # FPGA synthesis rules
 
+# FIXME verilator isn't obeying lint-off WIDTHTRUNC etc
 rule verilator
-  command = verilator --public ${includes} --cc ${src_top} -Mdir ${dst_dir}
+  command = verilator -Wno-width --public ${includes} --cc ${src_top} -Mdir ${dst_dir}
 
 rule iverilog
   command = iverilog -g2012 ${defines} ${includes} ${in} -o ${out}
