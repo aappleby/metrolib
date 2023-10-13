@@ -3,13 +3,11 @@ includes = ${includes} -Isymlinks
 
 opts_c   = ${opts_c} -Wunused-variable
 opts_c   = ${opts_c} -Werror
-opts_c   = ${opts_c} -MMD
 opts_c   = ${opts_c} -g
 
 opts_cpp = ${opts_cpp} -std=gnu++2a
 opts_cpp = ${opts_cpp} -Wunused-variable
 opts_cpp = ${opts_cpp} -Werror
-opts_cpp = ${opts_cpp} -MMD
 opts_cpp = ${opts_cpp} -g
 
 opts_ld  = ${opts_ld} -g

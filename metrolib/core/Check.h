@@ -3,6 +3,8 @@
 
 void debugbreak();
 
+//#define assert(c)  while (!(c)) __builtin_unreachable()
+
 //-----------------------------------------------------------------------------
 
 // Checks that always happen in every build.
