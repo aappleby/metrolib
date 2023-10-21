@@ -52,10 +52,6 @@ rule metron
 
 # FIXME verilator isn't obeying lint-off WIDTHTRUNC etc
 rule verilator
-  command = verilator -Wno-width --public ${includes} --cc ${src_top} -Mdir ${dst_dir}
-
-# FIXME move to this rule, it works more sanely with Ninja
-rule verilator2
   command = verilator -Wno-width --public ${includes} --cc ${in} -Mdir $$(set -- ${out}; dirname $$1)
 
 rule verilator_lint
