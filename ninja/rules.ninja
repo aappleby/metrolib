@@ -56,7 +56,7 @@ rule verilator
 
 # FIXME move to this rule, it works more sanely with Ninja
 rule verilator2
-  command = out_dir=$$(echo ${out} | cut -d\  -f1) && verilator -Wno-width --public ${includes} --cc ${in} -Mdir $$out_dir && touch $$out_dir
+  command = verilator -Wno-width --public ${includes} --cc ${in} -Mdir $$(set -- ${out}; dirname $$1)
 
 rule verilator_lint
   command = verilator -Wno-width ${includes} --lint-only ${in}
