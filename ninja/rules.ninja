@@ -2,12 +2,17 @@
 # C/C++ rules
 
 rule compile_c
-  command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -MD -MF ${out}.d -c ${in} -o ${out}
+  command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule compile_cpp
-  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -MD -MF ${out}.d -c ${in} -o ${out}
+  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
+  depfile = ${out}.d
+  deps = gcc
+
+rule check_cpp
+  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -fsyntax-only -c ${in} && touch ${out}
   depfile = ${out}.d
   deps = gcc
 
@@ -21,12 +26,12 @@ rule c_library
 # Emscripten rules
 
 rule ems_compile_c
-  command = emcc ${opts_ems} ${includes} ${defines} -MD -MF ${out}.d -c ${in} -o ${out}
+  command = emcc ${opts_ems} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule ems_compile_cpp
-  command = emcc ${ems_opts_cpp} ${includes} ${defines} -MD -MF ${out}.d -c ${in} -o ${out}
+  command = emcc ${ems_opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
@@ -48,6 +53,13 @@ rule metron
 # FIXME verilator isn't obeying lint-off WIDTHTRUNC etc
 rule verilator
   command = verilator -Wno-width --public ${includes} --cc ${src_top} -Mdir ${dst_dir}
+
+# FIXME move to this rule, it works more sanely with Ninja
+rule verilator2
+  command = out_dir=$$(echo ${out} | cut -d\  -f1) && verilator -Wno-width --public ${includes} --cc ${in} -Mdir $$out_dir && touch $$out_dir
+
+rule verilator_lint
+  command = verilator -Wno-width ${includes} --lint-only ${in}
 
 rule iverilog
   command = iverilog -g2012 ${defines} ${includes} ${in} -o ${out}
