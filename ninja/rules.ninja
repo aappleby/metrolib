@@ -44,6 +44,9 @@ rule ems_js_binary
 rule run_command
   command = $command
 
+rule run_test
+  command = ${in} | grep "All tests pass" && touch ${out}
+
 rule metron
   command = symlinks/metron/bin/metron -q -v -e -c ${in} -o ${out}
 
@@ -62,6 +65,9 @@ rule iverilog
 
 rule yosys
   command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
+
+rule yosys_check
+  command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump;'
 
 rule nextpnr-ice40
   command = nextpnr-ice40 -q --${chip} --package ${package} --json ${in} --asc ${out} --pcf ${pcf}
