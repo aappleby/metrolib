@@ -91,3 +91,9 @@ build bin/metrolib/libgameboy.a : c_library $
   obj/metrolib/gameboy/GBBlitter.o $
   obj/metrolib/gameboy/GBConstants.o $
   obj/metrolib/gameboy/MetroBoyCPU.o
+
+################################################################################
+# Tools
+
+build bin/elf_to_hex : run_command metrolib/tools/elf_to_hex.cpp
+  command = g++ -g metrolib/tools/elf_to_hex.cpp -o bin/elf_to_hex
