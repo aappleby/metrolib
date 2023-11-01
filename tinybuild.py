@@ -3,6 +3,8 @@ import re
 import sys
 import multiprocessing
 
+# FIXME Emit ninja file?
+
 def swap_ext(name, new_ext):
   return os.path.splitext(name)[0] + new_ext
 
@@ -103,6 +105,8 @@ def run_command(file_kwargs):
 
 ################################################################################
 
+# FIXME expand file list with glob
+
 def create_action(do_map, do_reduce, kwargs):
   # Take a snapshot of the global config at the time the rule is defined
   config_kwargs = dict(global_config)
@@ -140,7 +144,7 @@ def create_action(do_map, do_reduce, kwargs):
         if action_kwargs.get("verbose", False):
           print(f"rm -f {file_out}")
         os.system(f"rm -f {file_out}")
-      return
+      return []
 
     ########################################
     # Dispatch the action as a map
@@ -181,6 +185,7 @@ def create_action(do_map, do_reduce, kwargs):
       file_kwargs["file_out"] = files_out[0]
       if needs_rebuild(files_in, files_out, file_kwargs):
         run_command(file_kwargs)
+    return files_out
 
   return action
 
