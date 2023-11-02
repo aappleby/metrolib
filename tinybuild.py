@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import multiprocessing
+import argparse
 
 # FIXME Emit ninja file?
 
@@ -20,11 +21,18 @@ def expand(text, arg_dict):
 def listify(x):
   return x if type(x) is list else [x]
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--verbose',  default=False, action='store_true', help='Print verbose build info')
+parser.add_argument('--clean',    default=False, action='store_true', help='Delete intermediate files')
+parser.add_argument('--serial',   default=False, action='store_true', help='Do not parallelize actions')
+parser.add_argument('--dry_run',  default=False, action='store_true', help='Do not run actions')
+options = parser.parse_args()
+
 global_config = {
-  "verbose"    : False,
-  "clean"      : False,
-  "serial"     : False,
-  "dry_run"    : False,
+  "verbose"    : options.verbose,
+  "clean"      : options.clean,
+  "serial"     : options.serial,
+  "dry_run"    : options.dry_run,
   "swap_ext"   : swap_ext,
   "join"       : join
 }
