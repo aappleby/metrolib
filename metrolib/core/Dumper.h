@@ -116,6 +116,16 @@ struct Dumper {
 
 struct StringDumper : public Dumper {
   std::string s;
+  char* source_buf;
+
+  StringDumper() {
+    source_buf = (char*)malloc(1024);
+  }
+
+  ~StringDumper() {
+    free(source_buf);
+    source_buf = nullptr;
+  }
 
   const char* c_str() {
     return s.c_str();
@@ -126,7 +136,6 @@ struct StringDumper : public Dumper {
   }
 
   void operator()(const char* format, ...) override {
-    char source_buf[1024];
     va_list args;
     va_start (args, format);
     vsnprintf (source_buf, 1024 ,format, args);
