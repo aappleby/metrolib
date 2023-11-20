@@ -75,6 +75,9 @@ rule nextpnr-ice40
 rule icepack
   command = icepack ${in} ${out}
 
+rule sv2v
+  command = symlinks/sv2v/bin/sv2v ${includes} ${in} -w ${out}
+
 ################################################################################
 # Rules for converting elf sections into hex files for synthesis
 
