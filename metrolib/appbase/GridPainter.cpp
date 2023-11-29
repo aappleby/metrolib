@@ -106,7 +106,7 @@ void GridPainter::init(float world_width, float world_height) {
 
 //-----------------------------------------------------------------------------
 
-#pragma warning(disable:4189)
+//#pragma warning(disable:4189)
 
 void GridPainter::render(Viewport view, dvec2 screen_size) {
   bind_shader(grid_prog);

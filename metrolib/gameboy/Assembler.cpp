@@ -11,7 +11,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-#pragma warning(disable : 4996)
+//#pragma warning(disable : 4996)
 
 const char* source_header = R"(
 .gbheader

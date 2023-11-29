@@ -55,7 +55,7 @@ Viewport ease(Viewport a, Viewport b, double delta) {
   };
 }
 
-#pragma warning(disable : 4201)
+//#pragma warning(disable : 4201)
 union double_funtimes {
   double value;
   struct {

@@ -3,7 +3,7 @@
 #include "metrolib/core/Check.h"
 #include "metrolib/core/Log.h"
 
-#pragma warning(disable:4996)
+//#pragma warning(disable:4996)
 
 size_t file_size(const char* filename) {
   FILE* f = fopen(filename, "rb");;

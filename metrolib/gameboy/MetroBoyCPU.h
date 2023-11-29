@@ -5,8 +5,8 @@
 
 //-----------------------------------------------------------------------------
 
-#pragma warning(push)
-#pragma warning(disable:4201)
+//#pragma warning(push)
+//#pragma warning(disable:4201)
 
 #pragma pack(push, 1)
 struct Req {
@@ -46,7 +46,7 @@ struct Ack {
 
 static_assert(sizeof(Ack) == 8, "Ack size != 8");
 
-#pragma warning(pop)
+//#pragma warning(pop)
 
 //-----------------------------------------------------------------------------
 
@@ -106,9 +106,9 @@ struct CpuState {
   uint8_t  alu_f = 0;
   uint8_t  alu_o = 0;
 
-#pragma warning(push)
-#pragma warning(disable : 4201)
-#pragma warning(disable : 26495)
+//#pragma warning(push)
+//#pragma warning(disable : 4201)
+//#pragma warning(disable : 26495)
 
   // right "addr" bus           low side     high side
   union { uint16_t pc = 0; struct { uint8_t pcl; uint8_t pch; }; };
@@ -121,7 +121,7 @@ struct CpuState {
   union { uint16_t hl = 0; struct { uint8_t   l; uint8_t   h; }; };
   union { uint16_t af = 0; struct { uint8_t   f; uint8_t   a; }; };
 
-#pragma warning(pop)
+//#pragma warning(pop)
 };
 
 //-----------------------------------------------------------------------------
