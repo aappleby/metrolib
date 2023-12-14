@@ -83,15 +83,16 @@ constexpr uint32_t COL_HINT2 = 0x00222222;
 constexpr uint32_t COL_HINT3 = 0x00333333;
 
 // 12 half-saturated colors evenly spaced around the HSV wheel
-constexpr uint32_t COL_BLUE    = 0x00FF7F7F;
-constexpr uint32_t COL_SKY     = 0x00FFBF7F;
-constexpr uint32_t COL_TEAL    = 0x00FFFF7F;
-constexpr uint32_t COL_AQUA    = 0x00BFFF7F;
-constexpr uint32_t COL_GREEN   = 0x007FFF7F;
-constexpr uint32_t COL_LIME    = 0x007FFFBF;
-constexpr uint32_t COL_YELLOW  = 0x007FFFFF;
-constexpr uint32_t COL_ORANGE  = 0x007FBFFF;
-constexpr uint32_t COL_RED     = 0x007F7FFF;
-constexpr uint32_t COL_PINK    = 0x00BF7FFF;
-constexpr uint32_t COL_MAGENTA = 0x00FF7FFF;
-constexpr uint32_t COL_VIOLET  = 0x00FF7FBF;
+constexpr uint32_t COL_BLUE    = 0x00EE8888;
+constexpr uint32_t COL_SKY     = 0x00EEBB88;
+constexpr uint32_t COL_TEAL    = 0x00EEEE88;
+constexpr uint32_t COL_AQUA    = 0x00BBEE88;
+constexpr uint32_t COL_GREEN   = 0x0088EE88;
+constexpr uint32_t COL_LIME    = 0x0088EEBB;
+
+constexpr uint32_t COL_YELLOW  = 0x0088EEEE;
+constexpr uint32_t COL_ORANGE  = 0x0088BBEE;
+constexpr uint32_t COL_RED     = 0x008888EE;
+constexpr uint32_t COL_PINK    = 0x00BB88EE;
+constexpr uint32_t COL_MAGENTA = 0x00EE88EE;
+constexpr uint32_t COL_VIOLET  = 0x00EE88BB;

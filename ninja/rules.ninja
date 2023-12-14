@@ -36,7 +36,7 @@ rule ems_compile_cpp
   deps = gcc
 
 rule ems_js_binary
-  command = emcc ${ems_opts_ld} --embed-file="${embed}" ${in} ${libraries} -o ${out}
+  command = emcc ${ems_opts_ld} ${in} ${libraries} -o ${out}
 
 ################################################################################
 # Generic rules
@@ -49,6 +49,14 @@ rule run_test
 
 rule metron
   command = symlinks/metron/bin/metron -q -v -e -c ${in} -o ${out}
+
+rule metron2
+  command = symlinks/metron/bin/metron -q -v -e -c ${in} -o ${out}
+  depfile = ${out}.d
+  deps = gcc
+
+rule make
+  command = make --quiet -C $$(dirname ${in}) -f $$(basename ${in}) > /dev/null
 
 ################################################################################
 # FPGA synthesis rules
