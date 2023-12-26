@@ -73,12 +73,17 @@ rule iverilog
 
 rule yosys
   command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
+#  command = yosys -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
+
+rule yosys_noisy
+  command = yosys -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
 
 rule yosys_check
   command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump;'
+#  command = yosys -p 'read_verilog ${includes} -sv ${in};'
 
 rule nextpnr-ice40
-  command = nextpnr-ice40 -q --${chip} --package ${package} --json ${in} --asc ${out} --pcf ${pcf}
+  command = nextpnr-ice40 ${flags} -q --${chip} --package ${package} --json ${in} --asc ${out} --pcf ${pcf}
 
 rule icepack
   command = icepack ${in} ${out}
