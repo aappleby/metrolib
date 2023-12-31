@@ -1,8 +1,20 @@
+# Tinybuild is a minimal build system that focuses only on doing two things:
+# 1 - Only rebuild files that need rebuilding
+# 2 - Make generating build commands simple
+
+# Build parameters can be specified globally, at rule scope, or at command
+# scope.
+
+################################################################################
+
 import os
 import re
 import sys
 import multiprocessing
 import argparse
+
+import pprint
+pp = pprint.PrettyPrinter(indent=2, width=120)
 
 # FIXME Emit ninja file?
 
@@ -24,15 +36,17 @@ def listify(x):
 parser = argparse.ArgumentParser()
 parser.add_argument('--verbose',  default=False, action='store_true', help='Print verbose build info')
 parser.add_argument('--clean',    default=False, action='store_true', help='Delete intermediate files')
-parser.add_argument('--serial',   default=False, action='store_true', help='Do not parallelize actions')
-parser.add_argument('--dry_run',  default=False, action='store_true', help='Do not run actions')
+parser.add_argument('--serial',   default=False, action='store_true', help='Do not parallelize commands')
+parser.add_argument('--dry_run',  default=False, action='store_true', help='Do not run commands')
+parser.add_argument('--debug',    default=False, action='store_true', help='Dump debugging information')
 options = parser.parse_args()
 
 global_config = {
-  "verbose"    : options.verbose,
+  "verbose"    : options.verbose or options.debug,
   "clean"      : options.clean,
   "serial"     : options.serial,
   "dry_run"    : options.dry_run,
+  "debug"      : options.debug,
   "swap_ext"   : swap_ext,
   "join"       : join
 }
@@ -99,12 +113,21 @@ def run_command(file_kwargs):
   if desc := file_kwargs.get("desc", None):
     print(expand(desc, file_kwargs))
 
+  if file_kwargs["debug"]:
+    pp.pprint(file_kwargs)
+
   command = expand(file_kwargs["command"], file_kwargs)
   result = -1
 
+  if file_kwargs["verbose"]:
+    print(f"Command starting: \"{command}\"")
+
   if file_kwargs.get("dry_run", False):
     print(f"Dry run: \"{command}\"")
-  elif result := os.system(command):
+    return 0
+
+  result = os.system(command)
+  if result:
     print(f"Command failed: \"{command}\"")
   elif file_kwargs["verbose"]:
     print(f"Command done: \"{command}\"")
@@ -113,18 +136,16 @@ def run_command(file_kwargs):
 
 ################################################################################
 
-# FIXME expand file list with glob
-
-def create_action(do_map, do_reduce, kwargs):
+def create_rule(do_map, do_reduce, kwargs):
   # Take a snapshot of the global config at the time the rule is defined
-  config_kwargs = dict(global_config)
+  global_kwargs = dict(global_config)
 
   # Take a snapshot of the config kwargs and patch in our rule kwargs
-  rule_kwargs = dict(config_kwargs)
+  rule_kwargs = dict(global_kwargs)
   rule_kwargs.update(kwargs)
-  rule_kwargs["config"] = config_kwargs;
+  rule_kwargs["global_args"] = global_kwargs;
 
-  def action(files_in, files_out, **kwargs):
+  def rule(files_in, files_out, **kwargs):
     files_in  = listify(files_in)
     files_out = listify(files_out)
 
@@ -136,26 +157,26 @@ def create_action(do_map, do_reduce, kwargs):
     if do_map:
       assert len(files_in) == len(files_out)
 
-    # Take a snapshot of the rule kwargs and patch in our action kwargs
-    action_kwargs = dict(rule_kwargs)
-    action_kwargs.update(kwargs)
-    action_kwargs["rule"]      = rule_kwargs
-    action_kwargs["files_in"]  = files_in
-    action_kwargs["files_out"] = files_out
+    # Take a snapshot of the rule kwargs and patch in our command kwargs
+    command_kwargs = dict(rule_kwargs)
+    command_kwargs.update(kwargs)
+    command_kwargs["rule_args"] = rule_kwargs
+    command_kwargs["files_in"]  = files_in
+    command_kwargs["files_out"] = files_out
 
     ########################################
     # Clean files if requested
 
-    if action_kwargs.get("clean", None):
-      for file_out in action_kwargs["files_out"]:
-        file_out = expand(file_out, action_kwargs)
-        if action_kwargs.get("verbose", False):
+    if command_kwargs.get("clean", None):
+      for file_out in command_kwargs["files_out"]:
+        file_out = expand(file_out, command_kwargs)
+        if command_kwargs.get("verbose", False):
           print(f"rm -f {file_out}")
         os.system(f"rm -f {file_out}")
       return []
 
     ########################################
-    # Dispatch the action as a map
+    # Dispatch the command as a map
 
     if do_map:
       results = []
@@ -163,10 +184,10 @@ def create_action(do_map, do_reduce, kwargs):
         file_in  = files_in[i]
         file_out = files_out[i]
 
-        file_kwargs = dict(action_kwargs)
-        file_kwargs["action"]   = action_kwargs
-        file_kwargs["file_in"]  = file_in
-        file_kwargs["file_out"] = file_out
+        file_kwargs = dict(command_kwargs)
+        #file_kwargs["command_args"] = command_kwargs
+        file_kwargs["file_in"]      = file_in
+        file_kwargs["file_out"]     = file_out
 
         if needs_rebuild(file_in, file_out, file_kwargs):
           if file_kwargs["serial"]:
@@ -184,26 +205,26 @@ def create_action(do_map, do_reduce, kwargs):
         sys.exit(-1)
 
     ########################################
-    # Dispatch the action as a reduce
+    # Dispatch the command as a reduce
 
     if do_reduce:
-      file_kwargs = dict(action_kwargs)
-      file_kwargs["action"]   = action_kwargs
+      file_kwargs = dict(command_kwargs)
+      file_kwargs["command_args"]   = command_kwargs
       file_kwargs["file_in"]  = files_in[0]
       file_kwargs["file_out"] = files_out[0]
       if needs_rebuild(files_in, files_out, file_kwargs):
         run_command(file_kwargs)
     return files_out
 
-  return action
+  return rule
 
 ################################################################################
 
 def map(**kwargs):
-  return create_action(do_map = True, do_reduce = False, kwargs = kwargs)
+  return create_rule(do_map = True, do_reduce = False, kwargs = kwargs)
 
 def reduce(**kwargs):
-  return create_action(do_map = False, do_reduce = True, kwargs = kwargs)
+  return create_rule(do_map = False, do_reduce = True, kwargs = kwargs)
 
 ################################################################################
 
