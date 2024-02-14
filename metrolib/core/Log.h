@@ -70,13 +70,7 @@ struct TinyLog {
     for (auto i = 0; i < size; i++) {
       put(text[i]);
     }
-  }
-
-  void print_buffer(uint32_t _color, const char* buffer, int len) {
-    color(_color);
-    for (int i = 0; i < len; i++) {
-      put(buffer[i]);
-    }
+    color(0);
   }
 
   void vprint(const char* format, va_list args) {
@@ -99,9 +93,7 @@ struct TinyLog {
   }
 
   void put_range(const char* a, const char* b) {
-    while(a != b) {
-      put(*a++);
-    }
+    write(a, b-a);
   }
 };
 
