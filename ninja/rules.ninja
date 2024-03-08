@@ -2,22 +2,22 @@
 # C/C++ rules
 
 rule compile_c
-  command = ${toolchain}-gcc ${opts_c} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
+  command = gcc ${opts_c} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule compile_cpp
-  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
+  command = g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule check_cpp
-  command = ${toolchain}-g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -fsyntax-only -c ${in} && touch ${out}
+  command = g++ ${opts_cpp} ${includes} ${defines} -MMD -MF ${out}.d -fsyntax-only -c ${in} && touch ${out}
   depfile = ${out}.d
   deps = gcc
 
 rule c_binary
-  command = ${toolchain}-g++ ${opts_ld} ${in} ${libraries} -o ${out}
+  command = g++ ${opts_ld} ${in} ${libraries} -o ${out}
 
 rule c_library
   command = ar rcs ${out} ${in}

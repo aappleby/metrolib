@@ -1,8 +1,6 @@
 target=DEBUG
 #target=RELEASE
 
-toolchain=x86_64-linux-gnu
-
 include ninja/config_ALL.ninja
 include ninja/config_${target}.ninja
 include ninja/rules.ninja
