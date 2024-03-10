@@ -40,6 +40,7 @@ struct TinyLog {
 
   TinyLog& color(uint32_t color) {
     if (muted) return *this;
+    if (!use_color) return *this;
     this->current_color = color;
     if (color && use_color) {
       printf("\u001b[38;2;%d;%d;%dm", (color >> 0) & 0xFF, (color >> 8) & 0xFF, (color >> 16) & 0xFF);
