@@ -12,10 +12,18 @@
 
 struct TinyLog {
   int      muted = 0;
-  bool     use_color = true;
-  int      indentation = 0;
   bool     start_line = true;
+  int      indentation = 0;
+  bool     use_color = true;
   uint32_t current_color = 0xA0A0A0;
+
+  void reset() {
+    muted = 0;
+    start_line = true;
+    indentation = 0;
+    use_color = true;
+    current_color = 0;
+  }
 
   static TinyLog& get() {
     static TinyLog log;
@@ -29,12 +37,6 @@ struct TinyLog {
   void mono()   { use_color = false; }
   void color()  { use_color = true; }
 
-  void reset() {
-    current_color = 0;
-    muted = 0;
-    indentation = 0;
-    start_line = true;
-  }
 
   TinyLog& color(uint32_t color) {
     if (muted) return *this;
