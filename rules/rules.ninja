@@ -98,7 +98,7 @@ rule elf_to_code_hex
   command = riscv64-unknown-elf-objcopy -O binary ${in} ${out} -j .init -j .text --change-addresses -${base_address}
 
 rule elf_to_hex
-  command = symlinks/metrolib/bin/elf_to_hex ${in}
+  command = symlinks/metrolib/build/metrolib/tools/elf_to_hex ${in}
 
 #%.text.bin: %.elf
 #	riscv64-unknown-elf-objcopy -O binary $< $@ -j .init -j .text --change-addresses -0x400000
