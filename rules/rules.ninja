@@ -48,10 +48,10 @@ rule run_test
   command = ${in} | grep "All tests pass" && touch ${out}
 
 rule metron
-  command = symlinks/metron/bin/metron -q -v -e -c ${in} -o ${out}
+  command = symlinks/metron/build/metron/metron -q -v -e -c ${in} -o ${out}
 
 rule metron2
-  command = symlinks/metron/bin/metron -q -v -e -c ${in} -o ${out}
+  command = symlinks/metron/build/metron/metron -q -v -e -c ${in} -o ${out}
   depfile = ${out}.d
   deps = gcc
 
