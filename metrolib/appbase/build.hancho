@@ -1,0 +1,5 @@
+from hancho import *
+
+rules = load("../../rules/rules.hancho")
+
+appbase = rules.cpp_lib(glob("*.cpp"), "libappbase.a")

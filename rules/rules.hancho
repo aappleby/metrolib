@@ -1,6 +1,6 @@
-print(f"loading {__file__}")
+from hancho import *
 
-base = config.extend(
+base = Rule(
   build_type = "-g -O0",
   warnings   = "-Wunused-variable -Werror",
   defines    = "-DCONFIG_DEBUG",

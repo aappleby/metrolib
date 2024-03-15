@@ -1,8 +1,7 @@
-rules = load("rules.hancho")
+from hancho import *
 
-appbase = rules.cpp_lib(glob("metrolib/appbase/*.cpp"), "libappbase.a")
-audio   = rules.cpp_lib(glob("metrolib/audio/*.cpp"),   "libaudio.a")
-core    = rules.cpp_lib(glob("metrolib/core/*.cpp"),    "libcore.a")
-gameboy = rules.cpp_lib(glob("metrolib/gameboy/*.cpp"), "libgameboy.a")
-
-elf_to_hex = rules.cpp_bin("metrolib/tools/elf_to_hex.cpp", "elf_to_hex")
+load("metrolib/appbase/build.hancho")
+load("metrolib/audio/build.hancho")
+load("metrolib/core/build.hancho")
+load("metrolib/gameboy/build.hancho")
+load("metrolib/tools/build.hancho")
