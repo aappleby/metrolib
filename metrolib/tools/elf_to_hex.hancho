@@ -2,13 +2,13 @@ from hancho import *
 
 rules = load("../../rules/rules.hancho")
 
-elf_to_hex = rules.cpp_bin("elf_to_hex.cpp", "elf_to_hex")
+bin = rules.cpp_bin("elf_to_hex.cpp", "elf_to_hex")
 
-run_elf_to_hex = Rule(
+run = Rule(
   command = "{tool} {files_in}",
   files_out = [
     "{swap_ext(files_in, '.code.vh')}",
     "{swap_ext(files_in, '.data.vh')}",
   ],
-  tool = elf_to_hex
+  tool = bin
 )

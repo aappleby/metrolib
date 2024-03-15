@@ -2,4 +2,4 @@ from hancho import *
 
 rules = load("../../rules/rules.hancho")
 
-audio   = rules.cpp_lib(glob("*.cpp"), "libaudio.a")
+lib = rules.cpp_lib(glob("*.cpp"), "libaudio.a")

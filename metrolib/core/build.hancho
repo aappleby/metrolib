@@ -2,4 +2,4 @@ from hancho import *
 
 rules = load("../../rules/rules.hancho")
 
-core = rules.cpp_lib(glob("*.cpp"), "libcore.a")
+lib = rules.cpp_lib(glob("*.cpp"), "libcore.a")
