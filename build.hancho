@@ -1,7 +1,9 @@
 from hancho import *
 
-load("metrolib/appbase/build.hancho")
-load("metrolib/audio/build.hancho")
-load("metrolib/core/build.hancho")
-load("metrolib/gameboy/build.hancho")
-load("metrolib/tools/elf_to_hex.hancho")
+#config.build_tag = "debug"
+
+appbase    = load("metrolib/appbase/build.hancho")
+audio      = load("metrolib/audio/build.hancho")
+core       = load("metrolib/core/build.hancho")
+gameboy    = load("metrolib/gameboy/build.hancho")
+elf_to_hex = load("metrolib/tools/elf_to_hex.hancho")

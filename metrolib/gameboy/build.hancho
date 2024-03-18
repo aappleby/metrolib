@@ -1,5 +1,9 @@
 from hancho import *
 
-rules = load("../../rules/rules.hancho")
+rules = load("{root_dir}/rules/rules.hancho")
 
-lib = rules.cpp_lib(glob("*.cpp"), "libgameboy.a")
+lib = rules.cpp_lib(
+  glob("*.cpp"),
+  "libgameboy.a",
+  includes="-I. -Isymlinks",
+)

@@ -5,21 +5,23 @@ base = Rule(
   warnings   = "-Wunused-variable -Werror",
   defines    = "-DCONFIG_DEBUG",
   cpp_std    = "-std=gnu++2a",
-  includes  = "-I. -Isymlinks -Isymlinks/metrolib -Isymlinks/metron ",
+  includes   = "-I.",
 )
 
 compile_cpp = base.extend(
   desc      = "Compiling C++ {files_in} => {files_out}",
-  command   = "g++ -MMD {cpp_std} {warnings} {build_type} {includes} {defines} -c {files_in} -o {files_out}",
+  command   = "{tool} -MMD {cpp_std} {warnings} {build_type} {includes} {defines} -c {files_in} -o {files_out}",
   files_out = "{swap_ext(files_in, '.o')}",
   depfile   = "{swap_ext(files_out, '.d')}",
+  tool      = "g++",
 )
 
 compile_c   = base.extend(
   desc      = "Compiling C {files_in} => {files_out}",
-  command   = "gcc -MMD {warnings} {build_type} {includes} {defines} -c {files_in} -o {files_out}",
+  command   = "{tool} -MMD {warnings} {build_type} {includes} {defines} -c {files_in} -o {files_out}",
   files_out = "{swap_ext(files_in, '.o')}",
   depfile   = "{swap_ext(files_out, '.d')}",
+  tool      = "gcc",
 )
 
 link_c_lib = base.extend(
@@ -29,7 +31,8 @@ link_c_lib = base.extend(
 
 link_c_bin  = base.extend(
   desc      = "Linking {files_out}",
-  command   = "g++ {build_type} {files_in} {deps} {libraries} -o {files_out}",
+  command   = "{tool} {build_type} {files_in} {deps} {libraries} -o {files_out}",
+  tool      = "g++",
 )
 
 def cpp_bin(files_in, files_out, **kwargs):
