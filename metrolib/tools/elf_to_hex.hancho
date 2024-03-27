@@ -1,14 +1,21 @@
 from hancho import *
 
-rules = load("{root_dir}/rules/rules.hancho")
+rules = include("{rule_path}/rules.hancho", build_config)
 
-bin = rules.cpp_bin("elf_to_hex.cpp", "elf_to_hex")
+# If this module is include()d, source_path will point to the includer. Don't build elf_to_hex
+# from that path, build it from this_path.
+bin = rules.cpp_bin(
+  "elf_to_hex.cpp",
+  "elf_to_hex",
+  source_path = build_config.this_path
+)
 
-run = Rule(
-  command = "{tool} {files_in}",
-  files_out = [
-    "{swap_ext(files_in, '.code.vh')}",
-    "{swap_ext(files_in, '.data.vh')}",
+run = build_config.rule(
+  command = "{tool} {rel_source_files}",
+  build_files = [
+    "{swap_ext(source_files, '.code.vh')}",
+    "{swap_ext(source_files, '.data.vh')}",
   ],
+  build_path = build_config.source_path,
   tool = bin
 )

@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdint.h>
 #include <assert.h>
+#include <unistd.h>
 
 namespace fs = std::filesystem;
 
@@ -43,6 +44,7 @@ bool load_elf(std::string filename) {
   for (int i = 0; i < header.e_phnum; i++) {
     Elf32_Phdr& phdr = *(Elf32_Phdr*)(blob + header.e_phoff + header.e_phentsize * i);
     if (phdr.p_type & PT_LOAD) {
+
       assert(phdr.p_filesz % 4 == 0);
 
       if (phdr.p_flags & PF_X) {
@@ -54,6 +56,7 @@ bool load_elf(std::string filename) {
         int word_count = phdr.p_filesz / 4;
 
         FILE* out = fopen(code_hex_path.c_str(), "w");
+        printf("%p\n", out);
         for (int i = 0; i < word_count; i++) {
           fprintf(out, "%08X ", words[i]);
           if (i % 8 == 7) fprintf(out, "\n");
@@ -85,6 +88,11 @@ bool load_elf(std::string filename) {
 //------------------------------------------------------------------------------
 
 int main(int argc, char** argv) {
+  //printf("\n");
+  //for (int i = 0; i < argc; i++) {
+  //  printf("arg %02d %s\n", i, argv[i]);
+  //}
+
   if (argc < 2) {
     printf("Usage : elf_to_hex <elf_filename>\n");
     return -1;

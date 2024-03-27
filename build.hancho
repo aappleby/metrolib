@@ -1,9 +1,11 @@
 from hancho import *
 
-#config.build_tag = "debug"
+print("loading metrolib/build.hancho")
 
-appbase    = load("metrolib/appbase/build.hancho")
-audio      = load("metrolib/audio/build.hancho")
-core       = load("metrolib/core/build.hancho")
-gameboy    = load("metrolib/gameboy/build.hancho")
-elf_to_hex = load("metrolib/tools/elf_to_hex.hancho")
+build_config.rule_path = build_config.this_path / "rules"
+
+appbase    = load("metrolib/appbase/build.hancho", build_config)
+audio      = load("metrolib/audio/build.hancho", build_config)
+core       = load("metrolib/core/build.hancho", build_config)
+gameboy    = load("metrolib/gameboy/build.hancho", build_config)
+elf_to_hex = include("metrolib/tools/elf_to_hex.hancho", build_config)
