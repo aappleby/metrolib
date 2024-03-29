@@ -1,3 +1,3 @@
 rules = build_config.include("{metrolib_root}/rules/rules.hancho")
 
-lib = rules.cpp_lib(glob("*.cpp"), "libcore.a")
+bin = rules.cpp_bin("elf_to_hex.cpp","elf_to_hex")

@@ -10,26 +10,29 @@
 
 namespace fs = std::filesystem;
 
-std::vector<uint8_t> code;
-std::vector<uint8_t> data;
-
 //------------------------------------------------------------------------------
 
-bool load_elf(std::string filename) {
-  auto file_size = fs::file_size(filename);
-  fs::path file_path(filename);
+int main(int argc, char** argv) {
 
-  auto code_hex_path = file_path;
-  auto data_hex_path = file_path;
-  code_hex_path.replace_extension(".code.vh");
-  data_hex_path.replace_extension(".data.vh");
+  if (argc < 4) {
+    printf("Usage : elf_to_hex <elf_filename> <out_code> <out_data>\n");
+    return -1;
+  }
 
-  //printf("ELF file %s = %ld bytes\n", filename.c_str(), file_size);
-  //printf("code path %s\n", code_hex_path.c_str());
-  //printf("data path %s\n", data_hex_path.c_str());
+  std::string elf_path = argv[1];
+  std::string code_hex_path = argv[2];
+  std::string data_hex_path = argv[3];
+
+  if (!fs::is_regular_file(elf_path)) {
+    printf("File %s not found\n", elf_path.c_str());
+    return -1;
+  }
+
+  auto file_size = fs::file_size(elf_path);
+  fs::path file_path(elf_path);
 
   uint8_t* blob = new uint8_t[file_size];
-  FILE* f = fopen(filename.c_str(), "rb");
+  FILE* f = fopen(elf_path.c_str(), "rb");
   auto result = fread(blob, 1, file_size, f);
   if (result != file_size) {
     printf("fread failed\n");
@@ -82,32 +85,6 @@ bool load_elf(std::string filename) {
       }
     }
   }
-  return true;
-}
-
-//------------------------------------------------------------------------------
-
-int main(int argc, char** argv) {
-  //printf("\n");
-  //for (int i = 0; i < argc; i++) {
-  //  printf("arg %02d %s\n", i, argv[i]);
-  //}
-
-  if (argc < 2) {
-    printf("Usage : elf_to_hex <elf_filename>\n");
-    return -1;
-  }
-
-  std::string elf_path = argv[1];
-  if (!fs::is_regular_file(elf_path)) {
-    printf("File %s not found\n", elf_path.c_str());
-    return -1;
-  }
-
-  load_elf(elf_path);
-
-  //fs::path absolute_dir(elf_path);
-  //absolute_dir.remove_filename();
 
   return 0;
 }
