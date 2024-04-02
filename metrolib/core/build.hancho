@@ -1,3 +1,7 @@
-rules = build_config.include("{metrolib_root}/rules/rules.hancho")
+rules = build_config.include("{rules_path}/rules/rules.hancho")
 
-lib = rules.cpp_lib(glob("*.cpp"), "libcore.a")
+lib = rules.cpp_lib(
+  source_path  = build_config.mod_path,
+  source_files = glob("*.cpp"),
+  build_files  = "libcore.a",
+)

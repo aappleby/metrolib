@@ -13,6 +13,7 @@
       "args": ["-v"],
       "console": "integratedTerminal",
       "justMyCode": false,
+      "preLaunchTask": "Wipe build",
     },
   ]
 }

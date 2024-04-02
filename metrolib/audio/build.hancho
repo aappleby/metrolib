@@ -1,3 +1,6 @@
-rules = build_config.include("{metrolib_root}/rules/rules.hancho")
+rules = build_config.include("{rules_path}/rules.hancho")
 
-lib = rules.cpp_lib(glob("*.cpp"), "libaudio.a")
+lib = rules.cpp_lib(
+  source_files = glob("*.cpp"),
+  build_files  = "libaudio.a",
+)

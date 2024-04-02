@@ -13,5 +13,13 @@
         "isDefault": true
       },
     },
+    {
+      "label": "Wipe build",
+      "type": "shell",
+      "command": "rm -rf build bin obj gen",
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    }
   ]
 }

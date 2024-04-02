@@ -1,7 +1,8 @@
-rules = build_config.include("{metrolib_root}/rules/rules.hancho")
+rules = build_config.include("{rules_path}/rules.hancho")
 
 lib = rules.cpp_lib(
-  glob("*.cpp"),
-  "libappbase.a",
-  includes="-I. -Isymlinks",
+  #source_files = glob("*.cpp"),
+  source_files = "AppHost.cpp",
+  build_files  = "libappbase.a",
+  includes     = rules.c_config.includes + ["symlinks"],
 )

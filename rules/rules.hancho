@@ -1,39 +1,43 @@
 from hancho import *
 
-build_config.set(
+c_config = build_config.extend(
   build_type  = "-g -O0",
-  warnings    = "-Wunused-variable -Werror",
-  defines     = "-DCONFIG_DEBUG",
   cpp_std     = "-std=gnu++2a",
-  includes    = "-I.",
+
+  warnings    = ["unused-variable", "error"],
+  defines     = ["CONFIG_DEBUG"],
+  includes    = ["."],
+  libraries   = [],
+
+  join_prefix      = lambda prefix, strings: ' '.join([prefix+str(s) for s in flatten(strings)]),
+  joined_warnings  = "{join_prefix('-W', warnings)}",
+  joined_defines   = "{join_prefix('-D', defines)}",
+  joined_includes  = "{join_prefix('-I', includes)}",
+  joined_libraries = "{join_prefix('-l', libraries)}",
 )
 
-compile_cpp = build_config.rule(
+compile_cpp = c_config.rule(
   desc        = "Compiling C++ {rel_source_files} => {rel_build_files}",
-  command     = "{tool} -MMD {cpp_std} {warnings} {build_type} {includes} {defines} -c {rel_source_files} -o {rel_build_files}",
+  command     = "g++ -MMD {cpp_std} {build_type} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
   build_files = "{swap_ext(source_files, '.o')}",
   build_deps  = "{swap_ext(source_files, '.d')}",
-  tool        = "g++",
 )
 
-compile_c     = build_config.rule(
+compile_c     = c_config.rule(
   desc        = "Compiling C {rel_source_files} => {rel_build_files}",
-  command     = "{tool} -MMD {warnings} {build_type} {includes} {defines} -c {rel_source_files} -o {rel_build_files}",
+  command     = "gcc -MMD {build_type} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
   build_files = "{swap_ext(source_files, '.o')}",
   build_deps  = "{swap_ext(source_files, '.d')}",
-  tool        = "gcc",
 )
 
-link_c_lib = build_config.rule(
+link_c_lib = c_config.rule(
   desc        = "Bundling {rel_build_files}",
   command     = "ar rcs {rel_build_files} {rel_source_files}",
 )
 
-link_c_bin  = build_config.rule(
+link_c_bin  = c_config.rule(
   desc       = "Linking {rel_build_files}",
-  command    = "{tool} {build_type} {rel_source_files} {libraries} -o {rel_build_files}",
-  tool       = "g++",
-  libraries  = "",
+  command    = "g++ {rel_source_files} {joined_libraries} -o {rel_build_files}",
 )
 
 def cpp_bin(source_files, build_files, **kwargs):

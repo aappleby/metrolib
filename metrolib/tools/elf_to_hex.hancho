@@ -1,11 +1,12 @@
-tool = build_config.load("build.hancho")
+tools = build_config.load("build.hancho")
+
+print(dir(tools))
 
 run = build_config.rule(
-  command = "{tool} {rel_source_files} {rel_build_files}",
+  command = "{command_files} {rel_source_files} {rel_build_files}",
+  command_files = tools.elf_to_hex,
   build_files = [
     "{swap_ext(source_files, '.code.vh')}",
     "{swap_ext(source_files, '.data.vh')}",
   ],
-  build_path = build_config.source_path,
-  tool = tool.bin
 )

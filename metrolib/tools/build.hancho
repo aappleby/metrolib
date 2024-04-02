@@ -1,3 +1,6 @@
-rules = build_config.include("{metrolib_root}/rules/rules.hancho")
+rules = build_config.include("{command_path}/rules/rules.hancho")
 
-bin = rules.cpp_bin("elf_to_hex.cpp","elf_to_hex")
+elf_to_hex = rules.cpp_bin(
+  source_files = "elf_to_hex.cpp",
+  build_files  = "elf_to_hex",
+)
