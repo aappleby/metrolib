@@ -1,4 +1,4 @@
-rules = build_config.include("{rules_path}/rules.hancho")
+rules = build_config.include("{repo_path}/rules/rules.hancho")
 
 lib = rules.cpp_lib(
   source_files = glob("*.cpp"),

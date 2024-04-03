@@ -1,11 +1,6 @@
-build_config.rules_path = "{root_path}/rules"
-
 appbase = build_config.load("metrolib/appbase/build.hancho")
-#audio   = build_config.load("metrolib/audio/build.hancho")
-#core    = build_config.load("metrolib/core/build.hancho")
-#gameboy = build_config.load("metrolib/gameboy/build.hancho")
-#tools   = build_config.load("metrolib/tools/build.hancho")
-
-#elf_to_hex = build_config.include("metrolib/tools/elf_to_hex.hancho")
-
-#tests      = build_config.load("tests/build.hancho")
+audio   = build_config.load("metrolib/audio/build.hancho")
+core    = build_config.load("metrolib/core/build.hancho")
+gameboy = build_config.load("metrolib/gameboy/build.hancho")
+tools   = build_config.load("metrolib/tools/build.hancho")
+tests   = build_config.load("tests/build.hancho")
