@@ -1,4 +1,5 @@
-
-elf_to_hex = build_config.include("{repo_path}/metrolib/tools/elf_to_hex.hancho")
-
-task = elf_to_hex.run("add.elf", ["add.code.vh", "add.rwdata.vh"])
+task = hancho.elf_to_hex(
+  "add.elf",
+  ["add.code.vh", "add.rwdata.vh"],
+  quiet=True
+)

@@ -1,6 +1,11 @@
-rules = build_config.include("{repo_path}/rules/rules.hancho")
+rules = hancho.load("{repo_path}/rules/rules.hancho")
 
-elf_to_hex = rules.cpp_bin(
+elf_to_hex_bin = rules.cpp_bin(
   source_files = "elf_to_hex.cpp",
   build_files  = "elf_to_hex",
+)
+
+elf_to_hex = hancho.command(
+  command = "{rel_path(command_files, command_path)} {rel_source_files} {rel_build_files}",
+  command_files = elf_to_hex_bin,
 )

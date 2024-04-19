@@ -1,6 +1,7 @@
-appbase = build_config.load("metrolib/appbase/build.hancho")
-audio   = build_config.load("metrolib/audio/build.hancho")
-core    = build_config.load("metrolib/core/build.hancho")
-gameboy = build_config.load("metrolib/gameboy/build.hancho")
-tools   = build_config.load("metrolib/tools/build.hancho")
-tests   = build_config.load("tests/build.hancho")
+appbase = hancho.load("metrolib/appbase/build.hancho")
+audio   = hancho.load("metrolib/audio/build.hancho")
+core    = hancho.load("metrolib/core/build.hancho")
+gameboy = hancho.load("metrolib/gameboy/build.hancho")
+
+tools   = hancho.load("metrolib/tools/build.hancho")
+tests   = hancho.load("tests/build.hancho", elf_to_hex = tools.elf_to_hex)
