@@ -1,6 +1,17 @@
 rules = hancho.load("rules/rules.hancho")
 rules.c_config.includes.append("symlinks")
 
+def build_lib(name):
+  return rules.cpp_lib(
+    source_files = hancho.glob(f"metrolib/{name}/*.cpp"),
+    build_files  = f"metrolib/{name}/lib{name}.a",
+  )
+
+hancho.libappbase = build_lib("appbase")
+hancho.libaudio   = build_lib("audio")
+hancho.libcore    = build_lib("core")
+hancho.libgameboy = build_lib("gameboy")
+
 elf_to_hex_bin = rules.cpp_bin(
   source_files = "metrolib/tools/elf_to_hex.cpp",
   build_files  = "metrolib/tools/elf_to_hex",
@@ -9,26 +20,6 @@ elf_to_hex_bin = rules.cpp_bin(
 hancho.elf_to_hex = hancho.command(
   command = "{rel_path(command_files, command_path)} {rel_source_files} {rel_build_files}",
   command_files = elf_to_hex_bin,
-)
-
-hancho.libappbase = rules.cpp_lib(
-  source_files = hancho.glob("metrolib/appbase/*.cpp"),
-  build_files  = "metrolib/appbase/libappbase.a",
-)
-
-hancho.libaudio = rules.cpp_lib(
-  source_files = hancho.glob("metrolib/audio/*.cpp"),
-  build_files  = "metrolib/audio/libaudio.a",
-)
-
-hancho.libcore = rules.cpp_lib(
-  source_files = hancho.glob("metrolib/core/*.cpp"),
-  build_files  = "metrolib/core/libcore.a",
-)
-
-hancho.libgameboy = rules.cpp_lib(
-  source_files = hancho.glob("metrolib/gameboy/*.cpp"),
-  build_files  = "metrolib/gameboy/libgameboy.a",
 )
 
 test_elf_to_hex = hancho.elf_to_hex(
