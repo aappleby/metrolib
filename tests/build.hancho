@@ -1,5 +1,0 @@
-task = hancho.elf_to_hex(
-  "add.elf",
-  ["add.code.vh", "add.rwdata.vh"],
-  quiet=True
-)

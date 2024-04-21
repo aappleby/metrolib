@@ -1,7 +1,38 @@
-appbase = hancho.load("metrolib/appbase/build.hancho")
-audio   = hancho.load("metrolib/audio/build.hancho")
-core    = hancho.load("metrolib/core/build.hancho")
-gameboy = hancho.load("metrolib/gameboy/build.hancho")
+rules = hancho.load("rules/rules.hancho")
+rules.c_config.includes.append("symlinks")
 
-tools   = hancho.load("metrolib/tools/build.hancho")
-tests   = hancho.load("tests/build.hancho", elf_to_hex = tools.elf_to_hex)
+elf_to_hex_bin = rules.cpp_bin(
+  source_files = "metrolib/tools/elf_to_hex.cpp",
+  build_files  = "metrolib/tools/elf_to_hex",
+)
+
+hancho.elf_to_hex = hancho.command(
+  command = "{rel_path(command_files, command_path)} {rel_source_files} {rel_build_files}",
+  command_files = elf_to_hex_bin,
+)
+
+hancho.libappbase = rules.cpp_lib(
+  source_files = hancho.glob("metrolib/appbase/*.cpp"),
+  build_files  = "metrolib/appbase/libappbase.a",
+)
+
+hancho.libaudio = rules.cpp_lib(
+  source_files = hancho.glob("metrolib/audio/*.cpp"),
+  build_files  = "metrolib/audio/libaudio.a",
+)
+
+hancho.libcore = rules.cpp_lib(
+  source_files = hancho.glob("metrolib/core/*.cpp"),
+  build_files  = "metrolib/core/libcore.a",
+)
+
+hancho.libgameboy = rules.cpp_lib(
+  source_files = hancho.glob("metrolib/gameboy/*.cpp"),
+  build_files  = "metrolib/gameboy/libgameboy.a",
+)
+
+test_elf_to_hex = hancho.elf_to_hex(
+  "tests/add.elf",
+  ["tests/add.code.vh", "tests/add.rwdata.vh"],
+  quiet=True,
+)
