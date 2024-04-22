@@ -1,32 +1,31 @@
 c_config = hancho.extend(
-  build_type  = "-g -O0",
   cpp_std     = "-std=gnu++2a",
+  build_type  = "-g -O0",
 
-  warnings    = ["unused-variable", "error"],
-  defines     = ["CONFIG_DEBUG"],
-  includes    = [
-    "{rel_path(repo_path, command_path)}",  # Always include stuff from repo_path
-    "."                                     # Always include stuff from current directory
-  ],
-  libraries   = [],
+  c_flags     = [],
+  cpp_flags   = [],
+  warnings    = [],
+  defines     = [],
+  includes    = ["."],
+  sys_libs    = [],
 
   join_prefix      = lambda prefix, strings: ' '.join([prefix+str(s) for s in hancho.flatten(strings)]),
   joined_warnings  = "{join_prefix('-W', warnings)}",
   joined_defines   = "{join_prefix('-D', defines)}",
   joined_includes  = "{join_prefix('-I', includes)}",
-  joined_libraries = "{join_prefix('-l', libraries)}",
+  joined_sys_libs  = "{join_prefix('-l', sys_libs)}",
 )
 
 compile_cpp = c_config.command(
   desc        = "Compiling C++ {rel_source_files} => {rel_build_files}",
-  command     = "g++ -MMD {cpp_std} {build_type} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
+  command     = "g++ -MMD {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
   build_files = "{swap_ext(source_files, '.o')}",
   build_deps  = "{swap_ext(source_files, '.d')}",
 )
 
 compile_c     = c_config.command(
   desc        = "Compiling C {rel_source_files} => {rel_build_files}",
-  command     = "gcc -MMD {build_type} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
+  command     = "gcc -MMD {build_type} {c_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
   build_files = "{swap_ext(source_files, '.o')}",
   build_deps  = "{swap_ext(source_files, '.d')}",
 )
@@ -38,22 +37,40 @@ link_c_lib = c_config.command(
 
 link_c_bin  = c_config.command(
   desc       = "Linking {rel_build_files}",
-  command    = "g++ {rel_source_files} {joined_libraries} -o {rel_build_files}",
+  command    = "g++ {rel_source_files} {joined_sys_libs} -o {rel_build_files}",
 )
 
-def cpp_bin(source_files, build_files, **kwargs):
-  objs = [compile_cpp(file, **kwargs) for file in hancho.flatten(source_files)]
-  return link_c_bin(objs, build_files, **kwargs)
-
 def cpp_lib(source_files, build_files, **kwargs):
-  objs = [compile_cpp(file, **kwargs) for file in hancho.flatten(source_files)]
+  objs = []
+  for file in hancho.flatten(source_files):
+    objs.append(file if isinstance(file, hancho.Task) else compile_cpp(file, **kwargs))
   return link_c_lib(objs, build_files, **kwargs)
 
 def c_lib(source_files, build_files, **kwargs):
-  objs = [compile_c(file, **kwargs) for file in hancho.flatten(source_files)]
+  objs = []
+  for file in hancho.flatten(source_files):
+    objs.append(file if isinstance(file, hancho.Task) else compile_c(file, **kwargs))
   return link_c_lib(objs, build_files, **kwargs)
 
-hancho.c_config = c_config
-hancho.cpp_bin  = cpp_bin
+def compile_and_link(config):
+  source_files = config.pop("source_files")
+  build_files  = config.pop("build_files")
+
+  objs = []
+  for file in hancho.flatten(source_files):
+    if isinstance(file, hancho.Task):
+      objs.append(file)
+    else:
+      objs.append(compile_cpp(file, config))
+
+  return link_c_bin(objs, build_files, config)
+
+hancho.cpp_bin     = hancho.callback(compile_and_link)
+hancho.c_config    = c_config
+hancho.compile_cpp = compile_cpp
+hancho.compile_c   = compile_c
+hancho.link_c_lib  = link_c_lib
+hancho.link_c_bin  = link_c_bin
+
 hancho.cpp_lib  = cpp_lib
 hancho.c_lib    = c_lib

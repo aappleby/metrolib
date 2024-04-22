@@ -1,10 +1,13 @@
-rules = hancho.load("rules/rules.hancho")
-rules.c_config.includes.append("symlinks")
+hancho.rules = hancho.load("rules/rules.hancho")
 
 def build_lib(name):
-  return rules.cpp_lib(
+  return hancho.rules.cpp_lib(
     source_files = hancho.glob(f"metrolib/{name}/*.cpp"),
     build_files  = f"metrolib/{name}/lib{name}.a",
+    defines      = ["CONFIG_DEBUG"],
+    includes     = [".", "symlinks"],
+    warnings     = ["unused-variable", "error"],
+
   )
 
 hancho.libappbase = build_lib("appbase")
@@ -12,13 +15,10 @@ hancho.libaudio   = build_lib("audio")
 hancho.libcore    = build_lib("core")
 hancho.libgameboy = build_lib("gameboy")
 
-elf_to_hex_bin = rules.cpp_bin(
-  source_files = "metrolib/tools/elf_to_hex.cpp",
-  build_files  = "metrolib/tools/elf_to_hex",
-)
+elf_to_hex_bin = hancho.rules.cpp_bin("metrolib/tools/elf_to_hex.cpp", "metrolib/tools/elf_to_hex")
 
 hancho.elf_to_hex = hancho.command(
-  command = "{rel_path(command_files, command_path)} {rel_source_files} {rel_build_files}",
+  "{command_files} {rel_source_files} {rel_build_files}",
   command_files = elf_to_hex_bin,
 )
 
