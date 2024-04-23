@@ -1,7 +1,7 @@
-hancho.rules = hancho.load("rules/rules.hancho")
+rules = hancho.load("rules/rules.hancho")
 
 def build_lib(name):
-  return hancho.rules.cpp_lib(
+  return rules.cpp_lib(
     source_files = hancho.glob(f"metrolib/{name}/*.cpp"),
     build_files  = f"metrolib/{name}/lib{name}.a",
     defines      = ["CONFIG_DEBUG"],
@@ -10,19 +10,20 @@ def build_lib(name):
 
   )
 
-hancho.libappbase = build_lib("appbase")
-hancho.libaudio   = build_lib("audio")
-hancho.libcore    = build_lib("core")
-hancho.libgameboy = build_lib("gameboy")
+export.rules      = rules
+export.libappbase = build_lib("appbase")
+export.libaudio   = build_lib("audio")
+export.libcore    = build_lib("core")
+export.libgameboy = build_lib("gameboy")
 
-elf_to_hex_bin = hancho.rules.cpp_bin("metrolib/tools/elf_to_hex.cpp", "metrolib/tools/elf_to_hex")
+elf_to_hex_bin = rules.cpp_bin("metrolib/tools/elf_to_hex.cpp", "metrolib/tools/elf_to_hex")
 
-hancho.elf_to_hex = hancho.command(
+export.elf_to_hex = hancho.command(
   "{command_files} {rel_source_files} {rel_build_files}",
   command_files = elf_to_hex_bin,
 )
 
-test_elf_to_hex = hancho.elf_to_hex(
+test_elf_to_hex = export.elf_to_hex(
   "tests/add.elf",
   ["tests/add.code.vh", "tests/add.rwdata.vh"],
   quiet=True,
