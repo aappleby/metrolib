@@ -19,9 +19,10 @@ cpp_config = hancho.Config(
 
 compile_cpp = hancho.Config(
   cpp_config,
+  name    = "{in_src}",
   desc    = "Compiling C++ {rel(in_src)} => {rel(out_obj)}",
   command = "g++ -MMD {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel(in_src)} -o {rel(out_obj)}",
-  in_src  = [],
+  #in_src  = [],
   out_obj = "{swap_ext(in_src, '.o')}",
   dep_gcc = "{swap_ext(in_src, '.d')}",
 )
@@ -30,6 +31,7 @@ exports.compile_cpp = compile_cpp
 
 link_cpp_lib = hancho.Config(
   cpp_config,
+  name    = "{out_lib}",
   desc    = "Bundling {rel(out_lib)}",
   command = "ar rcs {rel(out_lib)} {rel(in_objs)}",
   in_objs = [],
@@ -38,7 +40,8 @@ link_cpp_lib = hancho.Config(
 
 link_cpp_bin = hancho.Config(
   cpp_config,
-  desc    = "Linking {rel(out_bin)}",
+  name = "{out_bin}",
+  desc = "Linking {rel(out_bin)}",
   command = "g++ {linker_group} {joined_sys_libs} -o {rel(out_bin)}",
   linker_group = [
     "-Wl,--as-needed",
@@ -60,23 +63,41 @@ def cpp_to_obj(config, file):
 
 def cpp_bin(self, *args, **kwargs):
   config   = hancho.Config(self, *args, **kwargs)
+
   in_srcs  = config.pop("in_srcs")
   in_objs  = config.pop("in_objs", [])
   in_libs  = config.pop("in_libs", [])
   out_bin  = config.pop("out_bin")
-  out_objs = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)]
-  bin      = link_cpp_bin(config, in_objs = [in_objs, in_libs, out_objs], out_bin = out_bin)
-  return bin
 
+  objs = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)]
+  bin  = link_cpp_bin(config, in_objs = [in_objs, in_libs, objs], out_bin = out_bin)
+
+  return hancho.Task(
+    command = [],
+    in_srcs = in_srcs,
+    in_objs = in_objs,
+    in_libs = in_libs,
+    out_bin = bin.promise("out_bin"),
+    meta = True,
+  )
 
 def cpp_lib(self, *args, **kwargs):
   config   = hancho.Config(self, *args, **kwargs)
+
   in_srcs  = config.pop("in_srcs", [])
   in_objs  = config.pop("in_objs", [])
   out_lib  = config.pop("out_lib")
-  out_objs = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)] + in_objs
-  bin      = link_cpp_lib(config, in_objs = out_objs, out_lib = out_lib)
-  return bin
+
+  objs     = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)] + in_objs
+  lib      = link_cpp_lib(config, in_objs = objs, out_lib = out_lib)
+
+  return hancho.Task(
+    command = [],
+    in_srcs = in_srcs,
+    in_objs = in_objs,
+    out_lib = lib.promise("out_lib"),
+    meta = True,
+  )
 
 exports.cpp_bin = hancho.Config(call = cpp_bin)
 exports.cpp_lib = hancho.Config(call = cpp_lib)
