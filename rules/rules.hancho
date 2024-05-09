@@ -1,16 +1,15 @@
-export.make = hancho.command(
-  command = "make --quiet -C {path.dirname(rel_source_files[0])} -f {path.basename(rel_source_files[0])} > /dev/null"
-)
-export.c_config = hancho.extend(
+import hancho
+
+cpp_config = hancho.Config(
   cpp_std     = "-std=gnu++2a",
   build_type  = "-g -O0",
 
-  c_flags     = [],
-  cpp_flags   = [],
-  warnings    = [],
-  defines     = [],
-  includes    = ["."],
-  sys_libs    = [],
+  c_flags   = [],
+  cpp_flags = [],
+  warnings  = [],
+  defines   = [],
+  includes  = ["."],
+  sys_libs  = [],
 
   joined_warnings  = "{join_prefix('-W', warnings)}",
   joined_defines   = "{join_prefix('-D', defines)}",
@@ -18,50 +17,72 @@ export.c_config = hancho.extend(
   joined_sys_libs  = "{join_prefix('-l', sys_libs)}",
 )
 
-export.compile_cpp = export.c_config.command(
-  desc        = "Compiling C++ {rel_source_files} => {rel_build_files}",
-  command     = "g++ -MMD {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
-  build_files = "{swap_ext(source_files, '.o')}",
-  build_deps  = "{swap_ext(source_files, '.d')}",
+compile_cpp = hancho.Config(
+  cpp_config,
+  desc    = "Compiling C++ {rel(in_src)} => {rel(out_obj)}",
+  command = "g++ -MMD {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel(in_src)} -o {rel(out_obj)}",
+  in_src  = [],
+  out_obj = "{swap_ext(in_src, '.o')}",
+  dep_gcc = "{swap_ext(in_src, '.d')}",
 )
 
-export.compile_c     = export.c_config.command(
-  desc        = "Compiling C {rel_source_files} => {rel_build_files}",
-  command     = "gcc -MMD {build_type} {c_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel_source_files} -o {rel_build_files}",
-  build_files = "{swap_ext(source_files, '.o')}",
-  build_deps  = "{swap_ext(source_files, '.d')}",
+exports.compile_cpp = compile_cpp
+
+link_cpp_lib = hancho.Config(
+  cpp_config,
+  desc    = "Bundling {rel(out_lib)}",
+  command = "ar rcs {rel(out_lib)} {rel(in_objs)}",
+  in_objs = [],
+  out_lib = [],
 )
 
-export.link_c_lib = export.c_config.command(
-  desc        = "Bundling {rel_build_files}",
-  command     = "ar rcs {rel_build_files} {rel_source_files}",
+link_cpp_bin = hancho.Config(
+  cpp_config,
+  desc    = "Linking {rel(out_bin)}",
+  command = "g++ {linker_group} {joined_sys_libs} -o {rel(out_bin)}",
+  linker_group = [
+    "-Wl,--as-needed",
+    "-Wl,--no-undefined",
+    "-Wl,--start-group",
+    "{rel(in_objs)}",
+    "-Wl,--end-group",
+  ],
+  in_objs = [],
+  out_bin = [],
 )
 
-export.link_c_bin  = export.c_config.command(
-  desc       = "Linking {rel_build_files}",
-  command    = "g++ {rel_source_files} {joined_sys_libs} -o {rel_build_files}",
+exports.link_cpp_bin = link_cpp_bin
+
+def cpp_to_obj(config, file):
+  if isinstance(file, hancho.Task):
+    return file
+  return compile_cpp(config, in_src = file)
+
+def cpp_bin(self, *args, **kwargs):
+  config   = hancho.Config(self, *args, **kwargs)
+  in_srcs  = config.pop("in_srcs")
+  in_objs  = config.pop("in_objs", [])
+  in_libs  = config.pop("in_libs", [])
+  out_bin  = config.pop("out_bin")
+  out_objs = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)]
+  bin      = link_cpp_bin(config, in_objs = [in_objs, in_libs, out_objs], out_bin = out_bin)
+  return bin
+
+
+def cpp_lib(self, *args, **kwargs):
+  config   = hancho.Config(self, *args, **kwargs)
+  in_srcs  = config.pop("in_srcs", [])
+  in_objs  = config.pop("in_objs", [])
+  out_lib  = config.pop("out_lib")
+  out_objs = [cpp_to_obj(config, file) for file in hancho.flatten(in_srcs)] + in_objs
+  bin      = link_cpp_lib(config, in_objs = out_objs, out_lib = out_lib)
+  return bin
+
+exports.cpp_bin = hancho.Config(call = cpp_bin)
+exports.cpp_lib = hancho.Config(call = cpp_lib)
+
+make = hancho.Config(
+  command = "make --quiet -C {path.dirname(in_makefile)} -f {path.basename(in_makefile)} > /dev/null"
 )
 
-def cpp_objs(config):
-  source_files = hancho.flatten(config.pop("source_files"))
-  return [file if isinstance(file, hancho.Task) else export.compile_cpp(file, config) for file in source_files]
-
-def c_objs(config):
-  source_files = hancho.flatten(config.pop("source_files"))
-  return [file if isinstance(file, hancho.Task) else export.compile_c(file, config) for file in source_files]
-
-def cpp_bin(config):
-  build_files = config.pop("build_files")
-  return export.link_c_bin(cpp_objs(config), build_files, config)
-
-def cpp_lib(config):
-  build_files = config.pop("build_files")
-  return export.link_c_lib(cpp_objs(config), build_files, config)
-
-def c_lib(config):
-  build_files = config.pop("build_files")
-  return export.link_c_lib(c_objs(objs), build_files, config)
-
-export.cpp_bin     = hancho.callback(cpp_bin)
-export.cpp_lib     = hancho.callback(cpp_lib)
-export.c_lib       = hancho.callback(c_lib)
+exports.make = make

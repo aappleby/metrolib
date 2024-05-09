@@ -1,30 +1,45 @@
+import hancho
+import glob
+
+config = hancho.Config(
+  build_tag = "debug"
+)
+
+if hasattr(imports, "build_tag"):
+  config.build_tag = imports.build_tag
+
 rules = hancho.load("rules/rules.hancho")
 
-def build_lib(name):
+def build_lib(name, config):
   return rules.cpp_lib(
-    source_files = hancho.glob(f"metrolib/{name}/*.cpp"),
-    build_files  = f"metrolib/{name}/lib{name}.a",
-    defines      = ["CONFIG_DEBUG"],
-    includes     = [".", "symlinks"],
-    warnings     = ["unused-variable", "error"],
-
+    config,
+    in_srcs  = glob.glob(f"metrolib/{name}/*.cpp"),
+    out_lib  = f"metrolib/{name}/lib{name}.a",
+    defines  = ["CONFIG_DEBUG"],
+    includes = [".", "symlinks"],
+    warnings = ["unused-variable", "error"],
   )
 
-export.rules      = rules
-export.libappbase = build_lib("appbase")
-export.libaudio   = build_lib("audio")
-export.libcore    = build_lib("core")
-export.libgameboy = build_lib("gameboy")
+libappbase = build_lib("appbase", config)
+libaudio   = build_lib("audio", config)
+libcore    = build_lib("core", config)
+libgameboy = build_lib("gameboy", config)
 
-elf_to_hex_bin = rules.cpp_bin("metrolib/tools/elf_to_hex.cpp", "metrolib/tools/elf_to_hex")
+tools = hancho.load("metrolib/tools/tools.hancho", rules = rules, build_tag  = config.build_tag)
 
-export.elf_to_hex = hancho.command(
-  "{command_files} {rel_source_files} {rel_build_files}",
-  command_files = elf_to_hex_bin,
+test_elf_to_hex = tools.elf_to_hex(
+  in_elf     = "tests/add.elf",
+  out_code   = "tests/add.code.vh",
+  out_rwdata = "tests/add.rwdata.vh",
+  out_rodata = "tests/add.rodata.vh",
+  quiet      = True,
+  build_tag  = config.build_tag,
 )
 
-test_elf_to_hex = export.elf_to_hex(
-  "tests/add.elf",
-  ["tests/add.code.vh", "tests/add.rwdata.vh"],
-  quiet=True,
-)
+exports.build_tag  = config.build_tag
+exports.rules      = rules
+exports.libappbase = libappbase
+exports.libaudio   = libaudio
+exports.libcore    = libcore
+exports.libgameboy = libgameboy
+exports.elf_to_hex = tools.elf_to_hex
