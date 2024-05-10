@@ -31,7 +31,7 @@ test_elf_to_hex = tools.elf_to_hex(
   in_elf     = "tests/add.elf",
   out_code   = "tests/add.code.vh",
   out_rwdata = "tests/add.rwdata.vh",
-  out_rodata = "tests/add.rodata.vh",
+  #out_rodata = "tests/add.rodata.vh",
   quiet      = True,
   build_tag  = config.build_tag,
 )

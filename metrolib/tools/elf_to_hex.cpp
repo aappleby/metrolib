@@ -14,15 +14,15 @@ namespace fs = std::filesystem;
 
 int main(int argc, char** argv) {
 
-  if (argc < 4) {
+  if (argc < 3) {
     printf("Usage : elf_to_hex <elf_filename> <out_code> <out_rwdata>\n");
     return -1;
   }
 
-  std::string elf_path = argv[1];
-  std::string code_hex_path = argv[2];
+  std::string elf_path        = argv[1];
+  std::string code_hex_path   = argv[2];
   std::string rwdata_hex_path = argv[3];
-  std::string rodata_hex_path = argv[4];
+  //std::string rodata_hex_path = argv[4];
 
   if (!fs::is_regular_file(elf_path)) {
     printf("File %s not found\n", elf_path.c_str());
@@ -83,6 +83,8 @@ int main(int argc, char** argv) {
         fprintf(out, "\n");
         fclose(out);
       }
+
+      /*
       else if (phdr.p_flags & PF_R) {
         //assert(!found_data);
         //found_data = true;
@@ -99,6 +101,7 @@ int main(int argc, char** argv) {
         fprintf(out, "\n");
         fclose(out);
       }
+      */
     }
   }
 
