@@ -50,9 +50,8 @@ exports.link_cpp_bin = link_cpp_bin
 ####################################################################################################
 
 def cpp_bin(*, in_srcs = [], in_objs = [], in_libs = [], out_bin, **kwargs):
-  config = hancho.Config(**kwargs)
-  objs = [compile_cpp(config, in_src = file) for file in hancho.flatten(in_srcs)]
-  bin  = link_cpp_bin(config, in_objs = [objs, in_objs, in_libs], out_bin = out_bin)
+  objs = [compile_cpp(kwargs, in_src = file) for file in hancho.flatten(in_srcs)]
+  bin  = link_cpp_bin(kwargs, in_objs = [objs, in_objs, in_libs], out_bin = out_bin)
 
   return hancho.Task(
     command = ":",
@@ -67,9 +66,8 @@ exports.cpp_bin = hancho.Config(call = cpp_bin)
 ####################################################################################################
 
 def cpp_lib(*, in_srcs = [], in_objs = [], in_libs = [], out_lib, **kwargs):
-  config  = hancho.Config(**kwargs)
-  objs = [compile_cpp(config, in_src = file) for file in hancho.flatten(in_srcs)]
-  lib  = link_cpp_lib(config, in_objs = [objs, in_objs, in_libs], out_lib = out_lib)
+  objs = [compile_cpp(kwargs, in_src = file) for file in hancho.flatten(in_srcs)]
+  lib  = link_cpp_lib(kwargs, in_objs = [objs, in_objs, in_libs], out_lib = out_lib)
 
   return hancho.Task(
     command = ":",
@@ -83,10 +81,11 @@ exports.cpp_lib = hancho.Config(call = cpp_lib)
 
 ####################################################################################################
 
-make = hancho.Config(
-  command = "make --quiet -C {path.dirname(in_makefile)} -f {path.basename(in_makefile)} > /dev/null"
+exports.make = hancho.Config(
+  command     = "make --quiet -C {make_path} -f {make_file} > /dev/null",
+  make_path   = "{path.dirname(in_makefile)}",
+  make_file   = "{path.basename(in_makefile)}",
+  in_makefile = None,
 )
-
-exports.make = make
 
 ####################################################################################################
