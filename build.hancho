@@ -13,6 +13,7 @@ rules = hancho.load("rules/rules.hancho")
 def build_lib(name, config):
   return rules.cpp_lib(
     config,
+    name     = name,
     in_srcs  = glob.glob(f"metrolib/{name}/*.cpp"),
     out_lib  = f"metrolib/{name}/lib{name}.a",
     defines  = ["CONFIG_DEBUG"],

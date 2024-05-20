@@ -1,8 +1,11 @@
 import hancho
 
 cpp_config = hancho.Config(
+  compiler    = "g++",
+  linker      = "g++",
   cpp_std     = "-std=gnu++2a",
   build_type  = "-g -O0",
+  arch        = "",
 
   c_flags   = [],
   cpp_flags = [],
@@ -15,14 +18,15 @@ cpp_config = hancho.Config(
   joined_defines   = "{join_prefix('-D', defines)}",
   joined_includes  = "{join_prefix('-I', includes)}",
   joined_sys_libs  = "{join_prefix('-l', sys_libs)}",
+  joined_link_opts = "{join_prefix('-Wl,', link_opts)}",
 )
 
 compile_cpp = hancho.Config(
   cpp_config,
-  desc    = "Compiling C++ {rel(in_src)} => {rel(out_obj)}",
-  command = "g++ -MMD {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -c {rel(in_src)} -o {rel(out_obj)}",
-  out_obj = "{swap_ext(in_src, '.o')}",
-  dep_gcc = "{swap_ext(in_src, '.d')}",
+  desc     = "Compiling C++ {rel(in_src)} => {rel(out_obj)}",
+  command  = "{compiler} {arch} {cpp_std} {build_type} {cpp_flags} {joined_warnings} {joined_defines} {joined_includes} -MMD -c {rel(in_src)} -o {rel(out_obj)}",
+  out_obj  = "{swap_ext(in_src, '.o')}",
+  depfile  = "{swap_ext(in_src, '.d')}",
 )
 
 link_cpp_lib = hancho.Config(
@@ -34,7 +38,7 @@ link_cpp_lib = hancho.Config(
 link_cpp_bin = hancho.Config(
   cpp_config,
   desc = "Linking {rel(out_bin)}",
-  command = "g++ {linker_group} {joined_sys_libs} -o {rel(out_bin)}",
+  command = "{linker} {linker_group} {joined_sys_libs} -o {rel(out_bin)}",
   linker_group = [
     "-Wl,--as-needed",
     "-Wl,--no-undefined",
@@ -47,45 +51,53 @@ link_cpp_bin = hancho.Config(
 exports.compile_cpp = compile_cpp
 exports.link_cpp_bin = link_cpp_bin
 
+"""
+rv_compile = rv_base.extend(
+  command    = "riscv64-unknown-elf-gcc -MMD {arch} -c {rel(in_src)} {rel(in_src)}",
+  arch       = "-march=rv32i -mabi=ilp32 -mstrict-align",
+  cpp_std    = "-std=gnu++2a",
+  build_type = "-g -Os",
+  out_obj    = "{swap_ext(in_src, '.o')}",
+  depfile    = "{swap_ext(in_src, '.d')}",
+)
+
+rv_link = rv_base.extend(
+  command   = "riscv64-unknown-elf-gcc {arch} {link_flags} -lgcc {files_in} -o {files_out}",
+  link_flags = [
+    "-nostdlib",
+    "-nostartfiles",
+    "-Wl,-T {linkerscript}",
+  ],
+  arch      = "-march=rv32i -mabi=ilp32 -mstrict-align",
+  deps      = rv_base.deps + ["{linkerscript}"],
+  linkerscript = "{load_dir}/link.ld",
+)
+"""
+
 ####################################################################################################
 
-def cpp_bin(*, in_srcs = [], in_objs = [], in_libs = [], out_bin, **kwargs):
+def cpp_bin(*, name, in_srcs = [], in_objs = [], in_libs = [], out_bin, **kwargs):
   objs = [compile_cpp(kwargs, in_src = file) for file in hancho.flatten(in_srcs)]
-  bin  = link_cpp_bin(kwargs, in_objs = [objs, in_objs, in_libs], out_bin = out_bin)
-
-  return hancho.Task(
-    command = ":",
-    in_srcs = in_srcs,
-    in_objs = in_objs,
-    in_libs = in_libs,
-    out_bin = bin.promise("out_bin")
-  )
+  bin  = link_cpp_bin(kwargs, name = name, in_objs = [objs, in_objs, in_libs], out_bin = out_bin)
+  return bin
 
 exports.cpp_bin = hancho.Config(call = cpp_bin)
 
 ####################################################################################################
 
-def cpp_lib(*, in_srcs = [], in_objs = [], in_libs = [], out_lib, **kwargs):
+def cpp_lib(*, name, in_srcs = [], in_objs = [], in_libs = [], out_lib, **kwargs):
   objs = [compile_cpp(kwargs, in_src = file) for file in hancho.flatten(in_srcs)]
-  lib  = link_cpp_lib(kwargs, in_objs = [objs, in_objs, in_libs], out_lib = out_lib)
-
-  return hancho.Task(
-    command = ":",
-    in_srcs = in_srcs,
-    in_objs = in_objs,
-    in_libs = in_libs,
-    out_lib = lib.promise("out_lib")
-  )
+  lib  = link_cpp_lib(kwargs, name = name, in_objs = [objs, in_objs, in_libs], out_lib = out_lib)
+  return lib
 
 exports.cpp_lib = hancho.Config(call = cpp_lib)
 
 ####################################################################################################
 
 exports.make = hancho.Config(
-  command     = "make --quiet -C {make_path} -f {make_file} > /dev/null",
+  command     = "make --quiet -C {make_path} -f {make_file} {flags} > /dev/null",
   make_path   = "{path.dirname(in_makefile)}",
   make_file   = "{path.basename(in_makefile)}",
+  flags       = "",
   in_makefile = None,
 )
-
-####################################################################################################

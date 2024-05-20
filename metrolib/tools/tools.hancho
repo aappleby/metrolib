@@ -1,6 +1,7 @@
 import hancho
 
 elf_to_hex_bin = imports.rules.cpp_bin(
+  name    = "elf_to_hex",
   in_srcs = "elf_to_hex.cpp",
   out_bin = "elf_to_hex",
   build_tag = imports.build_tag,

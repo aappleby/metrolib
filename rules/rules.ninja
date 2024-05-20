@@ -63,7 +63,7 @@ rule make
 
 # FIXME verilator isn't obeying lint-off WIDTHTRUNC etc
 rule verilator
-  command = verilator -Wno-width --public ${includes} --cc ${in} -Mdir $$(set -- ${out}; dirname $$1)
+  command = verilator ${params} -Wno-width --public ${includes} --cc ${in} -Mdir $$(set -- ${out}; dirname $$1)
 
 rule verilator_lint
   command = verilator -Wno-width ${includes} --lint-only ${in}
@@ -72,15 +72,13 @@ rule iverilog
   command = iverilog -g2012 ${defines} ${includes} ${in} -o ${out}
 
 rule yosys
-  command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
-#  command = yosys -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
+  command = yosys -q -p 'read_verilog -defer ${includes} -sv ${in}; dump; ${params}; synth_ice40 -top ${top} -json ${out};'
 
 rule yosys_noisy
   command = yosys -p 'read_verilog ${includes} -sv ${in}; dump; synth_ice40 -json ${out};'
 
 rule yosys_check
-  command = yosys -q -p 'read_verilog ${includes} -sv ${in}; dump;'
-#  command = yosys -p 'read_verilog ${includes} -sv ${in};'
+  command = yosys -Q -p 'read_verilog -defer ${includes} -sv ${in}; dump;'
 
 rule nextpnr-ice40
   command = nextpnr-ice40 ${flags} -q --${chip} --package ${package} --json ${in} --asc ${out} --pcf ${pcf}
