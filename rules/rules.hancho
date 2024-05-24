@@ -9,10 +9,12 @@ cpp_config = hancho.Config(
 
   c_flags   = [],
   cpp_flags = [],
+  ld_flags  = [],
   warnings  = [],
   defines   = [],
   includes  = ["."],
   sys_libs  = [],
+  link_opts = [],
 
   joined_warnings  = "{join_prefix('-W', warnings)}",
   joined_defines   = "{join_prefix('-D', defines)}",
@@ -33,6 +35,8 @@ link_cpp_lib = hancho.Config(
   cpp_config,
   desc    = "Bundling {rel(out_lib)}",
   command = "ar rcs {rel(out_lib)} {rel(in_objs)}",
+  in_objs = [],
+  out_lib = [],
 )
 
 link_cpp_bin = hancho.Config(
@@ -44,8 +48,12 @@ link_cpp_bin = hancho.Config(
     "-Wl,--no-undefined",
     "-Wl,--start-group",
     "{rel(in_objs)}",
+    "{rel(in_libs)}",
     "-Wl,--end-group",
   ],
+  in_objs = [],
+  in_libs = [],
+  out_bin = [],
 )
 
 exports.compile_cpp = compile_cpp

@@ -50,10 +50,10 @@ rule run_test
 rule metron
   command = symlinks/metron/build/metron/metron -q -v -e -c ${in} -o ${out}
 
-rule metron2
-  command = symlinks/metron/build/metron/metron -q -v -e -c ${in} -o ${out}
-  depfile = ${out}.d
-  deps = gcc
+#rule metron2
+#  command = symlinks/metron/build/metron/metron -q -v -e -c ${in} -o ${out}
+#  depfile = ${out}.d
+#  deps = gcc
 
 rule make
   command = make --quiet -C $$(dirname ${in}) -f $$(basename ${in}) > /dev/null
