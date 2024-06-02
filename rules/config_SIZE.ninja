@@ -1,9 +1,0 @@
-### -Os needs stripping to minimize size
-
-opts_c   = ${opts_c} -Os -fdata-sections -ffunction-sections
-
-opts_cpp = ${opts_cpp} -Os -fdata-sections -ffunction-sections
-
-opts_ld  = ${opts_ld} -Wl,--gc-sections -Wl,-s
-
-defines  = ${defines} -DCONFIG_OPT

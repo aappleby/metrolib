@@ -1,9 +1,0 @@
-opts_c   = ${opts_c} -O3
-opts_c   = ${opts_c} -flto
-
-opts_cpp = ${opts_cpp} -O3
-opts_cpp = ${opts_cpp} -flto
-
-opts_ld  = ${opts_ld} -flto
-
-defines  = ${defines} -DCONFIG_RELEASE

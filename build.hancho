@@ -8,7 +8,7 @@ config = hancho.Config(
 if hasattr(imports, "build_tag"):
   config.build_tag = imports.build_tag
 
-rules = hancho.load("rules/rules.hancho")
+rules = hancho.load("{repo_path}/symlinks/hancho/rules.hancho")
 
 def build_lib(name, config):
   return rules.cpp_lib(

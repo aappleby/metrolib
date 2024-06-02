@@ -1,5 +1,0 @@
-opts_c   = ${opts_c} -O0
-
-opts_cpp = ${opts_cpp} -O0
-
-defines  = ${defines} -DCONFIG_DEBUG
