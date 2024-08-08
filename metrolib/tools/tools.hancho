@@ -7,7 +7,7 @@ elf_to_hex_bin = imports.rules.cpp_bin(
   build_tag = imports.build_tag,
 )
 
-exports.elf_to_hex = hancho.Config(
+exports.elf_to_hex = hancho.Command(
   command  = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rwdata)} {rel(out_rodata)}",
   in_tool  = elf_to_hex_bin,
   in_elf   = [],
