@@ -2,16 +2,17 @@ import hancho
 
 elf_to_hex_bin = imports.rules.cpp_bin(
   name    = "elf_to_hex",
-  in_srcs = "elf_to_hex.cpp",
-  out_bin = "elf_to_hex",
-  build_tag = imports.build_tag,
+  in_srcs = "elf_to_hex.cpp"
 )
 
-exports.elf_to_hex = hancho.Command(
-  command  = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rwdata)} {rel(out_rodata)}",
-  in_tool  = elf_to_hex_bin,
-  in_elf   = [],
-  out_code = [],
-  out_rwdata = [],
-  out_rodata = []
-)
+def run_elf_to_hex(*, in_elf, out_code = [], out_rwdata = [], out_rodata = []):
+  hancho.Task(
+    command    = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rwdata)} {rel(out_rodata)}",
+    in_tool    = elf_to_hex_bin,
+    in_elf     = in_elf,
+    out_code   = out_code,
+    out_rwdata = out_rwdata,
+    out_rodata = out_rodata,
+  )
+
+exports.elf_to_hex = hancho.Command(run_elf_to_hex)

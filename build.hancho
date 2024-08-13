@@ -1,44 +1,37 @@
 import hancho
 import glob
 
-config = hancho.Config(
-  build_tag = "debug"
+hancho.Config.build_tag = "debug"
+
+rules = hancho.load("symlinks/hancho/rules.hancho")
+
+cpp_config = hancho.Config(
+  defines  = ["CONFIG_DEBUG"],
+  includes = [".", "symlinks"],
+  warnings = ["unused-variable", "error"]
 )
 
-if hasattr(imports, "build_tag"):
-  config.build_tag = imports.build_tag
-
-rules = hancho.load("{repo_path}/symlinks/hancho/rules.hancho")
-
-def build_lib(name, config):
+def build_lib(dir):
   return rules.cpp_lib(
-    config,
-    name     = name,
-    in_srcs  = glob.glob(f"metrolib/{name}/*.cpp"),
-    out_lib  = f"metrolib/{name}/lib{name}.a",
-    defines  = ["CONFIG_DEBUG"],
-    includes = [".", "symlinks"],
-    warnings = ["unused-variable", "error"],
+    name     = f"lib{dir}.a",
+    in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
+    cpp_config = cpp_config,
   )
 
-libappbase = build_lib("appbase", config)
-libaudio   = build_lib("audio", config)
-libcore    = build_lib("core", config)
-libgameboy = build_lib("gameboy", config)
+libappbase = build_lib("appbase")
+libaudio   = build_lib("audio")
+libcore    = build_lib("core")
+libgameboy = build_lib("gameboy")
 
-tools = hancho.load("metrolib/tools/tools.hancho", rules = rules, build_tag  = config.build_tag)
+tools = hancho.load("metrolib/tools/tools.hancho", rules = rules)
 
 test_elf_to_hex = tools.elf_to_hex(
   in_elf     = "tests/add.elf",
   out_code   = "tests/add.code.vh",
   out_rwdata = "tests/add.rwdata.vh",
-  #out_rodata = "tests/add.rodata.vh",
-  quiet      = True,
-  build_tag  = config.build_tag,
+  out_rodata = "tests/add.rodata.vh",
 )
 
-exports.build_tag  = config.build_tag
-exports.rules      = rules
 exports.libappbase = libappbase
 exports.libaudio   = libaudio
 exports.libcore    = libcore
