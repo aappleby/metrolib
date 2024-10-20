@@ -1,20 +1,20 @@
 import glob
-import pprint
 
 hancho.build_tag = "debug"
 
-rules = hancho.load("symlinks/hancho/rules.hancho")
-tools = hancho.load("metrolib/tools/tools.hancho", rules = rules)
+hancho.rules = hancho.load("symlinks/hancho/rules.hancho")
+hancho.tools = hancho.load("metrolib/tools/tools.hancho")
 
-hancho_cpp = hancho.extend(
+cpp_config = hancho.Config(
   defines  = ["CONFIG_DEBUG"],
   includes = [".", "symlinks"],
   warnings = ["unused-variable", "error"]
 )
 
 def build_lib(dir):
-  return hancho_cpp(
-    rules.cpp_lib,
+  return hancho(
+    hancho.rules.cpp_lib,
+    cpp_config,
     name     = f"lib{dir}.a",
     in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
   )
@@ -24,8 +24,8 @@ libaudio   = build_lib("audio")
 libcore    = build_lib("core")
 libgameboy = build_lib("gameboy")
 
-test_elf_to_hex = hancho(
-  tools.elf_to_hex,
+_test_elf_to_hex = hancho(
+  hancho.tools.elf_to_hex,
   in_elf     = "tests/add.elf",
   out_code   = "tests/add.code.vh",
   out_rwdata = "tests/add.rwdata.vh",
