@@ -3,8 +3,8 @@ rules = hancho.pop('rules')
 
 elf_to_hex_bin = hancho(
   rules.cpp_bin,
-  name = "elf_to_hex",
-  in_srcs = "elf_to_hex.cpp"
+  in_srcs = "elf_to_hex.cpp",
+  out_bin = "elf_to_hex",
 )
 
 def elf_to_hex(hancho, *, in_elf, out_code = [], out_rwdata = [], out_rodata = []):

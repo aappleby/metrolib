@@ -15,8 +15,8 @@ def build_lib(dir):
   return hancho(
     hancho.rules.cpp_lib,
     cpp_config,
-    name     = f"lib{dir}.a",
     in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
+    out_lib  = f"lib{dir}.a",
   )
 
 libappbase = build_lib("appbase")
