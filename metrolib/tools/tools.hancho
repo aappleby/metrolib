@@ -1,5 +1,5 @@
 
-rules = hancho.pop('rules')
+rules = hancho.rules
 
 elf_to_hex_bin = hancho(
   rules.cpp_bin,

@@ -2,8 +2,8 @@ import glob
 
 hancho.build_tag = "debug"
 
-hancho.rules = hancho.load("symlinks/hancho/rules.hancho")
-hancho.tools = hancho.load("metrolib/tools/tools.hancho")
+rules = hancho.load("symlinks/hancho/rules.hancho")
+tools = hancho.load("metrolib/tools/tools.hancho", rules = rules)
 
 cpp_config = hancho.Config(
   defines  = ["CONFIG_DEBUG"],
@@ -13,7 +13,7 @@ cpp_config = hancho.Config(
 
 def build_lib(dir):
   return hancho(
-    hancho.rules.cpp_lib,
+    rules.cpp_lib,
     cpp_config,
     in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
     out_lib  = f"lib{dir}.a",
@@ -25,7 +25,7 @@ libcore    = build_lib("core")
 libgameboy = build_lib("gameboy")
 
 _test_elf_to_hex = hancho(
-  hancho.tools.elf_to_hex,
+  tools.elf_to_hex,
   in_elf     = "tests/add.elf",
   out_code   = "tests/add.code.vh",
   out_rwdata = "tests/add.rwdata.vh",
