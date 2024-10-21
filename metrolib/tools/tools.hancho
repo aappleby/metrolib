@@ -9,6 +9,7 @@ elf_to_hex_bin = hancho(
 
 def elf_to_hex(hancho, *, in_elf, out_code = [], out_rwdata = [], out_rodata = []):
   hancho(
+    desc       = "Run elf_to_hex on {rel(in_elf)}",
     command    = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rwdata)} {rel(out_rodata)}",
     in_tool    = elf_to_hex_bin,
     in_elf     = in_elf,
