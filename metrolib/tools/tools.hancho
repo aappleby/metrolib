@@ -3,17 +3,17 @@ rules = hancho.rules
 
 elf_to_hex_bin = hancho(
   rules.cpp_bin,
+  name    = "elf_to_hex_bin",
   in_srcs = "elf_to_hex.cpp",
   out_bin = "elf_to_hex",
 )
 
-def elf_to_hex(hancho, *, in_elf, out_code = [], out_rwdata = [], out_rodata = []):
-  hancho(
-    desc       = "Run elf_to_hex on {rel(in_elf)}",
-    command    = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rwdata)} {rel(out_rodata)}",
-    in_tool    = elf_to_hex_bin,
-    in_elf     = in_elf,
-    out_code   = out_code,
-    out_rwdata = out_rwdata,
-    out_rodata = out_rodata,
-  )
+elf_to_hex = hancho.Command(
+  desc       = "Run elf_to_hex on {rel(in_elf)}",
+  command    = "{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rodata)} {rel(out_rwdata)}",
+  in_tool    = elf_to_hex_bin,
+  in_elf     = None,
+  out_code   = "{swap_ext(in_elf, '.code.vh')}",
+  out_rwdata = "{swap_ext(in_elf, '.rodata.vh')}",
+  out_rodata = "{swap_ext(in_elf, '.rwdata.vh')}",
+)
