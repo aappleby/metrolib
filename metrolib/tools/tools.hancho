@@ -1,8 +1,5 @@
-
-rules = hancho.rules
-
 elf_to_hex_bin = hancho(
-  rules.cpp_bin,
+  hancho.base_rules.cpp_bin,
   name    = "elf_to_hex_bin",
   in_srcs = "elf_to_hex.cpp",
   out_bin = "elf_to_hex",
