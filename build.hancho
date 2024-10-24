@@ -9,7 +9,11 @@ tools = hancho.load("metrolib/tools/tools.hancho")
 
 cpp_config = hancho.Config(
   defines  = ["CONFIG_DEBUG"],
-  includes = [".", "symlinks"],
+  includes = [
+    "{repo_dir}",
+    "{repo_dir}/symlinks",
+    "{repo_dir}/symlinks/glm"
+  ],
   warnings = ["unused-variable", "error"]
 )
 

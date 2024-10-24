@@ -3,7 +3,7 @@
 #include "metrolib/appbase/GLBase.h"
 #include "glad/glad.h"
 
-#include "glm/glm/glm.hpp"
+#include "glm/glm.hpp"
 
 //-----------------------------------------------------------------------------
 
