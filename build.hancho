@@ -3,27 +3,27 @@ import glob
 hancho.repo_name = "metrolib"
 
 if 'base_rules' not in hancho:
-  hancho.base_rules = hancho.load("symlinks/hancho/base_rules.hancho")
+    hancho.base_rules = hancho.load("symlinks/hancho/base_rules.hancho")
 
 tools = hancho.load("metrolib/tools/tools.hancho")
 
 cpp_config = hancho.Config(
-  defines  = ["CONFIG_DEBUG"],
-  includes = [
-    "{repo_dir}",
-    "{repo_dir}/symlinks",
-    "{repo_dir}/symlinks/glm"
-  ],
-  warnings = ["unused-variable", "error"]
+    defines  = ["CONFIG_DEBUG"],
+    includes = [
+        "{repo_dir}",
+        "{repo_dir}/symlinks",
+        "{repo_dir}/symlinks/glm"
+    ],
+    warnings = ["unused-variable", "error"]
 )
 
 def build_lib(dir):
-  return hancho(
-    hancho.base_rules.cpp_lib,
-    cpp_config,
-    in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
-    out_lib  = f"lib{dir}.a",
-  )
+    return hancho(
+        hancho.base_rules.cpp_lib,
+        cpp_config,
+        in_srcs  = glob.glob(f"metrolib/{dir}/*.cpp"),
+        out_lib  = f"lib{dir}.a",
+    )
 
 libappbase = build_lib("appbase")
 libaudio   = build_lib("audio")
@@ -31,7 +31,7 @@ libcore    = build_lib("core")
 libgameboy = build_lib("gameboy")
 
 hancho(
-  tools.elf_to_hex,
-  name = "test_elf_to_hex",
-  in_elf = "tests/add.elf"
+    tools.elf_to_hex,
+    name = "test_elf_to_hex",
+    in_elf = "tests/add.elf"
 )
