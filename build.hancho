@@ -3,7 +3,7 @@ import glob
 hancho.repo_name = "metrolib"
 
 if 'base_rules' not in hancho:
-    hancho.base_rules = hancho.load("symlinks/hancho/base_rules.hancho")
+    hancho.base_rules = hancho.load("{hancho_dir}/base_rules.hancho")
 
 tools = hancho.load("metrolib/tools/tools.hancho")
 
