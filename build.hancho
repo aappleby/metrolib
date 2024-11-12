@@ -7,7 +7,6 @@ cpp_config = hancho.Config(
     includes = [
         "{repo_dir}",
         "{repo_dir}/symlinks",
-        "{repo_dir}/symlinks/glm"
     ],
     warnings = ["unused-variable", "error"]
 )

@@ -3,9 +3,9 @@
 #include "metrolib/appbase/GLBase.h"
 #include "metrolib/core/Utils.h"
 #include "metrolib/core/Log.h"
-#include "glad/glad.h"
+#include "third_party/glad/glad.h"
 
-#include "imgui/imgui.h"
+#include "third_party/imgui/imgui.h"
 #include <SDL2/SDL.h>
 
 //-----------------------------------------------------------------------------

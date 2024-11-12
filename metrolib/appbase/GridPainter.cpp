@@ -1,7 +1,7 @@
 #include "metrolib/appbase/GridPainter.h"
 
 #include "metrolib/appbase/GLBase.h"
-#include "glad/glad.h"
+#include "third_party/glad/glad.h"
 
 #include <math.h>
 #include <SDL2/SDL.h>

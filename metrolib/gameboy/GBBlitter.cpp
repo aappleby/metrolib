@@ -1,8 +1,8 @@
 #include "metrolib/gameboy/GBBlitter.h"
 
 #include "metrolib/appbase/GLBase.h"
-#include "glad/glad.h"
-#include "glm/glm.hpp"
+#include "third_party/glad/glad.h"
+#include "third_party/glm/glm/glm.hpp"
 
 //-----------------------------------------------------------------------------
 
