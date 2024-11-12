@@ -1,0 +1,7 @@
+metrolib = hancho.load("build.hancho")
+
+hancho(
+    metrolib.tools.elf_to_hex,
+    name = "test_elf_to_hex",
+    in_elf = "tests/add.elf"
+)

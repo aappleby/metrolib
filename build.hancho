@@ -1,11 +1,6 @@
 import glob
 
-hancho.repo_name = "metrolib"
-
-if 'base_rules' not in hancho:
-    hancho.base_rules = hancho.load("{hancho_dir}/base_rules.hancho")
-
-tools = hancho.load("metrolib/tools/tools.hancho")
+hancho.base_rules = hancho.repo("{hancho_dir}/base_rules.hancho")
 
 cpp_config = hancho.Config(
     defines  = ["CONFIG_DEBUG"],
@@ -25,13 +20,9 @@ def build_lib(dir):
         out_lib  = f"lib{dir}.a",
     )
 
+
 libappbase = build_lib("appbase")
 libaudio   = build_lib("audio")
 libcore    = build_lib("core")
 libgameboy = build_lib("gameboy")
-
-hancho(
-    tools.elf_to_hex,
-    name = "test_elf_to_hex",
-    in_elf = "tests/add.elf"
-)
+tools      = hancho.load("metrolib/tools/build.hancho")
