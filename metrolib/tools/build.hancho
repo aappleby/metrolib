@@ -10,7 +10,7 @@ elf_to_hex = hancho.Config(
     command="{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rodata)} {rel(out_rwdata)}",
     in_tool=elf_to_hex_bin,
     in_elf=None,
-    out_code="{swap_ext(in_elf, '.code.vh')}",
-    out_rwdata="{swap_ext(in_elf, '.rodata.vh')}",
-    out_rodata="{swap_ext(in_elf, '.rwdata.vh')}",
+    out_code="{ext(in_elf, '.code.vh')}",
+    out_rwdata="{ext(in_elf, '.rodata.vh')}",
+    out_rodata="{ext(in_elf, '.rwdata.vh')}",
 )
