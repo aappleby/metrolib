@@ -2,7 +2,7 @@ import glob
 
 hancho.base_rules = hancho.repo("{hancho_dir}/base_rules.hancho")
 
-cpp_config = hancho.Config(
+cpp_config = hancho.Context(
     defines  = ["CONFIG_DEBUG"],
     includes = [
         "{repo_dir}",

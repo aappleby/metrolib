@@ -5,7 +5,7 @@ elf_to_hex_bin = hancho(
     out_bin="elf_to_hex",
 )
 
-elf_to_hex = hancho.Config(
+elf_to_hex = hancho.Context(
     desc="Run elf_to_hex on {rel(in_elf)}",
     command="{rel(in_tool)} {rel(in_elf)} {rel(out_code)} {rel(out_rodata)} {rel(out_rwdata)}",
     in_tool=elf_to_hex_bin,
