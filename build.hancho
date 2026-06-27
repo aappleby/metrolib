@@ -23,7 +23,7 @@ def build_lib(name):
                 in_src = file,
             )
         )
-    hancho.task(
+    return hancho.task(
         tools.link_cpp_lib,
         in_objs = in_objs,
         out_lib = f"lib{name}.a",
