@@ -1,5 +1,5 @@
 #pragma once
-#include "third_party/glm/glm/glm.hpp"
+#include "symlinks/glm/glm/glm.hpp"
 
 using namespace glm;
 

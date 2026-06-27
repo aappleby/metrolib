@@ -1,7 +1,7 @@
 #include "metrolib/appbase/LinePainter.h"
 
 #include "metrolib/appbase/GLBase.h"
-#include "third_party/glad/glad.h"
+#include "symlinks/glad/glad.h"
 
 //-----------------------------------------------------------------------------
 

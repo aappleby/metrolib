@@ -1,7 +1,7 @@
 #include "metrolib/appbase/GLBase.h"
 
 #include "metrolib/core/Check.h"
-#include "third_party/glad/glad.h"
+#include "symlinks/glad/glad.h"
 
 #include <map>
 #include <SDL2/SDL.h>

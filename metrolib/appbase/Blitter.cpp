@@ -1,9 +1,9 @@
 #include "metrolib/appbase/Blitter.h"
 
 #include "metrolib/appbase/GLBase.h"
-#include "third_party/glad/glad.h"
+#include "symlinks/glad/glad.h"
 
-#include "third_party/glm/glm/glm.hpp"
+#include "symlinks/glm/glm/glm.hpp"
 
 //-----------------------------------------------------------------------------
 
