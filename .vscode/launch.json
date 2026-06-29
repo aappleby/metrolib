@@ -12,8 +12,30 @@
       "cwd": "${workspaceFolder}",
       "args": ["-v"],
       "console": "integratedTerminal",
-      "justMyCode": false,
-      "preLaunchTask": "Wipe build",
+      //"justMyCode": false,
+      //"preLaunchTask": "Wipe build",
+    },
+
+    {
+      "name": "Debug dummy app build",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/symlinks/hancho/hancho.py",
+      "cwd": "${workspaceFolder}/examples",
+      "args": ["-v"],
+      "console": "integratedTerminal",
+      //"justMyCode": false,
+      //"preLaunchTask": "Wipe build",
+    },
+
+    {
+      "name": "Debug dummy app",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/build/dummy",
+      "cwd": "${workspaceFolder}/examples",
+      //"justMyCode": false,
+      //"preLaunchTask": "Wipe build",
     },
   ]
 }

@@ -5,7 +5,8 @@
 #include "metrolib/core/Log.h"
 #include "symlinks/glad/glad.h"
 
-#include "symlinks/imgui/imgui.h"
+#include "symlinks/imgui/backends/imgui_impl_sdl2.h"
+#include "symlinks/imgui/backends/imgui_impl_opengl3.h"
 #include <SDL2/SDL.h>
 
 //-----------------------------------------------------------------------------
@@ -104,21 +105,21 @@ int AppHost::app_main(int, char**) {
 
   //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-  io.KeyMap[ImGuiKey_Tab] = SDL_SCANCODE_TAB;
-  io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
-  io.KeyMap[ImGuiKey_RightArrow] = SDL_SCANCODE_RIGHT;
-  io.KeyMap[ImGuiKey_UpArrow] = SDL_SCANCODE_UP;
-  io.KeyMap[ImGuiKey_DownArrow] = SDL_SCANCODE_DOWN;
-  io.KeyMap[ImGuiKey_PageUp] = SDL_SCANCODE_PAGEUP;
-  io.KeyMap[ImGuiKey_PageDown] = SDL_SCANCODE_PAGEDOWN;
-  io.KeyMap[ImGuiKey_Home] = SDL_SCANCODE_HOME;
-  io.KeyMap[ImGuiKey_End] = SDL_SCANCODE_END;
-  io.KeyMap[ImGuiKey_Insert] = SDL_SCANCODE_INSERT;
-  io.KeyMap[ImGuiKey_Delete] = SDL_SCANCODE_DELETE;
-  io.KeyMap[ImGuiKey_Backspace] = SDL_SCANCODE_BACKSPACE;
-  io.KeyMap[ImGuiKey_Space] = SDL_SCANCODE_SPACE;
-  io.KeyMap[ImGuiKey_Enter] = SDL_SCANCODE_RETURN;
-  io.KeyMap[ImGuiKey_Escape] = SDL_SCANCODE_ESCAPE;
+  //io.KeyMap[ImGuiKey_Tab] = SDL_SCANCODE_TAB;
+  //io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
+  //io.KeyMap[ImGuiKey_RightArrow] = SDL_SCANCODE_RIGHT;
+  //io.KeyMap[ImGuiKey_UpArrow] = SDL_SCANCODE_UP;
+  //io.KeyMap[ImGuiKey_DownArrow] = SDL_SCANCODE_DOWN;
+  //io.KeyMap[ImGuiKey_PageUp] = SDL_SCANCODE_PAGEUP;
+  //io.KeyMap[ImGuiKey_PageDown] = SDL_SCANCODE_PAGEDOWN;
+  //io.KeyMap[ImGuiKey_Home] = SDL_SCANCODE_HOME;
+  //io.KeyMap[ImGuiKey_End] = SDL_SCANCODE_END;
+  //io.KeyMap[ImGuiKey_Insert] = SDL_SCANCODE_INSERT;
+  //io.KeyMap[ImGuiKey_Delete] = SDL_SCANCODE_DELETE;
+  //io.KeyMap[ImGuiKey_Backspace] = SDL_SCANCODE_BACKSPACE;
+  //io.KeyMap[ImGuiKey_Space] = SDL_SCANCODE_SPACE;
+  //io.KeyMap[ImGuiKey_Enter] = SDL_SCANCODE_RETURN;
+  //io.KeyMap[ImGuiKey_Escape] = SDL_SCANCODE_ESCAPE;
 
   {
     imgui_prog = create_shader("imgui_glsl", imgui_glsl);
@@ -210,6 +211,8 @@ int AppHost::app_main(int, char**) {
     glViewport(0, 0, screen_w, screen_h);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
     app->app_render_frame(screen_size, delta);
@@ -219,7 +222,7 @@ int AppHost::app_main(int, char**) {
     //----------------------------------------
     // ImGui render
 
-    //ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
     ImGui::Render();
 
     const ImDrawData* draw_data = ImGui::GetDrawData();

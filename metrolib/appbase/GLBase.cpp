@@ -2,6 +2,8 @@
 
 #include "metrolib/core/Check.h"
 #include "symlinks/glad/glad.h"
+#include "symlinks/imgui/backends/imgui_impl_sdl3.h"
+#include "symlinks/imgui/backends/imgui_impl_opengl3.h"
 
 #include <map>
 #include <SDL2/SDL.h>
@@ -63,7 +65,7 @@ void APIENTRY debugOutput(GLenum source, GLenum type, GLuint id, GLenum severity
 
 //-----------------------------------------------------------------------------
 
-void* init_gl(void* window) {
+void* init_gl(SDL_Window* window) {
   LOG_G("GLBase::init_gl\n");
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,
@@ -81,11 +83,21 @@ void* init_gl(void* window) {
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
   SDL_GLContext gl_context = SDL_GL_CreateContext((SDL_Window*)window);
+  SDL_GL_MakeCurrent(window, gl_context);
 
   SDL_GL_SetSwapInterval(1);  // Enable vsync
   //SDL_GL_SetSwapInterval(0); // Disable vsync
 
   gladLoadGLLoader(SDL_GL_GetProcAddress);
+
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO(); (void)io;
+  ImGui::StyleColorsDark();
+
+  // 3. Setup Platform/Renderer Backends
+  ImGui_ImplSDL3_InitForOpenGL(window, gl_context);
+  ImGui_ImplOpenGL3_Init("#version 330");
 
   /*
   glEnable(GL_DEBUG_OUTPUT);

@@ -1,4 +1,93 @@
-#include "metrolib/appbase/DummyApp.h"
+#include "DummyApp.h"
+
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
+#include <SDL3/SDL_opengl.h>
+
+#include "symlinks/imgui/backends/imgui_impl_sdl3.h"
+#include "symlinks/imgui/backends/imgui_impl_opengl3.h"
+
+#include "metrolib/appbase/GLBase.h"
+
+int main(int argc, char* argv[]) {
+  // 1. Initialize SDL3
+  if (!SDL_Init(SDL_INIT_VIDEO)) {
+    SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
+    return 1;
+  }
+
+  // 2. Set OpenGL Attributes
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+  SDL_Window* window = SDL_CreateWindow(
+    "SDL3 OpenGL",
+    800, 600,
+    SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
+  );
+
+  SDL_GLContext context = SDL_GL_CreateContext(window);
+
+  SDL_GL_SetSwapInterval(1);
+
+
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO();
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  ImGui::StyleColorsDark();
+
+  ImGui_ImplSDL3_InitForOpenGL(window, context);
+  ImGui_ImplOpenGL3_Init("#version 330");
+
+  bool running = true;
+  while (running) {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      ImGui_ImplSDL3_ProcessEvent(&event);
+
+      if (event.type == SDL_EVENT_QUIT) {
+        running = false;
+      }
+    }
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+    ImGui::NewFrame();
+    ImGui::ShowDemoWindow();
+    ImGui::Render();
+
+    // --- Render with OpenGL ---
+    float time = SDL_GetTicks() / 1000.0f;
+    float red = 0.5f + 0.5f * sinf(time);
+    float green = 0.5f + 0.5f * sinf(time + 2.0f);
+    float blue = 0.5f + 0.5f * sinf(time + 4.0f);
+
+    glClearColor(red, green, blue, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Swap front and back buffers
+    SDL_GL_SwapWindow(window);
+  }
+
+  // 6. Clean Up
+  SDL_GL_DestroyContext(context);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+
+  return 0;
+}
+
+
+
+
+
+#if 0
 #include "metrolib/appbase/GLBase.h"
 
 #include <SDL2/SDL.h>
@@ -91,3 +180,4 @@ void DummyApp::app_render_ui(dvec2 screen_size, double delta) {
 }
 
 //-----------------------------------------------------------------------------
+#endif

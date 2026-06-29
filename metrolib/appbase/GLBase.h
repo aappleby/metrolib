@@ -2,7 +2,9 @@
 
 #include "metrolib/core/Types.h"
 
-void* init_gl(void* window);
+struct SDL_Window;
+
+void* init_gl(SDL_Window* window);
 void  check_gl_error();
 
 int   create_shader(const char* name, const char* src);

@@ -9,6 +9,7 @@ cpp_config = hancho.Dict(
     includes = [
         "{repo_dir}",
         "{repo_dir}/symlinks",
+        "{repo_dir}/symlinks/imgui",
     ],
     warnings = ["unused-variable", "error"]
 )

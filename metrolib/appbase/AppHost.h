@@ -3,6 +3,8 @@
 #include "metrolib/appbase/App.h"
 #include "metrolib/appbase/Viewport.h"
 
+struct SDL_Window;
+
 //-----------------------------------------------------------------------------
 
 class AppHost {
@@ -15,7 +17,7 @@ private:
   App* app = nullptr;
 
   bool quit = false;
-  void* window = nullptr;
+  SDL_Window* window = nullptr;
   void* gl_context = nullptr;
 
   uint32_t imgui_prog = 0;

@@ -1,0 +1,24 @@
+import ctypes.util
+
+import hancho
+
+config = globals()['config']
+
+config.sys_libs = ['SDL3', 'GL']
+
+config.includes = ["..", "../symlinks", "../symlinks/glm", "../symlinks/imgui"]
+
+for lib in config.sys_libs:
+    if not ctypes.util.find_library(lib):
+        hancho.fail(f"Can't build dummy, {lib} is not installed")
+
+tools   = hancho.load("{hancho_dir}/tools/tools_base.hancho")
+imgui   = hancho.repo("../symlinks/third_party/imgui.hancho")
+dummy_o = hancho.task(tools.compile_cpp, in_src = "DummyApp.cpp")
+
+dummy_bin = hancho.task(
+    tools.link_cpp_bin,
+    in_objs  = dummy_o,
+    in_libs  = imgui.lib,
+    out_bin  = "dummy",
+)
